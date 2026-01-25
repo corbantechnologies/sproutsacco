@@ -10,7 +10,7 @@ import {
   X as XIcon,
   ArrowRight,
   ShieldCheck,
-  Building2
+  Building2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,9 +22,10 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 text-foreground overflow-x-hidden">
       {/* Background Pattern */}
-      <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none"
+      <div
+        className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
       ></div>
 
@@ -35,24 +36,35 @@ function LandingPage() {
             {/* Logo Placeholder - simplified for reliability */}
             <div className="relative h-12 w-12 flex items-center justify-center">
               <Image
-                src="/mzeduLogo-noBg.png"
-                alt="Mwanda Mzedu SACCO"
+                src="/logo.png"
+                alt="Sprout SACCO"
                 width={60}
                 height={60}
                 className="object-contain"
               />
             </div>
-            <span className="font-bold text-xl tracking-tight text-primary hidden sm:block">Mwanda Mzedu SACCO</span>
+            <span className="font-bold text-xl tracking-tight text-primary hidden sm:block">
+              Sprout SACCO
+            </span>
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#features"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Features
             </Link>
-            <Link href="#about" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              href="#about"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               About
             </Link>
-            <Button asChild className="rounded-full bg-primary hover:bg-[#045e32] text-white px-6 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95">
+            <Button
+              asChild
+              className="rounded-full bg-primary hover:bg-[#045e32] text-white px-6 shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+            >
               <Link href="/login">Member Login</Link>
             </Button>
           </nav>
@@ -70,8 +82,9 @@ function LandingPage() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 ease-out border-l border-gray-100 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-          } md:hidden`}
+        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 ease-out border-l border-gray-100 ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        } md:hidden`}
       >
         <div className="flex flex-col h-full">
           <div className="p-5 flex justify-between items-center border-b border-gray-100">
@@ -100,8 +113,13 @@ function LandingPage() {
               About
             </Link>
             <div className="pt-4 mt-2 border-t border-gray-100">
-              <Button asChild className="w-full justify-center bg-primary text-white rounded-xl h-12 text-base shadow-lg shadow-primary/20">
-                <Link href="/login" onClick={() => setIsMenuOpen(false)}>Member Login</Link>
+              <Button
+                asChild
+                className="w-full justify-center bg-primary text-white rounded-xl h-12 text-base shadow-lg shadow-primary/20"
+              >
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  Member Login
+                </Link>
               </Button>
             </div>
           </nav>
@@ -129,12 +147,15 @@ function LandingPage() {
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 drop-shadow-sm">
             Empowering Your <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Financial Future</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+              Financial Future
+            </span>
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Experience secure savings, accessible loans, and a cooperative community
-            dedicated to your growth. Manage your finances with trust and transparency.
+            Experience secure savings, accessible loans, and a cooperative
+            community dedicated to your growth. Manage your finances with trust
+            and transparency.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -156,7 +177,7 @@ function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Why Choose Mwanda Mzedu SACCO?
+              Why Choose Sprout SACCO?
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
           </div>
@@ -166,20 +187,23 @@ function LandingPage() {
               {
                 icon: Wallet,
                 title: "Flexible Savings Plans",
-                desc: "Tailored savings types designed to meet your specific financial goals with competitive interest rates."
+                desc: "Tailored savings types designed to meet your specific financial goals with competitive interest rates.",
               },
               {
                 icon: Users,
                 title: "Community-Driven",
-                desc: "We prioritize member welfare and collective growth. Your success is our success."
+                desc: "We prioritize member welfare and collective growth. Your success is our success.",
               },
               {
                 icon: ShieldCheck,
                 title: "Secure Platform",
-                desc: "Your data and financial transactions are protected with enterprise-grade security measures."
-              }
+                desc: "Your data and financial transactions are protected with enterprise-grade security measures.",
+              },
             ].map((feature, idx) => (
-              <Card key={idx} className="group border-0 bg-gray-50/50 hover:bg-white shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 rounded-3xl overflow-hidden">
+              <Card
+                key={idx}
+                className="group border-0 bg-gray-50/50 hover:bg-white shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 rounded-3xl overflow-hidden"
+              >
                 <CardHeader className="pb-4">
                   <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 text-primary">
                     <feature.icon className="h-7 w-7" />
@@ -200,20 +224,25 @@ function LandingPage() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 bg-gradient-to-br from-primary/5 via-transparent to-accent/5">
+      <section
+        id="about"
+        className="py-24 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"
+      >
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-            About Mwanda Mzedu SACCO
+            About Sprout SACCO
           </h2>
           <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-10">
-            Mwanda Mzedu SACCO is dedicated to fostering financial inclusion and
+            Sprout SACCO is dedicated to fostering financial inclusion and
             empowerment. We provide a platform for members to save effectively,
-            access affordable loans, and manage their finances with ease.
-            Built on the foundations of trust, transparency, and community,
-            we are here to help you achieve your dreams.
+            access affordable loans, and manage their finances with ease. Built
+            on the foundations of trust, transparency, and community, we are
+            here to help you achieve your dreams.
           </p>
           <div className="p-8 bg-white/60 backdrop-blur-md rounded-3xl border border-white/20 shadow-lg inline-block">
-            <p className="text-primary font-semibold text-lg">Trusted by the Community</p>
+            <p className="text-primary font-semibold text-lg">
+              Trusted by the Community
+            </p>
           </div>
         </div>
       </section>
@@ -226,9 +255,13 @@ function LandingPage() {
             Already a Member?
           </h2>
           <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-            Log in to your account to view your savings, apply for loans, and manage your profile from anywhere, anytime.
+            Log in to your account to view your savings, apply for loans, and
+            manage your profile from anywhere, anytime.
           </p>
-          <Button asChild className="h-14 px-10 rounded-full text-lg bg-white text-slate-900 hover:bg-gray-100 hover:text-primary shadow-xl shadow-white/10 transition-all font-bold">
+          <Button
+            asChild
+            className="h-14 px-10 rounded-full text-lg bg-white text-slate-900 hover:bg-gray-100 hover:text-primary shadow-xl shadow-white/10 transition-all font-bold"
+          >
             <Link href="/login">Access Your Account</Link>
           </Button>
         </div>
@@ -241,32 +274,48 @@ function LandingPage() {
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 relative">
                 <Image
-                  src="/mzeduLogo-noBg.png"
+                  src="/logo.png"
                   alt="Logo"
                   fill
                   className="object-contain"
                 />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-900">Mwanda Mzedu SACCO</h3>
-                <p className="text-sm text-gray-500">© {new Date().getFullYear()} All rights reserved</p>
+                <h3 className="text-lg font-bold text-slate-900">
+                  Sprout SACCO
+                </h3>
+                <p className="text-sm text-gray-500">
+                  © {new Date().getFullYear()} All rights reserved
+                </p>
               </div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-8">
-              <Link href="#features" className="text-gray-600 hover:text-primary transition-colors">
+              <Link
+                href="#features"
+                className="text-gray-600 hover:text-primary transition-colors"
+              >
                 Features
               </Link>
-              <Link href="#about" className="text-gray-600 hover:text-primary transition-colors">
+              <Link
+                href="#about"
+                className="text-gray-600 hover:text-primary transition-colors"
+              >
                 About
               </Link>
-              <Link href="/login" className="text-gray-600 hover:text-primary transition-colors">
+              <Link
+                href="/login"
+                className="text-gray-600 hover:text-primary transition-colors"
+              >
                 Login
               </Link>
             </div>
 
             <p className="text-sm text-gray-400">
-              Powered by <span className="font-semibold text-gray-600">Corban Technologies LTD</span>
+              Powered by{" "}
+              <span className="font-semibold text-gray-600">
+                Corban Technologies LTD
+              </span>
             </p>
           </div>
         </div>
