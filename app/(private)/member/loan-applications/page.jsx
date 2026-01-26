@@ -123,7 +123,7 @@ export default function LoanApplications() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {applications.map((app) => (
+                                        {applications?.map((app) => (
                                             <TableRow key={app.reference}>
                                                 <TableCell className="font-mono text-sm">
                                                     {app.reference}

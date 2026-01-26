@@ -10,12 +10,10 @@ import { CheckCircle2, Home, ArrowRight } from "lucide-react";
 function SuccessPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
-
       <Card className="w-full max-w-lg bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 shadow-2xl border-white/20 relative z-10 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-primary"></div>
         <CardContent className="p-8 sm:p-10">
           <div className="flex flex-col items-center text-center space-y-6">
-
             <div className="w-24 h-24 rounded-full bg-green-50 flex items-center justify-center mb-2 animate-in fade-in zoom-in duration-500">
               <CheckCircle2
                 className="w-16 h-16 text-green-500"
@@ -28,13 +26,15 @@ function SuccessPage() {
                 Application Received!
               </h1>
               <p className="text-gray-500 text-lg leading-relaxed max-w-[90%] mx-auto">
-                Your application has been received and is currently being reviewed by our team.
+                Your application has been received and is currently being
+                reviewed by our team.
               </p>
             </div>
 
             <div className="bg-green-50/50 rounded-xl p-4 w-full border border-green-100">
               <p className="text-green-800 text-sm font-medium">
-                You will receive an email notification once your account has been approved.
+                You will receive an email notification once your account has
+                been approved.
               </p>
             </div>
 
@@ -63,13 +63,15 @@ function SuccessPage() {
             <div className="pt-6 border-t border-gray-100 w-full">
               <div className="flex justify-center items-center gap-2 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 <Image
-                  src="/mzeduLogo-noBg.png"
+                  src="/logo.png"
                   width={40}
                   height={40}
-                  alt="Mwanda Mzedu SACCO Logo"
+                  alt="Sprout SACCO Logo"
                   className="object-contain"
                 />
-                <span className="font-semibold text-sm text-gray-400">Mwanda Mzedu SACCO</span>
+                <span className="font-semibold text-sm text-gray-400">
+                  Sprout SACCO
+                </span>
               </div>
             </div>
           </div>

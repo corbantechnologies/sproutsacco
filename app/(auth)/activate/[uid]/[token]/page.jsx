@@ -10,7 +10,13 @@ import { Eye, EyeOff, ShieldCheck, Lock } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import toast from "react-hot-toast";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 function AccountActivation() {
   const { uid, token } = useParams();
@@ -21,7 +27,6 @@ function AccountActivation() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
-
       <Card className="w-full max-w-md mx-auto shadow-2xl border-white/20 bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 relative z-10">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent"></div>
         <CardHeader className="space-y-1 items-center text-center pb-2">
@@ -32,7 +37,7 @@ function AccountActivation() {
             Activate Account
           </CardTitle>
           <CardDescription className="text-gray-500 text-base max-w-[90%] mx-auto">
-            Set your password to activate your Mwanda Mzedu SACCO account
+            Set your password to activate your Sprout SACCO account
           </CardDescription>
         </CardHeader>
 
@@ -89,7 +94,9 @@ function AccountActivation() {
                     </button>
                   </div>
                   {touched.password && errors.password && (
-                    <p className="text-sm text-red-600 mt-1">{errors.password}</p>
+                    <p className="text-sm text-red-600 mt-1">
+                      {errors.password}
+                    </p>
                   )}
                 </div>
 
@@ -113,7 +120,9 @@ function AccountActivation() {
                     <button
                       type="button"
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="w-5 h-5" />

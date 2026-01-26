@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <title>Sprout SACCO</title>
-        <meta name="description" content="The SACCO for everyone" />
+        <meta name="description" content="Empowerment through equity, inclusion, and governance" />
       </head>
       <body>
         <Toaster position="top-center" />
