@@ -44,7 +44,7 @@ function SavingsTable({ savings, isLoading, route }) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedSavings = filteredSavings?.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   // Handle page change
@@ -111,23 +111,23 @@ function SavingsTable({ savings, isLoading, route }) {
           </div>
 
           {/* Table */}
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="bg-white shadow-sm border border-slate-100 rounded-md overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-primary hover:bg-primary">
-                  <TableHead className="text-white font-semibold text-base">
+                <TableRow className="bg-[#236c2e] hover:bg-[#1a5222]">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Account Type
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Account Number
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Balance
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Status
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Action
                   </TableHead>
                 </TableRow>
@@ -149,10 +149,10 @@ function SavingsTable({ savings, isLoading, route }) {
                     </TableCell>
                     <TableCell className="text-sm">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${
+                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md border ${
                           saving.is_active
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-100/50"
+                            : "bg-slate-50 text-slate-700 border-slate-200"
                         }`}
                       >
                         {saving.is_active ? "Active" : "Inactive"}
@@ -203,7 +203,7 @@ function SavingsTable({ savings, isLoading, route }) {
                   >
                     {page}
                   </Button>
-                )
+                ),
               )}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}
