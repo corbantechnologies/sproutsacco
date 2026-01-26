@@ -76,10 +76,10 @@ export default function SaccoAdminDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
             Admin Dashboard
           </h1>
-          <p className="text-muted-foreground mt-1 text-lg">
+          <p className="text-slate-500 mt-1 text-lg">
             Manage members, products, and configurations.
           </p>
         </div>
@@ -92,15 +92,17 @@ export default function SaccoAdminDashboard() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border-l-4 border-l-[#174271]">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Total Members
             </CardTitle>
-            <Users className="h-4 w-4 text-primary" />
+            <Users className="h-4 w-4 text-[#174271]" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{members?.length || 0}</div>
+            <div className="text-2xl font-bold text-slate-900">
+              {members?.length || 0}
+            </div>
           </CardContent>
         </Card>
         <Card>

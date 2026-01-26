@@ -8,9 +8,9 @@ const metadata = {
 
 function MemberLayout({ children }) {
   return (
-    <div>
+    <div className="min-h-screen bg-white">
       <MemberNavbar />
-      {children}
+      <main>{children}</main>
     </div>
   );
 }

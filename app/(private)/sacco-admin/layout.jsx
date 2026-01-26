@@ -3,10 +3,10 @@ import React from "react";
 
 function SaccoAdminLayout({ children }) {
   return (
-    <>
+    <div className="admin-theme min-h-screen bg-white">
       <SaccoAdminNavbar />
-      {children}
-    </>
+      <main>{children}</main>
+    </div>
   );
 }
 

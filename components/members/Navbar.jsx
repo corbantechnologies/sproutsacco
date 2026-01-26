@@ -14,93 +14,76 @@ function MemberNavbar() {
     <>
       {/* Navbar */}
       <header
-        className="bg-primary text-white sticky top-0 z-50"
+        className="bg-[#236c2e] text-white sticky top-0 z-50 shadow-sm"
         aria-label="Main navigation"
       >
-        <div className="mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center">
-            <h1 className="ml-2 text-xl md:text-2xl font-bold">Sprout SACCO</h1>
+        <div className="mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/member/dashboard" className="flex items-center gap-2">
+            <span className="text-xl md:text-2xl font-bold tracking-tight">
+              Sprout SACCO
+            </span>
           </Link>
           <div className="flex items-center gap-4">
-            {/* Removed standard nav, now always using the sidebar menu */}
             <Button
-              variant="outline"
-              className="border-white text-black hover:bg-white hover:text-primary"
+              variant="ghost"
+              className="text-white hover:bg-white/10"
               onClick={() => setIsMenuOpen(true)}
               aria-label="Open menu"
             >
-              <MenuIcon className="h-5 w-5" />
-              <span className="sr-only">Menu</span>
+              <MenuIcon className="h-6 w-6" />
             </Button>
           </div>
         </div>
       </header>
 
-      {/* Sidebar (Always accessible) */}
+      {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-[250px] sm:w-[300px] bg-white text-black transform ${
+        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white text-slate-900 transform ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out border-l border-primary shadow-lg`}
+        } transition-transform duration-300 ease-in-out border-l shadow-2xl`}
       >
         <div className="flex flex-col h-full">
-          <div className="p-4 flex justify-between items-center border-b">
-            <h2 className="text-lg font-semibold text-primary">Menu</h2>
+          <div className="p-6 flex justify-between items-center border-b border-slate-100">
+            <h2 className="text-lg font-bold text-[#236c2e]">Navigation</h2>
             <Button
               variant="ghost"
-              className="p-2 hover:bg-gray-100"
+              size="icon"
+              className="hover:bg-slate-100 rounded-full"
               onClick={() => setIsMenuOpen(false)}
-              aria-label="Close menu"
             >
-              <XIcon className="h-5 w-5 text-black" />
-              <span className="sr-only">Close menu</span>
+              <XIcon className="h-5 w-5" />
             </Button>
           </div>
-          <nav className="flex flex-col gap-6 p-6">
-            <Link
-              href="/member/dashboard"
-              className="text-lg hover:text-[#067a46]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/member/loan-applications"
-              className="text-lg hover:text-[#067a46]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Loan Applications
-            </Link>
-            <Link
-              href="/member/guarantorprofile"
-              className="text-lg hover:text-[#067a46]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Guarantor Profile
-            </Link>
-            <Link
-              href="/member/reports"
-              className="text-lg hover:text-[#067a46]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Reports
-            </Link>
-            <Link
-              href="/member/settings"
-              className="text-lg hover:text-[#067a46]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Profile
-            </Link>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setIsMenuOpen(false);
-                signOut({ callbackUrl: "/login" });
-              }}
-              className="border-primary text-primary hover:bg-primary hover:text-white text-base py-2 mt-4"
-            >
-              Logout
-            </Button>
+          <nav className="flex flex-col p-4">
+            {[
+              { label: "Dashboard", href: "/member/dashboard" },
+              { label: "Loan Applications", href: "/member/loan-applications" },
+              { label: "Guarantor Profile", href: "/member/guarantorprofile" },
+              { label: "Reports", href: "/member/reports" },
+              { label: "Profile Settings", href: "/member/settings" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-3 text-[15px] font-medium transition-colors hover:bg-slate-50 hover:text-[#236c2e] rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <div className="mt-auto p-4 border-t border-slate-100">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  signOut({ callbackUrl: "/login" });
+                }}
+                className="w-full border-[#236c2e] text-[#236c2e] hover:bg-[#236c2e] hover:text-white"
+              >
+                Logout
+              </Button>
+            </div>
           </nav>
         </div>
       </div>
