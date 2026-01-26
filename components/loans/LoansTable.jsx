@@ -40,7 +40,7 @@ function LoansTable({ loans, isLoading, route }) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedLoans = filteredLoans?.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   // Handle page change
@@ -59,13 +59,13 @@ function LoansTable({ loans, isLoading, route }) {
   const getStatusColor = (status) => {
     switch (status) {
       case "Active":
-        return "bg-green-100 text-green-700";
+        return "bg-emerald-50 text-emerald-700 border border-emerald-100/50";
       case "Pending":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-amber-50 text-amber-700 border border-amber-100/50";
       case "Inactive":
-        return "bg-red-100 text-red-700";
+        return "bg-slate-50 text-slate-700 border border-slate-200";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-slate-50 text-slate-600 border border-slate-100";
     }
   };
 
@@ -120,26 +120,26 @@ function LoansTable({ loans, isLoading, route }) {
           </div>
 
           {/* Table */}
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="bg-white shadow-sm border border-slate-100 rounded-md overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-[#045e32] hover:bg-[#045e32]">
-                  <TableHead className="text-white font-semibold text-base">
+                <TableRow className="bg-[#236c2e] hover:bg-[#1a5222]">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Loan Type
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
-                    Account Number
+                  <TableHead className="text-white font-bold text-sm h-12">
+                    Account
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Loan Amount
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
-                    Outstanding Balance
+                  <TableHead className="text-white font-bold text-sm h-12">
+                    Balance
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Status
                   </TableHead>
-                  <TableHead className="text-white font-semibold text-base">
+                  <TableHead className="text-white font-bold text-sm h-12">
                     Action
                   </TableHead>
                 </TableRow>
@@ -164,8 +164,8 @@ function LoansTable({ loans, isLoading, route }) {
                     </TableCell>
                     <TableCell className="text-sm">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
-                          getStatus(loan)
+                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md ${getStatusColor(
+                          getStatus(loan),
                         )}`}
                       >
                         {getStatus(loan)}
@@ -216,7 +216,7 @@ function LoansTable({ loans, isLoading, route }) {
                   >
                     {page}
                   </Button>
-                )
+                ),
               )}
               <Button
                 onClick={() => handlePageChange(currentPage + 1)}

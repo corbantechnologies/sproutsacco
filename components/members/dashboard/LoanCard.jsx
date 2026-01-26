@@ -9,12 +9,12 @@ const LoanCard = ({ loan, memberPath }) => {
 
   return (
     <Link href={`/${memberPath}/loans/${loan?.reference}`}>
-      <div className="flex flex-col space-y-3 p-4 border border-orange-100 bg-orange-50/30 rounded-xl hover:shadow-sm transition-shadow cursor-pointer mb-2">
+      <div className="flex flex-col space-y-3 p-4 border border-slate-100 bg-white rounded-md hover:shadow-sm transition-shadow cursor-pointer mb-2">
         <div className="flex justify-between items-center">
           <span className="font-medium text-sm text-gray-900">
             {loan.product} Loan
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-800 uppercase tracking-wide">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 uppercase tracking-wide border border-emerald-100/50">
             {loan.status}
           </span>
         </div>

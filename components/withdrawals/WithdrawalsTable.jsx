@@ -80,7 +80,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const paginatedWithdrawals = filteredWithdrawals?.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (page) => {
@@ -107,7 +107,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
       await updateWithdrawal(
         identity,
         { transaction_status: "Approved" },
-        token
+        token,
       );
       toast.success("Withdrawal approved successfully");
       refetchWithdrawals();
@@ -122,7 +122,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
       await updateWithdrawal(
         identity,
         { transaction_status: "Rejected" },
-        token
+        token,
       );
       toast.success("Withdrawal rejected successfully");
       refetchWithdrawals();
@@ -261,7 +261,7 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#ea1315] hover:bg-[#ea1315]">
+              <TableRow className="bg-[#174271] hover:bg-[#12355a]">
                 <TableHead className="text-white font-semibold">Date</TableHead>
                 <TableHead className="text-white font-semibold">
                   Amount
@@ -300,26 +300,26 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
 
                   <TableCell className="text-sm">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${withdrawal.transaction_status === "Completed"
-                          ? "bg-green-100 text-green-700"
-                          : withdrawal.transaction_status === "Processing"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : withdrawal.transaction_status === "Pending"
-                              ? "bg-blue-100 text-blue-700"
-                              : withdrawal.transaction_status === "Approved"
-                                ? "bg-green-200 text-green-800"
-                                : withdrawal.transaction_status === "Rejected"
-                                  ? "bg-red-200 text-red-800"
-                                  : "bg-red-100 text-red-700"
-                        }`}
+                      className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md border ${
+                        withdrawal.transaction_status === "Completed"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-100/50"
+                          : withdrawal.transaction_status === "Processing" ||
+                              withdrawal.transaction_status === "Pending"
+                            ? "bg-amber-50 text-amber-700 border-amber-100/50"
+                            : withdrawal.transaction_status === "Approved"
+                              ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                              : withdrawal.transaction_status === "Rejected"
+                                ? "bg-slate-50 text-slate-700 border-slate-200"
+                                : "bg-slate-50 text-slate-600 border-slate-100"
+                      }`}
                     >
                       {withdrawal.transaction_status}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm">
+                  <TableCell className="text-sm text-center">
                     <Button
                       size="sm"
-                      className="bg-[#ea1315] hover:bg-[#c71012] text-white"
+                      className="bg-[#174271] hover:bg-[#12355a] text-white rounded-md text-[12px] font-bold h-8"
                       onClick={() => handleView(withdrawal)}
                     >
                       View
@@ -405,18 +405,20 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
                 </Label>
                 <p className="text-sm">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs ${selectedWithdrawal.transaction_status === "Completed"
-                        ? "bg-green-100 text-green-700"
-                        : selectedWithdrawal.transaction_status === "Processing"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : selectedWithdrawal.transaction_status === "Pending"
-                            ? "bg-blue-100 text-blue-700"
-                            : selectedWithdrawal.transaction_status === "Approved"
-                              ? "bg-green-200 text-green-800"
-                              : selectedWithdrawal.transaction_status === "Rejected"
-                                ? "bg-red-200 text-red-800"
-                                : "bg-red-100 text-red-700"
-                      }`}
+                    className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md border ${
+                      selectedWithdrawal.transaction_status === "Completed"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100/50"
+                        : selectedWithdrawal.transaction_status ===
+                              "Processing" ||
+                            selectedWithdrawal.transaction_status === "Pending"
+                          ? "bg-amber-50 text-amber-700 border-amber-100/50"
+                          : selectedWithdrawal.transaction_status === "Approved"
+                            ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                            : selectedWithdrawal.transaction_status ===
+                                "Rejected"
+                              ? "bg-slate-50 text-slate-700 border-slate-200"
+                              : "bg-slate-50 text-slate-600 border-slate-100"
+                    }`}
                   >
                     {selectedWithdrawal.transaction_status}
                   </span>
@@ -441,21 +443,21 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
             </div>
             {(selectedWithdrawal.transaction_status === "Pending" ||
               selectedWithdrawal.transaction_status === "Processing") && (
-                <DialogFooter>
-                  <Button
-                    className="bg-red-600 hover:bg-red-700 text-white"
-                    onClick={() => handleReject(selectedWithdrawal.identity)}
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    className="bg-green-600 hover:bg-green-700 text-white"
-                    onClick={() => handleApprove(selectedWithdrawal.identity)}
-                  >
-                    Approve
-                  </Button>
-                </DialogFooter>
-              )}
+              <DialogFooter>
+                <Button
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  onClick={() => handleReject(selectedWithdrawal.identity)}
+                >
+                  Reject
+                </Button>
+                <Button
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => handleApprove(selectedWithdrawal.identity)}
+                >
+                  Approve
+                </Button>
+              </DialogFooter>
+            )}
           </DialogContent>
         </Dialog>
       )}
@@ -481,10 +483,11 @@ function WithdrawalsTable({ withdrawals, refetchWithdrawals }) {
                 key={page}
                 onClick={() => handlePageChange(page)}
                 variant={currentPage === page ? "default" : "outline"}
-                className={`${currentPage === page
+                className={`${
+                  currentPage === page
                     ? "bg-[#ea1315] text-white"
                     : "border-[#ea1315]  hover:bg-[#ea1315] hover:text-white"
-                  } text-sm`}
+                } text-sm`}
               >
                 {page}
               </Button>
