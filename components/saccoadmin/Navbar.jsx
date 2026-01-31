@@ -19,7 +19,7 @@ function SaccoAdminNavbar() {
             className="flex items-center gap-2"
           >
             <span className="text-xl md:text-2xl font-bold tracking-tight">
-              Sprout SACCO{" "}
+              Sprout Capital SACCO{" "}
               <span className="text-[10px] font-normal uppercase tracking-[2px] opacity-70 ml-1">
                 Admin
               </span>
@@ -38,9 +38,8 @@ function SaccoAdminNavbar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white text-slate-900 transform ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out border-l shadow-2xl`}
+        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white text-slate-900 transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          } transition-transform duration-300 ease-in-out border-l shadow-2xl`}
       >
         <div className="flex flex-col h-full">
           <div className="p-6 flex justify-between items-center border-b border-slate-100">

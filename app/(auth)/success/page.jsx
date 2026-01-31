@@ -63,14 +63,14 @@ function SuccessPage() {
             <div className="pt-6 border-t border-gray-100 w-full">
               <div className="flex justify-center items-center gap-2 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 <Image
-                  src="/logo.png"
+                  src="/sproutLarge.png"
                   width={40}
                   height={40}
-                  alt="Sprout SACCO Logo"
+                  alt="Sprout Capital SACCO Logo"
                   className="object-contain"
                 />
                 <span className="font-semibold text-sm text-gray-400">
-                  Sprout SACCO
+                  Sprout Capital SACCO
                 </span>
               </div>
             </div>

@@ -27,7 +27,6 @@ function LoansTable({ loans, isLoading, route }) {
     return ["All", ...types];
   }, [loans]);
 
-  console.log("loanTypes", loanTypes);
 
   // Filter loans by loan_type
   const filteredLoans = useMemo(() => {

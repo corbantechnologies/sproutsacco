@@ -31,7 +31,6 @@ function MemberDashboard() {
     refetch: refetchSummary,
   } = useFetchMemberSummary(member?.member_no);
 
-  console.log(summary);
 
   if (isLoadingMember || isLoadingSummary) return <MemberLoadingSpinner />;
 

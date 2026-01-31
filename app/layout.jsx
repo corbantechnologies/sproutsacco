@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Sprout SACCO</title>
+        <title>Sprout Capital SACCO</title>
         <meta name="description" content="Empowerment through equity, inclusion, and governance" />
       </head>
       <body>

@@ -62,8 +62,8 @@ function LoginForm() {
       <CardHeader className="space-y-2 items-center text-center pb-6">
         <div className="w-20 h-20 relative mb-2 mx-auto">
           <Image
-            src="/logo.png"
-            alt="Sprout SACCO Logo"
+            src="/sproutLarge.png"
+            alt="Sprout Capital SACCO Logo"
             fill
             className="object-contain"
           />
@@ -148,7 +148,7 @@ function LoginForm() {
         </form>
 
         <div className="text-center pt-2">
-          <p className="text-xs text-gray-400">Secure Access • Sprout SACCO</p>
+          <p className="text-xs text-gray-400">Secure Access • Sprout Capital SACCO</p>
         </div>
       </CardContent>
     </Card>

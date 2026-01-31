@@ -53,7 +53,6 @@ export default function MpesaCreateDepositForm({
                 `/member/savings/${savings_account?.reference}/${response?.reference}`
               );
             } catch (error) {
-              console.log(error);
               toast?.error("Failed to create deposit!");
             } finally {
               setLoading(false);

@@ -39,7 +39,6 @@ function BulkTamarindLoanInterestUpload({
       refetchTransactions();
       onClose();
     } catch (error) {
-      console.log(error)
       toast.error("Failed to upload bulk loan interest. Please try again.");
     } finally {
       setLoading(false);

@@ -40,7 +40,6 @@ import EmptyState from "@/components/general/EmptyState";
 
 export default function GuarantorProfilePage() {
   const { data: profile, isLoading, refetch } = useFetchGuarantorProfile();
-  console.log(profile);
   const token = useAxiosAuth();
 
   const [selectedRequest, setSelectedRequest] = useState(null);
