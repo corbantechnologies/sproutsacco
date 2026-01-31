@@ -22,3 +22,12 @@ export const downloadSaccoSummary = async (token, year) => {
   );
   return response.data;
 };
+
+
+export const getSaccoFinancialReport = async (token) => {
+  const response = await apiActions?.get(
+    `/api/v1/transactions/sacco/reports/`,
+    token
+  );
+  return response.data;
+};
