@@ -37,7 +37,7 @@ function AccountActivation() {
             Activate Account
           </CardTitle>
           <CardDescription className="text-gray-500 text-base max-w-[90%] mx-auto">
-            Set your password to activate your Sprout SACCO account
+            Set your password to activate your Sprout Capital SACCO account
           </CardDescription>
         </CardHeader>
 

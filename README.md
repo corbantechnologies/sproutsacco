@@ -1,1 +1,1 @@
-# Sprout SACCO
+# Sprout Capital SACCO

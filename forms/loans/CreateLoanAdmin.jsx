@@ -49,7 +49,6 @@ function CreateLoanAccountAdmin({
               refetchMember();
             } catch (error) {
               toast?.error("Failed to create loan!");
-              console.log(error);
             } finally {
               setLoading(false);
             }

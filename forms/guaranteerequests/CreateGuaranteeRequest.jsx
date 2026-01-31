@@ -32,7 +32,6 @@ export default function CreateGuaranteeRequest({ loanApplication, onSuccess }) {
           toast.success("Guarantee request created successfully");
           if (onSuccess) onSuccess();
         } catch (error) {
-          console.log(error);
           toast.error("Failed to create guarantee request");
         } finally {
           setLoading(false);

@@ -35,14 +35,14 @@ function LandingPage() {
           <div className="flex items-center gap-4">
             <div className="relative h-10 w-10">
               <Image
-                src="/logo.png"
-                alt="Sprout SACCO"
+                src="/sproutLarge.png"
+                alt="Sprout Capital SACCO"
                 fill
                 className="object-contain"
               />
             </div>
             <span className="font-bold text-xl tracking-tight text-[#236c2e]">
-              Sprout SACCO
+              Sprout Capital SACCO
             </span>
           </div>
 
@@ -80,9 +80,8 @@ function LandingPage() {
 
       {/* Mobile Sidebar */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-out border-l border-slate-100 ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        } md:hidden`}
+        className={`fixed inset-y-0 right-0 z-50 w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-out border-l border-slate-100 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          } md:hidden`}
       >
         <div className="flex flex-col h-full">
           <div className="p-6 flex justify-between items-center border-b border-slate-50">
@@ -269,7 +268,7 @@ function LandingPage() {
                 Standard in SACCOs
               </h2>
               <p className="text-lg text-slate-500 leading-relaxed font-medium mb-10">
-                Sprout SACCO stands as a beacon of financial empowerment for
+                Sprout Capital SACCO stands as a beacon of financial empowerment for
                 individuals who demand more from their cooperative society. We
                 operate with institutional-grade transparency and a relentless
                 focus on member-first prosperity.
@@ -335,14 +334,14 @@ function LandingPage() {
               <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
                 <div className="h-8 w-8 relative">
                   <Image
-                    src="/logo.png"
+                    src="/sproutLarge.png"
                     alt="Logo"
                     fill
                     className="object-contain"
                   />
                 </div>
                 <h3 className="text-xl font-black text-slate-900 tracking-tightest">
-                  Sprout SACCO
+                  Sprout Capital SACCO
                 </h3>
               </div>
               <p className="text-[14px] text-slate-400 font-medium leading-relaxed">
@@ -391,7 +390,7 @@ function LandingPage() {
 
           <div className="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[12px] font-bold text-slate-400">
-              © {new Date().getFullYear()} Sprout SACCO. Standard Financial
+              © {new Date().getFullYear()} Sprout Capital SACCO. Standard Financial
               Principles Apply.
             </p>
             <p className="text-[12px] font-bold text-slate-300 tracking-wider">
