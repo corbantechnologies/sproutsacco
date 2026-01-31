@@ -26,8 +26,8 @@ export const downloadSaccoSummary = async (token, year) => {
 
 export const getSaccoFinancialReport = async (token) => {
   const response = await apiActions?.get(
-    `/api/v1/transactions/sacco/reports/`,
-    token
+    `/api/v1/transactions/summary/sacco/reports/`,
+    token,
   );
   return response.data;
 };
