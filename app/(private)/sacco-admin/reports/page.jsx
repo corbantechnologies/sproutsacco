@@ -64,7 +64,7 @@ export default function SaccoAdminReports() {
     data: summary,
     isLoading,
     error,
-  } = useFetchSaccoSummary(selectedYear);
+  } = useFetchSaccoSummary();
 
   if (isLoading) return <MemberLoadingSpinner />;
   if (error)
