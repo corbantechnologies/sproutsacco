@@ -37,6 +37,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import SaccoFinancialReports from "@/components/reports/SaccoFinancialReports";
 
 const SummaryCard = ({ title, amount, count, icon: Icon, colorClass }) => (
   <Card>
@@ -225,19 +226,21 @@ export default function SaccoAdminReports() {
               ))}
               {(!summary?.monthly_summary ||
                 summary.monthly_summary.length === 0) && (
-                <TableRow>
-                  <TableCell
-                    colSpan={7}
-                    className="text-center h-24 text-muted-foreground"
-                  >
-                    No data available for this year
-                  </TableCell>
-                </TableRow>
-              )}
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center h-24 text-muted-foreground"
+                    >
+                      No data available for this year
+                    </TableCell>
+                  </TableRow>
+                )}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      <SaccoFinancialReports />
     </div>
   );
 }
