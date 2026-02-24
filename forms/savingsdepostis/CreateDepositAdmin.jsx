@@ -104,9 +104,10 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   required
                 >
                   <option value="" label="Select payment method" />
-                  <option value="Cash">Cash</option>
                   <option value="Mpesa">Mpesa</option>
+                  <option value="Mpesa STK Push">Mpesa STK Push</option>
                   <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Cash">Cash</option>
                   <option value="Cheque">Cheque</option>
                   <option value="Mobile Banking">Mobile Banking</option>
                   <option value="Standing Order">Standing Order</option>
@@ -126,9 +127,8 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   <option value="" label="Select deposit type" />
                   <option value="Opening Balance">Opening Balance</option>
                   <option value="Payroll Deduction">Payroll Deduction</option>
-                  <option value="Group Deposit">Group Deposit</option>
+                  <option value="Individual Deposit">Individual Deposit</option>
                   <option value="Dividend Deposit">Dividend Deposit</option>
-                  <option value="Member Deposit">Member Deposit</option>
                   <option value="Other">Other</option>
                 </Field>
               </div>
