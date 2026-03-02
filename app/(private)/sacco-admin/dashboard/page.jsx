@@ -24,10 +24,21 @@ import {
   TrendingUp,
   Plus,
   Loader2,
+  ChevronDown,
+  User,
+  UsersRound,
+  FileUp,
 } from "lucide-react";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import SaccoMembersTable from "@/components/members/SaccoMembersTable";
 import CreateMember from "@/forms/members/CreateMember";
+import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
+import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
@@ -57,6 +68,9 @@ export default function SaccoAdminDashboard() {
   } = useFetchVentureTypes();
 
   const [createMemberOpen, setCreateMemberOpen] = useState(false);
+  const [bulkMemberCreateOpen, setBulkMemberCreateOpen] = useState(false);
+  const [bulkMemberUploadOpen, setBulkMemberUploadOpen] = useState(false);
+  const [memberPopoverOpen, setMemberPopoverOpen] = useState(false);
   const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
   const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
   const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
@@ -156,12 +170,47 @@ export default function SaccoAdminDashboard() {
         {/* Members Tab */}
         <TabsContent value="members" className="pt-6">
           <div className="flex justify-end mb-4">
-            <Button
-              onClick={() => setCreateMemberOpen(true)}
-              className="bg-primary hover:bg-primary/90"
-            >
-              <Plus className="mr-2 h-4 w-4" /> Add Member
-            </Button>
+            <Popover open={memberPopoverOpen} onOpenChange={setMemberPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button className="bg-primary hover:bg-primary/90">
+                  <Plus className="mr-2 h-4 w-4" /> Add Member <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-2" align="end">
+                <div className="flex flex-col space-y-1">
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setCreateMemberOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <User className="mr-2 h-4 w-4" /> Single Member
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberCreateOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <UsersRound className="mr-2 h-4 w-4" /> Bulk Member Form
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberUploadOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <SaccoMembersTable members={members} />
         </TabsContent>
@@ -308,6 +357,20 @@ export default function SaccoAdminDashboard() {
         openModal={createMemberOpen}
         closeModal={() => {
           setCreateMemberOpen(false);
+          refetchMembers();
+        }}
+      />
+      <BulkMemberCreate
+        openModal={bulkMemberCreateOpen}
+        closeModal={() => {
+          setBulkMemberCreateOpen(false);
+          refetchMembers();
+        }}
+      />
+      <BulkMemberUploadCreate
+        openModal={bulkMemberUploadOpen}
+        closeModal={() => {
+          setBulkMemberUploadOpen(false);
           refetchMembers();
         }}
       />
