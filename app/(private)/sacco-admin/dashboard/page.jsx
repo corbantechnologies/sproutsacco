@@ -24,10 +24,21 @@ import {
   TrendingUp,
   Plus,
   Loader2,
+  ChevronDown,
+  User,
+  UsersRound,
+  FileUp,
 } from "lucide-react";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import SaccoMembersTable from "@/components/members/SaccoMembersTable";
 import CreateMember from "@/forms/members/CreateMember";
+import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
+import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
@@ -57,6 +68,9 @@ export default function SaccoAdminDashboard() {
   } = useFetchVentureTypes();
 
   const [createMemberOpen, setCreateMemberOpen] = useState(false);
+  const [bulkMemberCreateOpen, setBulkMemberCreateOpen] = useState(false);
+  const [bulkMemberUploadOpen, setBulkMemberUploadOpen] = useState(false);
+  const [memberPopoverOpen, setMemberPopoverOpen] = useState(false);
   const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
   const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
   const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
@@ -156,12 +170,87 @@ export default function SaccoAdminDashboard() {
         {/* Members Tab */}
         <TabsContent value="members" className="pt-6">
           <div className="flex justify-end mb-4">
-            <Button
-              onClick={() => setCreateMemberOpen(true)}
-              className="bg-primary hover:bg-primary/90"
-            >
-              <Plus className="mr-2 h-4 w-4" /> Add Member
-            </Button>
+            <Popover open={memberPopoverOpen} onOpenChange={setMemberPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button className="bg-primary hover:bg-primary/90">
+                  <Plus className="mr-2 h-4 w-4" /> Add Member <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-2" align="end">
+                <div className="flex flex-col space-y-1">
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setCreateMemberOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <User className="mr-2 h-4 w-4" /> Single Member
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberCreateOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <UsersRound className="mr-2 h-4 w-4" /> Bulk Member Form
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberUploadOpen(true);
+                      setMemberPopoverOpen(false);
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        const response = await downloadBulkMembersTemplate(token);
+
+                        // Extract filename from Content-Disposition if available, or default to template.csv
+                        const contentDisposition = response.headers['content-disposition'];
+                        let filename = "bulk_members_template.csv";
+                        if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                          const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                          const matches = filenameRegex.exec(contentDisposition);
+                          if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                          }
+                        }
+
+                        // Create a Blob from the CSV data
+                        const blob = new Blob([response.data], { type: 'text/csv' });
+                        // Create an object URL from the Blob
+                        const url = window.URL.createObjectURL(blob);
+                        // Create a temporary link element
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', filename);
+                        // Append to the body, click, and remove
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        // Clean up the URL object
+                        window.URL.revokeObjectURL(url);
+                      } catch (error) {
+                        console.error("Download failed", error);
+                      }
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <SaccoMembersTable members={members} />
         </TabsContent>
@@ -308,6 +397,20 @@ export default function SaccoAdminDashboard() {
         openModal={createMemberOpen}
         closeModal={() => {
           setCreateMemberOpen(false);
+          refetchMembers();
+        }}
+      />
+      <BulkMemberCreate
+        openModal={bulkMemberCreateOpen}
+        closeModal={() => {
+          setBulkMemberCreateOpen(false);
+          refetchMembers();
+        }}
+      />
+      <BulkMemberUploadCreate
+        openModal={bulkMemberUploadOpen}
+        closeModal={() => {
+          setBulkMemberUploadOpen(false);
           refetchMembers();
         }}
       />

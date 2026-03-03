@@ -4,13 +4,27 @@ import LoadingSpinner from "@/components/general/LoadingSpinner";
 import SaccoMembersTable from "@/components/members/SaccoMembersTable";
 import StatsCard from "@/components/saccoadmin/StatsCard";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import CreateMember from "@/forms/members/CreateMember";
+import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
+import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import { useFetchMembers } from "@/hooks/members/actions";
-import { User, Users } from "lucide-react";
+import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
+import { downloadBulkMembersTemplate } from "@/services/members";
+import { User, Users, FileUp, UsersRound, ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
 function Members() {
   const [memberCreateModal, setMemberCreateModal] = useState(false);
+  const [bulkMemberCreateModal, setBulkMemberCreateModal] = useState(false);
+  const [bulkMemberUploadCreateModal, setBulkMemberUploadCreateModal] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const token = useAxiosAuth();
+
   const {
     isLoading: isLoadingMembers,
     data: members,
@@ -36,12 +50,82 @@ function Members() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <Button
-              onClick={() => setMemberCreateModal(true)}
-              className="bg-primary hover:bg-[#022007] text-white text-sm sm:text-base py-2 px-3 sm:px-4 flex-1 sm:flex-none"
-            >
-              <User className="h-4 w-4 mr-2" /> New Member
-            </Button>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button className="bg-primary hover:bg-[#022007] text-white text-sm sm:text-base py-2 px-3 sm:px-4 flex-1 sm:flex-none">
+                  <User className="h-4 w-4 mr-2" /> New Member <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-2" align="end">
+                <div className="flex flex-col space-y-1">
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setMemberCreateModal(true);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <User className="mr-2 h-4 w-4" /> Single Member
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberCreateModal(true);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <UsersRound className="mr-2 h-4 w-4" /> Bulk Member Form
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={() => {
+                      setBulkMemberUploadCreateModal(true);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        const response = await downloadBulkMembersTemplate(token);
+
+                        const contentDisposition = response.headers['content-disposition'];
+                        let filename = "bulk_members_template.csv";
+                        if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                          const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                          const matches = filenameRegex.exec(contentDisposition);
+                          if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                          }
+                        }
+
+                        const blob = new Blob([response.data], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', filename);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        window.URL.revokeObjectURL(url);
+                        setPopoverOpen(false);
+                      } catch (error) {
+                        console.error("Download failed", error);
+                      }
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
@@ -64,10 +148,18 @@ function Members() {
         {/* Members Table */}
         <SaccoMembersTable members={members} refetchMembers={refetchMembers} />
 
-        {/* Member Create Modal */}
+        {/* Member Create Modals */}
         <CreateMember
           openModal={memberCreateModal}
           closeModal={() => setMemberCreateModal(false)}
+        />
+        <BulkMemberCreate
+          openModal={bulkMemberCreateModal}
+          closeModal={() => setBulkMemberCreateModal(false)}
+        />
+        <BulkMemberUploadCreate
+          openModal={bulkMemberUploadCreateModal}
+          closeModal={() => setBulkMemberUploadCreateModal(false)}
         />
       </div>
     </div>

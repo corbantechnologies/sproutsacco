@@ -13,14 +13,12 @@ import { Label } from "@/components/ui/label";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { addMember } from "@/services/members";
 import { Field, Form, Formik } from "formik";
-import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function CreateMember({ closeModal, openModal }) {
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const token = useAxiosAuth();
   const router = useRouter();
 
@@ -35,14 +33,14 @@ function CreateMember({ closeModal, openModal }) {
 
         <Formik
           initialValues={{
-            salutation: "",
             first_name: "",
             last_name: "",
             email: "",
+            employer: "", // a select field with options: Tamarind Management Limited, and others. If Tamarind Management Limited, payroll_no is a must
+            payroll_no: '', // optional
             phone: "",
             gender: "",
             member_no: "",
-            password: "",
           }}
           onSubmit={async (values) => {
             try {
@@ -64,25 +62,19 @@ function CreateMember({ closeModal, openModal }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="salutation"
+                    htmlFor="member_no"
                     className="text-base text-black font-medium"
                   >
-                    Salutation
+                    Member No (Optional)
                   </Label>
                   <Field
-                    as="select"
-                    name="salutation"
-                    id="salutation"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
-                  >
-                    <option value="">Select Salutation</option>
-                    <option value="Mr">Mr</option>
-                    <option value="Mrs">Mrs</option>
-                    <option value="Miss">Miss</option>
-                    <option value="Ms">Ms</option>
-                    <option value="Dr">Dr</option>
-                    <option value="Prof">Prof</option>
-                  </Field>
+                    as={Input}
+                    type="text"
+                    name="member_no"
+                    id="member_no"
+                    placeholder="e.g. SCS-001"
+                    className="border-black   rounded-md text-base py-2"
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -138,8 +130,60 @@ function CreateMember({ closeModal, openModal }) {
                   </Field>
                 </div>
 
-              
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="employer"
+                    className="text-base text-black font-medium"
+                  >
+                    Employer
+                  </Label>
+                  <Field
+                    as="select"
+                    name="employer"
+                    id="employer"
+                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                  >
+                    <option value="">Select Employer</option>
+                    <option value="Tamarind Management Limited">Tamarind Management Limited</option>
+                    <option value="Other">Other</option>
+                  </Field>
+                </div>
 
+                {values.employer === "Tamarind Management Limited" && (
+                  <div className="space-y-2">
+                    <Label
+                      htmlFor="payroll_no"
+                      className="text-base text-black font-medium"
+                    >
+                      Payroll Number
+                    </Label>
+                    <Field
+                      as={Input}
+                      type="text"
+                      name="payroll_no"
+                      id="payroll_no"
+                      placeholder="e.g. 12345"
+                      className="border-black   rounded-md text-base py-2"
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="phone"
+                    className="text-base text-black font-medium"
+                  >
+                    Phone
+                  </Label>
+                  <Field
+                    as={Input}
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="254700000000"
+                    className="border-black   rounded-md text-base py-2"
+                  />
+                </div>
 
                 <div className="space-y-2">
                   <Label
@@ -157,41 +201,6 @@ function CreateMember({ closeModal, openModal }) {
                     className="border-black   rounded-md text-base py-2"
                   />
                 </div>
-                {/* if no email provided, show the password input */}
-                {values.email === "" && (
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="password"
-                      className="text-base text-black font-medium"
-                    >
-                      Password
-                    </Label>
-                    <div className="relative">
-                      <Field
-                        as={Input}
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        id="password"
-                        placeholder="Enter password"
-                        className="border-black   rounded-md text-base py-2"
-                      />
-                      <button
-                        type="button"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="w-4 h-4 text-gray-500" />
-                        ) : (
-                          <Eye className="w-4 h-4 text-gray-500" />
-                        )}
-                        <span className="sr-only">
-                          {showPassword ? "Hide password" : "Show password"}
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
               <DialogFooter className="flex flex-col sm:flex-row gap-3 mt-6">
                 <Button
