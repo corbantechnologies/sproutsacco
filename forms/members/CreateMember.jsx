@@ -13,14 +13,12 @@ import { Label } from "@/components/ui/label";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { addMember } from "@/services/members";
 import { Field, Form, Formik } from "formik";
-import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function CreateMember({ closeModal, openModal }) {
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const token = useAxiosAuth();
   const router = useRouter();
 
@@ -43,7 +41,6 @@ function CreateMember({ closeModal, openModal }) {
             phone: "",
             gender: "",
             member_no: "",
-            password: "",
           }}
           onSubmit={async (values) => {
             try {
@@ -187,41 +184,6 @@ function CreateMember({ closeModal, openModal }) {
                     className="border-black   rounded-md text-base py-2"
                   />
                 </div>
-                {/* if no email provided, show the password input */}
-                {values.email === "" && (
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="password"
-                      className="text-base text-black font-medium"
-                    >
-                      Password
-                    </Label>
-                    <div className="relative">
-                      <Field
-                        as={Input}
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        id="password"
-                        placeholder="Enter password"
-                        className="border-black   rounded-md text-base py-2"
-                      />
-                      <button
-                        type="button"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="w-4 h-4 text-gray-500" />
-                        ) : (
-                          <Eye className="w-4 h-4 text-gray-500" />
-                        )}
-                        <span className="sr-only">
-                          {showPassword ? "Hide password" : "Show password"}
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
               <DialogFooter className="flex flex-col sm:flex-row gap-3 mt-6">
                 <Button

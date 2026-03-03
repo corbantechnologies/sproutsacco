@@ -63,7 +63,7 @@ export const createBulkMembers = async (values, token) => {
 
 // Bulk upload
 export const createBulkMembersUpload = async (formData, token) => {
-  await apiActions.post("api/v1/auth/new-members/bulk-create/upload/", formData, token);
+  await apiMultipartActions.post("api/v1/auth/new-members/bulk-create/upload/", formData, token);
 };
 
 // Reset a member's password
