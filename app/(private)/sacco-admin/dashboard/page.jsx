@@ -208,6 +208,46 @@ export default function SaccoAdminDashboard() {
                   >
                     <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
                   </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        const response = await downloadBulkMembersTemplate(token);
+
+                        // Extract filename from Content-Disposition if available, or default to template.csv
+                        const contentDisposition = response.headers['content-disposition'];
+                        let filename = "bulk_members_template.csv";
+                        if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                          const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                          const matches = filenameRegex.exec(contentDisposition);
+                          if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                          }
+                        }
+
+                        // Create a Blob from the CSV data
+                        const blob = new Blob([response.data], { type: 'text/csv' });
+                        // Create an object URL from the Blob
+                        const url = window.URL.createObjectURL(blob);
+                        // Create a temporary link element
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', filename);
+                        // Append to the body, click, and remove
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        // Clean up the URL object
+                        window.URL.revokeObjectURL(url);
+                      } catch (error) {
+                        console.error("Download failed", error);
+                      }
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
+                  </Button>
                 </div>
               </PopoverContent>
             </Popover>

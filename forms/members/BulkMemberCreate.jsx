@@ -16,6 +16,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
     const router = useRouter();
 
     const emptyMember = {
+        member_no: "",
         first_name: "",
         last_name: "",
         email: "",
@@ -105,6 +106,23 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                        <div className="space-y-2">
+                                            <Label
+                                                htmlFor={`members-${index}-member_no`}
+                                                className="text-base text-black font-medium"
+                                            >
+                                                Member No (Optional)
+                                            </Label>
+                                            <Input
+                                                type="text"
+                                                id={`members-${index}-member_no`}
+                                                placeholder="e.g. MBR-001"
+                                                value={member.member_no}
+                                                onChange={(e) => handleInputChange(index, "member_no", e.target.value)}
+                                                className="border-black rounded-md text-base py-2"
+                                            />
+                                        </div>
+
                                         <div className="space-y-2">
                                             <Label
                                                 htmlFor={`members-${index}-first_name`}

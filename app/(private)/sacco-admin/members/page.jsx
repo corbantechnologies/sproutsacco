@@ -13,6 +13,8 @@ import CreateMember from "@/forms/members/CreateMember";
 import BulkMemberCreate from "@/forms/members/BulkMemberCreate";
 import BulkMemberUploadCreate from "@/forms/members/BulkMemberUploadCreate";
 import { useFetchMembers } from "@/hooks/members/actions";
+import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
+import { downloadBulkMembersTemplate } from "@/services/members";
 import { User, Users, FileUp, UsersRound, ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 
@@ -21,6 +23,8 @@ function Members() {
   const [bulkMemberCreateModal, setBulkMemberCreateModal] = useState(false);
   const [bulkMemberUploadCreateModal, setBulkMemberUploadCreateModal] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const token = useAxiosAuth();
+
   const {
     isLoading: isLoadingMembers,
     data: members,
@@ -83,6 +87,41 @@ function Members() {
                     }}
                   >
                     <FileUp className="mr-2 h-4 w-4" /> Bulk CSV Upload
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="justify-start font-normal"
+                    onClick={async () => {
+                      try {
+                        const response = await downloadBulkMembersTemplate(token);
+
+                        const contentDisposition = response.headers['content-disposition'];
+                        let filename = "bulk_members_template.csv";
+                        if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                          const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                          const matches = filenameRegex.exec(contentDisposition);
+                          if (matches != null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
+                          }
+                        }
+
+                        const blob = new Blob([response.data], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', filename);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        window.URL.revokeObjectURL(url);
+                        setPopoverOpen(false);
+                      } catch (error) {
+                        console.error("Download failed", error);
+                      }
+                    }}
+                  >
+                    <FileUp className="mr-2 h-4 w-4" /> Download CSV Template
                   </Button>
                 </div>
               </PopoverContent>

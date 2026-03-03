@@ -51,6 +51,12 @@ export const approveMember = async (member_no, token) => {
   await apiActions?.patch(`/api/v1/auth/approve-member/${member_no}/`, token);
 };
 
+// download bulk members template
+export const downloadBulkMembersTemplate = async (token) => {
+  const response = await apiActions?.get("/api/v1/auth/new-members/bulk-create/template/download/", token);
+  return response;
+};
+
 // Bulk create
 export const createBulkMembers = async (values, token) => {
   const response = await apiActions?.post(

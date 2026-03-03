@@ -62,6 +62,23 @@ function CreateMember({ closeModal, openModal }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label
+                    htmlFor="member_no"
+                    className="text-base text-black font-medium"
+                  >
+                    Member No (Optional)
+                  </Label>
+                  <Field
+                    as={Input}
+                    type="text"
+                    name="member_no"
+                    id="member_no"
+                    placeholder="e.g. SCS-001"
+                    className="border-black   rounded-md text-base py-2"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label
                     htmlFor="first_name"
                     className="text-base text-black font-medium"
                   >
