@@ -51,7 +51,11 @@ const CreatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts }) 
                             onClose();
                             refetchPaymentAccounts();
                         } catch (error) {
-                            toast?.error("Failed to create Payment Account!");
+                            if (error?.response?.data?.name[0]) {
+                                toast?.error("Payment Account name already exists!");
+                            } else {
+                                toast?.error("Failed to create Payment Account!");
+                            }
                         } finally {
                             setLoading(false);
                         }

@@ -59,7 +59,9 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                             refetchGLAccounts();
                         } catch (error) {
                             if (error?.response?.data?.code[0]) {
-                                toast?.error(error?.response?.data?.code[0]);
+                                toast?.error("GL Account code already exists!");
+                            } else if (error?.response?.data?.name[0]) {
+                                toast?.error("GL Account name already exists!");
                             } else {
                                 toast?.error("Failed to create GL Account!");
                             }
