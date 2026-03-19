@@ -12,8 +12,10 @@ import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
 import CreateGLAccountModal from "@/forms/glaccounts/CreateGLAccount";
 import CreatePaymentAccountModal from "@/forms/paymentaccounts/CreatePaymentAccount";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
-// Assuming other modals exist or will be implemented similarly
-// import CreateLoanProductModal from "@/forms/loanproducts/CreateLoanProduct";
+import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
+import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
+import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
+import CreateMember from "@/forms/members/CreateMember";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,7 +29,9 @@ import {
     HandCoins, 
     Users, 
     Settings2,
-    AlertCircle
+    AlertCircle,
+    BadgePercent,
+    Briefcase
 } from "lucide-react";
 
 export default function SetupPage() {
@@ -71,9 +75,6 @@ export default function SetupPage() {
     const [createGLAccountOpen, setCreateGLAccountOpen] = useState(false);
     const [createPaymentAccountOpen, setCreatePaymentAccountOpen] = useState(false);
     const [createMemberOpen, setCreateMemberOpen] = useState(false);
-    const [bulkMemberCreateOpen, setBulkMemberCreateOpen] = useState(false);
-    const [bulkMemberUploadOpen, setBulkMemberUploadOpen] = useState(false);
-    const [memberPopoverOpen, setMemberPopoverOpen] = useState(false);
     const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
     const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
     const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
@@ -86,7 +87,7 @@ export default function SetupPage() {
     const setupSteps = [
         {
             title: "GL Accounts",
-            description: "Define your General Ledger chart of accounts.",
+            description: "Define General Ledger chart of accounts.",
             icon: Building2,
             done: glSetupDone,
             onClick: () => setCreateGLAccountOpen(true),
@@ -94,7 +95,7 @@ export default function SetupPage() {
         },
         {
             title: "Payment Accounts",
-            description: "Configure bank and cash accounts linked to GL.",
+            description: "Configure bank and cash accounts.",
             icon: Wallet,
             done: paymentSetupDone,
             onClick: () => setCreatePaymentAccountOpen(true),
@@ -102,8 +103,16 @@ export default function SetupPage() {
             disabled: !glSetupDone,
         },
         {
+            title: "Fee Types",
+            description: "Define various SACCO fee structures.",
+            icon: BadgePercent,
+            done: feetypes?.length > 0,
+            onClick: () => setCreateFeeTypeOpen(true),
+            disabled: !mandatorySetupDone,
+        },
+        {
             title: "Savings Products",
-            description: "Define different types of savings accounts.",
+            description: "Define types of savings accounts.",
             icon: PiggyBank,
             done: savingTypes?.length > 0,
             onClick: () => setCreateSavingTypeOpen(true),
@@ -111,15 +120,23 @@ export default function SetupPage() {
         },
         {
             title: "Loan Products",
-            description: "Set up various loan facilities and terms.",
+            description: "Set up loan facilities and terms.",
             icon: HandCoins,
             done: loanProducts?.length > 0,
             onClick: () => setCreateLoanProductOpen(true),
             disabled: !mandatorySetupDone,
         },
         {
+            title: "Venture Types",
+            description: "Configure investment venture types.",
+            icon: Briefcase,
+            done: ventureTypes?.length > 0,
+            onClick: () => setCreateVentureTypeOpen(true),
+            disabled: !mandatorySetupDone,
+        },
+        {
             title: "Member Registration",
-            description: "Start adding members to the SACCO.",
+            description: "Add members to the SACCO system.",
             icon: Users,
             done: members?.length > 0,
             onClick: () => setCreateMemberOpen(true),
@@ -128,61 +145,61 @@ export default function SetupPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50/50 p-8 space-y-8">
+        <div className="min-h-screen bg-gray-50/50 p-6 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
                         SACCO Setup
                     </h1>
-                    <p className="text-slate-500 mt-1 text-lg">
-                        Configure key system parameters to get started
+                    <p className="text-slate-500 text-sm">
+                        Efficiently configure your system parameters
                     </p>
                 </div>
-                <div className="bg-white px-4 py-2 rounded-full border shadow-sm">
-                    <p className="text-sm font-medium text-gray-900">
+                <div className="bg-white px-3 py-1.5 rounded-full border shadow-sm">
+                    <p className="text-xs font-semibold text-gray-900">
                         {myself?.salutation} {myself?.last_name} (Admin)
                     </p>
                 </div>
             </div>
 
             {!mandatorySetupDone && (
-                <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
+                <div className="bg-amber-50 border border-amber-200 p-3 rounded-md flex items-start gap-3">
+                    <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5" />
                     <div>
-                        <h3 className="text-sm font-bold text-amber-900">Initial Setup Required</h3>
-                        <p className="text-sm text-amber-700">
-                            You must configure at least one GL Account and one Payment Account before you can set up products or add members.
+                        <h3 className="text-xs font-bold text-amber-900">Initial Setup Required</h3>
+                        <p className="text-xs text-amber-700">
+                            Configure GL and Payment Accounts first.
                         </p>
                     </div>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {setupSteps.map((step, idx) => (
-                    <Card key={idx} className={`${step.disabled ? "opacity-60 grayscale-[0.5]" : "hover:shadow-md transition-shadow"}`}>
-                        <CardHeader className="pb-2">
-                            <div className="flex justify-between items-start">
-                                <div className={`p-2 rounded-md ${step.done ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-700"}`}>
-                                    <step.icon className="w-6 h-6" />
+                    <Card key={idx} className={`${step.disabled ? "opacity-50" : "hover:border-[#ea1315]/30 transition-colors"} shadow-sm py-4 gap-2`}>
+                        <CardHeader className="p-4 py-0 pb-1">
+                            <div className="flex justify-between items-center mb-2">
+                                <div className={`p-1.5 rounded-md ${step.done ? "bg-green-50 text-green-600" : "bg-slate-50 text-slate-600"}`}>
+                                    <step.icon className="w-5 h-5" />
                                 </div>
                                 {step.done ? (
-                                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                                    <CheckCircle2 className="w-4 h-4 text-green-600" />
                                 ) : (
-                                    <Circle className="w-5 h-5 text-slate-300" />
+                                    <Circle className="w-4 h-4 text-slate-200" />
                                 )}
                             </div>
-                            <CardTitle className="mt-4">{step.title}</CardTitle>
-                            <CardDescription>{step.description}</CardDescription>
+                            <CardTitle className="text-base font-bold">{step.title}</CardTitle>
+                            <CardDescription className="text-xs line-clamp-1">{step.description}</CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="p-4 pt-1">
                             <Button 
                                 onClick={step.onClick} 
                                 disabled={step.disabled}
-                                className={`w-full ${step.done ? "bg-slate-100 text-slate-900 hover:bg-slate-200" : "bg-[#ea1315] text-white hover:bg-[#c71012]"}`}
-                                variant={step.done ? "secondary" : "default"}
+                                className={`w-full h-8 text-xs font-bold ${step.done ? "bg-slate-50 text-slate-700 hover:bg-slate-100" : "bg-[#ea1315] text-white hover:bg-[#c71012]"}`}
+                                variant={step.done ? "ghost" : "default"}
                             >
-                                {step.done ? "Add Another" : "Configure Now"}
-                                {!step.done && <ArrowRight className="ml-2 w-4 h-4" />}
+                                {step.done ? "Add Another" : "Configure"}
+                                {!step.done && <ArrowRight className="ml-1 w-3 h-3" />}
                             </Button>
                         </CardContent>
                     </Card>
@@ -205,7 +222,26 @@ export default function SetupPage() {
                 onClose={() => setCreateSavingTypeOpen(false)}
                 refetchSavingTypes={refetchSavingTypes}
             />
-            {/* Add other modals as they are implemented */}
+            <CreateFeeTypeModal
+                isOpen={createFeeTypeOpen}
+                onClose={() => setCreateFeeTypeOpen(false)}
+                refetchFeeTypes={refetchFeeTypes}
+            />
+            <CreateLoanProduct
+                isOpen={createLoanProductOpen}
+                onClose={() => setCreateLoanProductOpen(false)}
+                refetchLoanTypes={refetchLoanProducts}
+            />
+            <CreateVentureType
+                isOpen={createVentureTypeOpen}
+                onClose={() => setCreateVentureTypeOpen(false)}
+                refetchVentureTypes={refetchVentureTypes}
+            />
+            <CreateMember
+                openModal={createMemberOpen}
+                closeModal={() => setCreateMemberOpen(false)}
+            />
         </div>
     );
-}
+}
+
