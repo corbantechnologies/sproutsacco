@@ -10,10 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { createVentureType } from "@/services/venturetypes";
+import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -21,6 +28,7 @@ import toast from "react-hot-toast";
 function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
+  const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -34,8 +42,8 @@ function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
         <Formik
           initialValues={{
             name: "",
-            description: "",
             interest_rate: 0,
+            gl_account: "", //GL Account Name
           }}
           onSubmit={async (values) => {
             setLoading(true);
@@ -49,7 +57,7 @@ function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
             }
           }}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <Form className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-black">
@@ -76,16 +84,29 @@ function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-black">
-                  Description
+                <Label htmlFor="gl_account" className="text-black">
+                  GL Account
                 </Label>
-                <Field
-                  as={Textarea}
-                  rows={4}
-                  id="description"
-                  name="description"
-                  className="border-black "
-                />
+                <Select
+                  value={values.gl_account}
+                  onValueChange={(value) => setFieldValue("gl_account", value)}
+                  disabled={isLoadingGL}
+                >
+                  <SelectTrigger className="border-black">
+                    <SelectValue
+                      placeholder={
+                        isLoadingGL ? "Loading..." : "Select GL Account"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {glAccounts?.map((acc) => (
+                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
+                        {acc.name} ({acc.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <DialogFooter>
                 <Button
@@ -99,7 +120,7 @@ function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
                 <Button
                   type="submit"
                   className="bg-[#ea1315] hover:bg-[#c71012] text-white"
-                  disabled={loading}
+                  disabled={loading || isLoadingGL}
                 >
                   {loading ? "Creating..." : "Create"}
                 </Button>

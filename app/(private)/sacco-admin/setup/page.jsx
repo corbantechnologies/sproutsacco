@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useFetchMember, useFetchMembers } from "@/hooks/members/actions";
+import { useFetchMember } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
 import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
@@ -15,7 +15,6 @@ import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
-import CreateMember from "@/forms/members/CreateMember";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,7 +35,6 @@ import {
     Wallet, 
     PiggyBank, 
     HandCoins, 
-    Users, 
     Settings2,
     AlertCircle,
     BadgePercent,
@@ -61,11 +59,6 @@ export default function SetupPage() {
         refetch: refetchFeeTypes
     } = useFetchFeeTypes();
     const {
-        data: members,
-        isLoading: isLoadingMembers,
-        refetch: refetchMembers,
-    } = useFetchMembers();
-    const {
         data: savingTypes,
         isLoading: isLoadingSavingTypes,
         refetch: refetchSavingTypes,
@@ -83,7 +76,6 @@ export default function SetupPage() {
 
     const [createGLAccountOpen, setCreateGLAccountOpen] = useState(false);
     const [createPaymentAccountOpen, setCreatePaymentAccountOpen] = useState(false);
-    const [createMemberOpen, setCreateMemberOpen] = useState(false);
     const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
     const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
     const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
@@ -141,14 +133,6 @@ export default function SetupPage() {
             icon: Briefcase,
             done: ventureTypes?.length > 0,
             onClick: () => setCreateVentureTypeOpen(true),
-            disabled: !mandatorySetupDone,
-        },
-        {
-            title: "Member Registration",
-            description: "Add members to the SACCO system.",
-            icon: Users,
-            done: members?.length > 0,
-            onClick: () => setCreateMemberOpen(true),
             disabled: !mandatorySetupDone,
         },
     ];
@@ -230,7 +214,6 @@ export default function SetupPage() {
                         <TabsTrigger value="savings" className="text-xs">Savings Types</TabsTrigger>
                         <TabsTrigger value="loans" className="text-xs">Loan Products</TabsTrigger>
                         <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger>
-                        <TabsTrigger value="members" className="text-xs">Members</TabsTrigger>
                     </TabsList>
 
                     {/* GL Accounts Tab */}
@@ -432,38 +415,6 @@ export default function SetupPage() {
                             </CardContent>
                         </Card>
                     </TabsContent>
-
-                    {/* Members Tab */}
-                    <TabsContent value="members">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0">
-                                {members?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Member No.</TableHead>
-                                                <TableHead className="text-xs font-bold">Email</TableHead>
-                                                <TableHead className="text-xs font-bold">Phone</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {members.map((member) => (
-                                                <TableRow key={member.id || member.reference}>
-                                                    <TableCell className="text-xs font-medium">{member.first_name} {member.last_name}</TableCell>
-                                                    <TableCell className="text-xs font-mono">{member.member_number || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{member.email || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{member.phone_number || "-"}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No members registered yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
                 </Tabs>
             </div>
 
@@ -497,10 +448,6 @@ export default function SetupPage() {
                 isOpen={createVentureTypeOpen}
                 onClose={() => setCreateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
-            />
-            <CreateMember
-                openModal={createMemberOpen}
-                closeModal={() => setCreateMemberOpen(false)}
             />
         </div>
     );
