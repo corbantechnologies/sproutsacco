@@ -19,6 +19,15 @@ import CreateMember from "@/forms/members/CreateMember";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 import { 
     CheckCircle2, 
     Circle, 
@@ -204,6 +213,258 @@ export default function SetupPage() {
                         </CardContent>
                     </Card>
                 ))}
+            </div>
+
+            {/* Item Listing Section */}
+            <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-2">
+                    <Settings2 className="w-5 h-5 text-slate-700" />
+                    <h2 className="text-lg font-bold text-slate-900">Configured Parameters</h2>
+                </div>
+
+                <Tabs defaultValue="gl" className="w-full">
+                    <TabsList className="flex flex-wrap h-auto bg-white border p-1 mb-4">
+                        <TabsTrigger value="gl" className="text-xs">GL Accounts</TabsTrigger>
+                        <TabsTrigger value="payment" className="text-xs">Payment Accounts</TabsTrigger>
+                        <TabsTrigger value="fees" className="text-xs">Fee Types</TabsTrigger>
+                        <TabsTrigger value="savings" className="text-xs">Savings Types</TabsTrigger>
+                        <TabsTrigger value="loans" className="text-xs">Loan Products</TabsTrigger>
+                        <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger>
+                        <TabsTrigger value="members" className="text-xs">Members</TabsTrigger>
+                    </TabsList>
+
+                    {/* GL Accounts Tab */}
+                    <TabsContent value="gl">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {glaccounts?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Category</TableHead>
+                                                <TableHead className="text-xs font-bold">Code</TableHead>
+                                                <TableHead className="text-xs font-bold">Status</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {glaccounts.map((acc) => (
+                                                <TableRow key={acc.id || acc.reference}>
+                                                    <TableCell className="text-xs font-medium">{acc.name}</TableCell>
+                                                    <TableCell className="text-xs capitalize">{acc.category?.toLowerCase()}</TableCell>
+                                                    <TableCell className="text-xs">{acc.code}</TableCell>
+                                                    <TableCell className="text-xs">
+                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                                            {acc.is_active ? "Active" : "Inactive"}
+                                                        </span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No GL accounts configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Payment Accounts Tab */}
+                    <TabsContent value="payment">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {paymentaccounts?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
+                                                <TableHead className="text-xs font-bold">Status</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {paymentaccounts.map((acc) => (
+                                                <TableRow key={acc.id || acc.reference}>
+                                                    <TableCell className="text-xs font-medium">{acc.name}</TableCell>
+                                                    <TableCell className="text-xs">{acc.gl_account}</TableCell>
+                                                    <TableCell className="text-xs">
+                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                                            {acc.is_active ? "Active" : "Inactive"}
+                                                        </span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No payment accounts configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Fee Types Tab */}
+                    <TabsContent value="fees">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {feetypes?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Amount</TableHead>
+                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
+                                                <TableHead className="text-xs font-bold">Is Everyone?</TableHead>
+                                                <TableHead className="text-xs font-bold">Status</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {feetypes.map((fee) => (
+                                                <TableRow key={fee.id || fee.reference}>
+                                                    <TableCell className="text-xs font-medium">{fee.name}</TableCell>
+                                                    <TableCell className="text-xs font-bold text-slate-700 font-mono">KES {Number(fee.amount).toLocaleString()}</TableCell>
+                                                    <TableCell className="text-xs">{fee.gl_account}</TableCell>
+                                                    <TableCell className="text-xs">{fee.is_everyone ? "Yes" : "No"}</TableCell>
+                                                    <TableCell className="text-xs">
+                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${fee.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                                            {fee.is_active ? "Active" : "Inactive"}
+                                                        </span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No fee types configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Saving Types Tab */}
+                    <TabsContent value="savings">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {savingTypes?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
+                                                <TableHead className="text-xs font-bold">Guarantee?</TableHead>
+                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {savingTypes.map((type) => (
+                                                <TableRow key={type.id || type.reference}>
+                                                    <TableCell className="text-xs font-medium">{type.name}</TableCell>
+                                                    <TableCell className="text-xs">{type.interest_rate}%</TableCell>
+                                                    <TableCell className="text-xs">{type.can_guarantee ? "Yes" : "No"}</TableCell>
+                                                    <TableCell className="text-xs truncate max-w-[200px]">{type.description || "-"}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No saving types configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Loan Products Tab */}
+                    <TabsContent value="loans">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {loanProducts?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
+                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {loanProducts.map((loan) => (
+                                                <TableRow key={loan.id || loan.reference}>
+                                                    <TableCell className="text-xs font-medium">{loan.name}</TableCell>
+                                                    <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
+                                                    <TableCell className="text-xs truncate max-w-[200px]">{loan.description || "-"}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No loan products configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Venture Types Tab */}
+                    <TabsContent value="ventures">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {ventureTypes?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
+                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {ventureTypes.map((venture) => (
+                                                <TableRow key={venture.id || venture.reference}>
+                                                    <TableCell className="text-xs font-medium">{venture.name}</TableCell>
+                                                    <TableCell className="text-xs">{venture.interest_rate}%</TableCell>
+                                                    <TableCell className="text-xs truncate max-w-[200px]">{venture.description || "-"}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No venture types configured yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+
+                    {/* Members Tab */}
+                    <TabsContent value="members">
+                        <Card className="shadow-sm">
+                            <CardContent className="p-0">
+                                {members?.length > 0 ? (
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow className="bg-slate-50">
+                                                <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Member No.</TableHead>
+                                                <TableHead className="text-xs font-bold">Email</TableHead>
+                                                <TableHead className="text-xs font-bold">Phone</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {members.map((member) => (
+                                                <TableRow key={member.id || member.reference}>
+                                                    <TableCell className="text-xs font-medium">{member.first_name} {member.last_name}</TableCell>
+                                                    <TableCell className="text-xs font-mono">{member.member_number || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{member.email || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{member.phone_number || "-"}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                ) : (
+                                    <div className="p-8 text-center text-xs text-slate-500">No members registered yet.</div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
             </div>
 
             {/* Modals */}
