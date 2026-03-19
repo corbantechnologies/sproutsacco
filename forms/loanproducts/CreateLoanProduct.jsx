@@ -99,7 +99,7 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   onValueChange={(value) => setFieldValue("gl_principal_account", value)}
                   disabled={isLoadingGL}
                 >
-                  <SelectTrigger className="border-black">
+                  <SelectTrigger className="border-black w-full">
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Principal Account"
@@ -126,7 +126,7 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   onValueChange={(value) => setFieldValue("gl_interest_account", value)}
                   disabled={isLoadingGL}
                 >
-                  <SelectTrigger className="border-black">
+                  <SelectTrigger className="border-black w-full">
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Interest Account"
@@ -153,7 +153,7 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   onValueChange={(value) => setFieldValue("gl_penalty_account", value)}
                   disabled={isLoadingGL}
                 >
-                  <SelectTrigger className="border-black">
+                  <SelectTrigger className="border-black w-full">
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Penalty Account"

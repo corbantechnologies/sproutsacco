@@ -92,7 +92,7 @@ function CreateVentureType({ isOpen, onClose, refetchVentureTypes }) {
                   onValueChange={(value) => setFieldValue("gl_account", value)}
                   disabled={isLoadingGL}
                 >
-                  <SelectTrigger className="border-black">
+                  <SelectTrigger className="border-black w-full">
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select GL Account"

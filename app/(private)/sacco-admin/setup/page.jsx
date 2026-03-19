@@ -335,7 +335,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
                                                 <TableHead className="text-xs font-bold">Guarantee?</TableHead>
-                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -344,7 +344,7 @@ export default function SetupPage() {
                                                     <TableCell className="text-xs font-medium">{type.name}</TableCell>
                                                     <TableCell className="text-xs">{type.interest_rate}%</TableCell>
                                                     <TableCell className="text-xs">{type.can_guarantee ? "Yes" : "No"}</TableCell>
-                                                    <TableCell className="text-xs truncate max-w-[200px]">{type.description || "-"}</TableCell>
+                                                    <TableCell className="text-xs truncate max-w-[200px]">{type.gl_account || "-"}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -366,7 +366,9 @@ export default function SetupPage() {
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                                <TableHead className="text-xs font-bold">Principal GL</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest GL</TableHead>
+                                                <TableHead className="text-xs font-bold">Penalty GL</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -374,7 +376,9 @@ export default function SetupPage() {
                                                 <TableRow key={loan.id || loan.reference}>
                                                     <TableCell className="text-xs font-medium">{loan.name}</TableCell>
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs truncate max-w-[200px]">{loan.description || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_principal_account || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_interest_account || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_penalty_account || "-"}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -396,7 +400,7 @@ export default function SetupPage() {
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">Description</TableHead>
+                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -404,7 +408,7 @@ export default function SetupPage() {
                                                 <TableRow key={venture.id || venture.reference}>
                                                     <TableCell className="text-xs font-medium">{venture.name}</TableCell>
                                                     <TableCell className="text-xs">{venture.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs truncate max-w-[200px]">{venture.description || "-"}</TableCell>
+                                                    <TableCell className="text-xs truncate max-w-[200px]">{venture.gl_account || "-"}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
