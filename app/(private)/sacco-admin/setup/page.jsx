@@ -11,7 +11,8 @@ import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
 
 // Here the admin sets up the SACCO System e.g. setting up GLAccounts, Payment Accounts, Loan Products, Savings Products, etc.
 // Rules
-// GLAccounts and Payment Accounts are the first to be setup
+// GLAccounts is the first to be setup
+// Payment Accounts is the second to be setup as it depends on GLAccounts
 // All other setup depends on GLAccounts and Payment Accounts
 // If at least one GLAccount and one Payment Account is setup, the admin can proceed to setup other things
 // If no GLAccount and no Payment Account is setup, the admin cannot proceed to setup other things: they should be prompted to setup GLAccounts and Payment Accounts first
@@ -68,8 +69,10 @@ export default function SetupPage() {
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-8 space-y-8">
+            {/* There should be a way to show the setup progress: GLAccounts and PaymentAccounts are compulsory, the rest is upto the admin's volition */}
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                {/* we should probably have a popover that shows the buttons for the different actions */}
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900">
                         SACCO Setup
