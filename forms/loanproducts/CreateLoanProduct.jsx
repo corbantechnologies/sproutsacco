@@ -1,7 +1,7 @@
 "use client";
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import { createLoanProduct } from "@/services/loanproducts";
 import toast from "react-hot-toast";
 
 function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
-  const [loading, setLoading] = useTransition();
+  const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
 
   return (
@@ -37,16 +37,17 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
             interest_rate: 0,
           }}
           onSubmit={async (values) => {
-            try {
-              setLoading(async () => {
-                await createLoanProduct(values, token);
-                toast?.success("Saving type created successfully!");
-                onClose();
-                refetchLoanTypes();
-              });
-            } catch (error) {
-              toast?.error("Failed to create saving type!");
-            }
+                        try {
+                            setLoading(true);
+                            await createLoanProduct(values, token);
+                            toast?.success("Loan product created successfully!");
+                            onClose();
+                            refetchLoanTypes();
+                        } catch (error) {
+                            toast?.error("Failed to create loan product!");
+                        } finally {
+                            setLoading(false);
+                        }
           }}
         >
           {({ values }) => (

@@ -15,11 +15,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { updateGLAccount } from "@/services/glaccounts";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount }) => {
-    const [loading, setLoading] = useTransition();
+    const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
 
     if (!glAccount) return null;
@@ -39,14 +39,15 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                     }}
                     onSubmit={async (values) => {
                         try {
-                            setLoading(async () => {
-                                await updateGLAccount(glAccount?.id || glAccount?.reference, values, token);
-                                toast?.success("GL Account updated successfully!");
-                                onClose();
-                                refetchGLAccounts();
-                            });
+                            setLoading(true);
+                            await updateGLAccount(glAccount?.id || glAccount?.reference, values, token);
+                            toast?.success("GL Account updated successfully!");
+                            onClose();
+                            refetchGLAccounts();
                         } catch (error) {
                             toast?.error("Failed to update GL Account!");
+                        } finally {
+                            setLoading(false);
                         }
                     }}
                 >

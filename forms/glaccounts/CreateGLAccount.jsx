@@ -22,7 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { createGLAccount } from "@/services/glaccounts";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const CATEGORIES = [
@@ -34,7 +34,7 @@ const CATEGORIES = [
 ];
 
 const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
-    const [loading, setLoading] = useTransition();
+    const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
 
     return (
@@ -52,14 +52,15 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                     }}
                     onSubmit={async (values) => {
                         try {
-                            setLoading(async () => {
-                                await createGLAccount(values, token);
-                                toast?.success("GL Account created successfully!");
-                                onClose();
-                                refetchGLAccounts();
-                            });
+                            setLoading(true);
+                            await createGLAccount(values, token);
+                            toast?.success("GL Account created successfully!");
+                            onClose();
+                            refetchGLAccounts();
                         } catch (error) {
                             toast?.error("Failed to create GL Account!");
+                        } finally {
+                            setLoading(false);
                         }
                     }}
                 >

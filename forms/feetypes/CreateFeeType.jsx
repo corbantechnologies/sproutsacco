@@ -24,11 +24,11 @@ import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { createFeeType } from "@/services/feetypes";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const CreateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes }) => {
-  const [loading, setLoading] = useTransition();
+  const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
 
@@ -47,15 +47,16 @@ const CreateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes }) => {
             gl_account: "", //GLAccount name
           }}
           onSubmit={async (values) => {
+            setLoading(true);
             try {
-              setLoading(async () => {
-                await createFeeType(values, token);
-                toast?.success("Fee type created successfully!");
-                onClose();
-                refetchFeeTypes();
-              });
+              await createFeeType(values, token);
+              toast?.success("Fee type created successfully!");
+              onClose();
+              refetchFeeTypes();
             } catch (error) {
               toast?.error("Failed to create fee type!");
+            } finally {
+              setLoading(false);
             }
           }}
         >

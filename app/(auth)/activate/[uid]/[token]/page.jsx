@@ -8,7 +8,7 @@ import { PasswordSetupSchema } from "@/validation";
 import { Field, Form, Formik } from "formik";
 import { Eye, EyeOff, ShieldCheck, Lock } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import {
   Card,
@@ -20,7 +20,7 @@ import {
 
 function AccountActivation() {
   const { uid, token } = useParams();
-  const [loading, setLoading] = useTransition();
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
@@ -51,14 +51,15 @@ function AccountActivation() {
             }}
             validationSchema={PasswordSetupSchema}
             onSubmit={async (values) => {
+              setLoading(true);
               try {
-                setLoading(async () => {
-                  await activateAccount(values);
-                  toast?.success("Account Activated Successfully!");
-                  router.push("/login");
-                });
+                await activateAccount(values);
+                toast?.success("Account Activated Successfully!");
+                router.push("/login");
               } catch (error) {
                 toast?.error("Failed to activate account!");
+              } finally {
+                setLoading(false);
               }
             }}
           >

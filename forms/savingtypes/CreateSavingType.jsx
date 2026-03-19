@@ -15,11 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { createSavingType } from "@/services/savingtypes";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
-  const [loading, setLoading] = useTransition();
+  const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
 
   return (
@@ -36,16 +36,17 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
             can_guarantee: true,
           }}
           onSubmit={async (values) => {
-            try {
-              setLoading(async () => {
-                await createSavingType(values, token);
-                toast?.success("Saving type created successfully!");
-                onClose();
-                refetchSavingTypes();
-              });
-            } catch (error) {
-              toast?.error("Failed to create saving type!");
-            }
+                        try {
+                            setLoading(true);
+                            await createSavingType(values, token);
+                            toast?.success("Saving type created successfully!");
+                            onClose();
+                            refetchSavingTypes();
+                        } catch (error) {
+                            toast?.error("Failed to create saving type!");
+                        } finally {
+                            setLoading(false);
+                        }
           }}
         >
           {({ values }) => (

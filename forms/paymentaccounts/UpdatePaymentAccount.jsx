@@ -15,11 +15,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { updatePaymentAccount } from "@/services/paymentaccounts";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const UpdatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts, paymentAccount }) => {
-    const [loading, setLoading] = useTransition();
+    const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
 
     if (!paymentAccount) return null;
@@ -37,14 +37,15 @@ const UpdatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts, pa
                     }}
                     onSubmit={async (values) => {
                         try {
-                            setLoading(async () => {
-                                await updatePaymentAccount(paymentAccount?.id || paymentAccount?.reference, values, token);
-                                toast?.success("Payment Account updated successfully!");
-                                onClose();
-                                refetchPaymentAccounts();
-                            });
+                            setLoading(true);
+                            await updatePaymentAccount(paymentAccount?.id || paymentAccount?.reference, values, token);
+                            toast?.success("Payment Account updated successfully!");
+                            onClose();
+                            refetchPaymentAccounts();
                         } catch (error) {
                             toast?.error("Failed to update Payment Account!");
+                        } finally {
+                            setLoading(false);
                         }
                     }}
                 >

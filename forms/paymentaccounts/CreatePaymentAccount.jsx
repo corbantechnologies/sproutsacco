@@ -23,11 +23,11 @@ import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import { createPaymentAccount } from "@/services/paymentaccounts";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const CreatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts }) => {
-    const [loading, setLoading] = useTransition();
+    const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
     const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
 
@@ -45,14 +45,15 @@ const CreatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts }) 
                     }}
                     onSubmit={async (values) => {
                         try {
-                            setLoading(async () => {
-                                await createPaymentAccount(values, token);
-                                toast?.success("Payment Account created successfully!");
-                                onClose();
-                                refetchPaymentAccounts();
-                            });
+                            setLoading(true);
+                            await createPaymentAccount(values, token);
+                            toast?.success("Payment Account created successfully!");
+                            onClose();
+                            refetchPaymentAccounts();
                         } catch (error) {
                             toast?.error("Failed to create Payment Account!");
+                        } finally {
+                            setLoading(false);
                         }
                     }}
                 >
