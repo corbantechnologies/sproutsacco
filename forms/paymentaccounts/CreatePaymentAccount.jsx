@@ -83,8 +83,9 @@ const CreatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts }) 
                                     value={values.gl_account}
                                     onValueChange={(value) => setFieldValue("gl_account", value)}
                                     disabled={isLoadingGL}
+                                    required
                                 >
-                                    <SelectTrigger className="border-black">
+                                    <SelectTrigger className="border-black w-full">
                                         <SelectValue placeholder={isLoadingGL ? "Loading..." : "Select GL Account"} />
                                     </SelectTrigger>
                                     <SelectContent>
