@@ -42,9 +42,10 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
           initialValues={{
             name: "",
             interest_rate: 0,
-            gl_principal_account: "", //GL Account Name
-            gl_interest_account: "", //GL Account Name
-            gl_penalty_account: "", //GL Account Name
+            gl_principal_asset: "", //GL Account Name
+            gl_interest_asset: "", //GL Account Name
+            gl_penalty_revenue: "", //GL Account Name
+            gl_interest_revenue: "", //GL Account Name
           }}
           onSubmit={async (values) => {
             try {
@@ -89,14 +90,14 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 />
               </div>
 
-              {/* GL Principal Account */}
+              {/* GL Principal Account (Asset) */}
               <div className="space-y-2">
-                <Label htmlFor="gl_principal_account" className="text-black">
-                  Principal GL Account
+                <Label htmlFor="gl_principal_asset" className="text-black">
+                  Principal GL Account (Asset)
                 </Label>
                 <Select
-                  value={values.gl_principal_account}
-                  onValueChange={(value) => setFieldValue("gl_principal_account", value)}
+                  value={values.gl_principal_asset}
+                  onValueChange={(value) => setFieldValue("gl_principal_asset", value)}
                   disabled={isLoadingGL}
                 >
                   <SelectTrigger className="border-black w-full">
@@ -116,14 +117,14 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 </Select>
               </div>
 
-              {/* GL Interest Account */}
+              {/* GL Interest Account (Asset) */}
               <div className="space-y-2">
-                <Label htmlFor="gl_interest_account" className="text-black">
-                  Interest GL Account
+                <Label htmlFor="gl_interest_asset" className="text-black">
+                  Interest GL Account (Asset)
                 </Label>
                 <Select
-                  value={values.gl_interest_account}
-                  onValueChange={(value) => setFieldValue("gl_interest_account", value)}
+                  value={values.gl_interest_asset}
+                  onValueChange={(value) => setFieldValue("gl_interest_asset", value)}
                   disabled={isLoadingGL}
                 >
                   <SelectTrigger className="border-black w-full">
@@ -143,14 +144,41 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 </Select>
               </div>
 
-              {/* GL Penalty Account */}
+              {/* GL Interest Account (Revenue) */}
               <div className="space-y-2">
-                <Label htmlFor="gl_penalty_account" className="text-black">
-                  Penalty GL Account
+                <Label htmlFor="gl_interest_revenue" className="text-black">
+                  Interest GL Account (Revenue)
                 </Label>
                 <Select
-                  value={values.gl_penalty_account}
-                  onValueChange={(value) => setFieldValue("gl_penalty_account", value)}
+                  value={values.gl_interest_revenue}
+                  onValueChange={(value) => setFieldValue("gl_interest_revenue", value)}
+                  disabled={isLoadingGL}
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue
+                      placeholder={
+                        isLoadingGL ? "Loading..." : "Select Interest Account"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {glAccounts?.map((acc) => (
+                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
+                        {acc.name} ({acc.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* GL Penalty Account (Revenue) */}
+              <div className="space-y-2">
+                <Label htmlFor="gl_penalty_revenue" className="text-black">
+                  Penalty GL Account (Revenue)
+                </Label>
+                <Select
+                  value={values.gl_penalty_revenue}
+                  onValueChange={(value) => setFieldValue("gl_penalty_revenue", value)}
                   disabled={isLoadingGL}
                 >
                   <SelectTrigger className="border-black w-full">

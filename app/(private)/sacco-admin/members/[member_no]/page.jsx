@@ -54,6 +54,7 @@ function MemberDetail() {
     refetch: refetchMember,
   } = useFetchMemberDetail(member_no);
 
+
   const {
     isLoading: isLoadingSummary,
     data: summary,

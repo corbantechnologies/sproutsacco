@@ -57,6 +57,7 @@ import {
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import toast from "react-hot-toast";
 import CreateGuaranteeRequest from "@/forms/guaranteerequests/CreateGuaranteeRequest";
+import CreateLoanDisbursementModal from "@/forms/loandisbursements/CreateLoanDisbursement";
 import {
   Dialog,
   DialogContent,
@@ -77,7 +78,10 @@ export default function AdminLoanApplicationDetail({ params }) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isAmendModalOpen, setIsAmendModalOpen] = useState(false);
   const [isGuarantorModalOpen, setIsGuarantorModalOpen] = useState(false);
+  const [isDisburseModalOpen, setIsDisburseModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  console.log(application);
 
   // TODO: Verify how to identify "My Application" (e.g., check created_by vs current user)
   // For now, assuming false to show Admin actions by default, or true if status requires member action
@@ -439,6 +443,15 @@ export default function AdminLoanApplicationDetail({ params }) {
                     </Button>
                   </>
                 )}
+                {application.status === "Approved" && (
+                  <Button
+                    onClick={() => setIsDisburseModalOpen(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                  >
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    Disburse Loan
+                  </Button>
+                )}
                 {application.status === "Ready for Amendment" && (
                   <Button
                     onClick={() => setIsAmendModalOpen(true)}
@@ -493,6 +506,14 @@ export default function AdminLoanApplicationDetail({ params }) {
                     </span>
                     <span className="font-medium">
                       {application.start_date}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      Loan Account:
+                    </span>
+                    <span className="font-medium">
+                      {application.loan_account}
                     </span>
                   </div>
                 </div>
@@ -775,6 +796,14 @@ export default function AdminLoanApplicationDetail({ params }) {
             </DialogContent>
           </Dialog>
         )}
+
+        {/* Loan Disbursement Modal */}
+        <CreateLoanDisbursementModal
+          isOpen={isDisburseModalOpen}
+          onClose={() => setIsDisburseModalOpen(false)}
+          refetch={refetch}
+          application={application}
+        />
       </div>
     </div>
   );

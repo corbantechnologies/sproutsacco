@@ -12,13 +12,22 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Field, Form, Formik } from "formik";
 import { createSavingsDeposit } from "@/services/savingsdeposits";
+import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
 function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
+  const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -53,27 +62,31 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
             }
           }}
         >
-          {({ values }) => (
+          {({ values, setFieldValue }) => (
             <Form className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="savings_account" className="text-black">
                   Member Savings Account
                 </Label>
-                <Field
-                  as="select"
-                  name="savings_account"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                <Select
+                  value={values.savings_account}
+                  onValueChange={(value) => setFieldValue("savings_account", value)}
+                  required
                 >
-                  <option value="" label="Select account" />
-                  {accounts?.map((account) => (
-                    <option
-                      key={account.reference}
-                      value={account.account_number}
-                    >
-                      {account.account_number} - {account.account_type}
-                    </option>
-                  ))}
-                </Field>
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select account" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {accounts?.map((account) => (
+                      <SelectItem
+                        key={account.id || account.reference}
+                        value={account.account_number}
+                      >
+                        {account.account_number} - {account.account_type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
@@ -97,40 +110,49 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                 <Label htmlFor="payment_method" className="text-black">
                   Payment Method
                 </Label>
-                <Field
-                  as="select"
-                  name="payment_method"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                <Select
+                  value={values.payment_method}
+                  onValueChange={(value) => setFieldValue("payment_method", value)}
+                  disabled={isLoadingPayment}
                   required
                 >
-                  <option value="" label="Select payment method" />
-                  <option value="Mpesa">Mpesa</option>
-                  <option value="Mpesa STK Push">Mpesa STK Push</option>
-                  <option value="Bank Transfer">Bank Transfer</option>
-                  <option value="Cash">Cash</option>
-                  <option value="Cheque">Cheque</option>
-                  <option value="Mobile Banking">Mobile Banking</option>
-                  <option value="Standing Order">Standing Order</option>
-                </Field>
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue
+                      placeholder={
+                        isLoadingPayment ? "Loading..." : "Select payment method"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {paymentAccounts?.map((method) => (
+                      <SelectItem key={method.id || method.reference} value={method.name}>
+                        {method.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="deposit_type" className="text-black">
                   Deposit Type
                 </Label>
-                <Field
-                  as="select"
-                  name="deposit_type"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                <Select
+                  value={values.deposit_type}
+                  onValueChange={(value) => setFieldValue("deposit_type", value)}
                   required
                 >
-                  <option value="" label="Select deposit type" />
-                  <option value="Opening Balance">Opening Balance</option>
-                  <option value="Payroll Deduction">Payroll Deduction</option>
-                  <option value="Individual Deposit">Individual Deposit</option>
-                  <option value="Dividend Deposit">Dividend Deposit</option>
-                  <option value="Other">Other</option>
-                </Field>
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select deposit type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Opening Balance">Opening Balance</SelectItem>
+                    <SelectItem value="Payroll Deduction">Payroll Deduction</SelectItem>
+                    <SelectItem value="Individual Deposit">Individual Deposit</SelectItem>
+                    <SelectItem value="Dividend Deposit">Dividend Deposit</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <DialogFooter>

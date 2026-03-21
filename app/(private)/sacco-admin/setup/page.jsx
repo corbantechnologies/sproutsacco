@@ -366,9 +366,10 @@ export default function SetupPage() {
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">Principal GL</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest GL</TableHead>
-                                                <TableHead className="text-xs font-bold">Penalty GL</TableHead>
+                                                <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest (Asset)</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
+                                                <TableHead className="text-xs font-bold">Penalty (Revenue)</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -376,9 +377,10 @@ export default function SetupPage() {
                                                 <TableRow key={loan.id || loan.reference}>
                                                     <TableCell className="text-xs font-medium">{loan.name}</TableCell>
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_principal_account || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_interest_account || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_penalty_account || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_interest_asset || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>
+                                                    <TableCell className="text-xs">{loan.gl_penalty_revenue || "-"}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
