@@ -1,0 +1,17 @@
+{
+  "name": "Sprout Capital SACCO",
+  "short_name": "Sprout SACCO",
+  "description": "Empowerment through equity, inclusion, and governance",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ea1315",
+  "icons": [
+    {
+      "src": "/sproutLarge.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
