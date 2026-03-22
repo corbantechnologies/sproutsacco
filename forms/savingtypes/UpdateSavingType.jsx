@@ -19,42 +19,45 @@ import {
 } from "@/components/ui/select";
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
-import { createSavingType } from "@/services/savingtypes";
+import { updateSavingType } from "@/services/savingtypes";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
+const UpdateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes, savingType }) => {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
+
+  if (!savingType) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="">Create New Saving Type</DialogTitle>
+          <DialogTitle>Update Saving Type: {savingType?.name}</DialogTitle>
         </DialogHeader>
         <Formik
           initialValues={{
-            name: "",
-            interest_rate: 0,
-            can_guarantee: true,
-            gl_account: "", //GL Account Name
+            name: savingType?.name || "",
+            interest_rate: savingType?.interest_rate || 0,
+            can_guarantee: savingType?.can_guarantee ?? true,
+            gl_account: savingType?.gl_account || "",
           }}
+          enableReinitialize={true}
           onSubmit={async (values) => {
-                        try {
-                            setLoading(true);
-                            await createSavingType(values, token);
-                            toast?.success("Saving type created successfully!");
-                            onClose();
-                            refetchSavingTypes();
-                        } catch (error) {
-                            toast?.error("Failed to create saving type!");
-                        } finally {
-                            setLoading(false);
-                        }
+            try {
+              setLoading(true);
+              await updateSavingType(savingType?.id || savingType?.reference, values, token);
+              toast?.success("Saving type updated successfully!");
+              onClose();
+              refetchSavingTypes();
+            } catch (error) {
+              toast?.error("Failed to update saving type!");
+            } finally {
+              setLoading(false);
+            }
           }}
         >
           {({ values, setFieldValue }) => (
@@ -67,7 +70,7 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                   as={Input}
                   id="name"
                   name="name"
-                  className="border-black "
+                  className="border-black"
                   required
                 />
               </div>
@@ -80,7 +83,7 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                   type="number"
                   id="interest_rate"
                   name="interest_rate"
-                  className="border-black "
+                  className="border-black"
                 />
               </div>
               <div className="space-y-2">
@@ -90,14 +93,10 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Select
                   value={values.gl_account}
                   onValueChange={(value) => setFieldValue("gl_account", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select GL Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="GL Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -131,9 +130,9 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Button
                   type="submit"
                   className="bg-[#ea1315] hover:bg-[#c71012] text-white"
-                  disabled={loading || isLoadingGL}
+                  disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ? "Updating..." : "Update"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -144,4 +143,4 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
   );
 };
 
-export default CreateSavingTypeModal;
+export default UpdateSavingTypeModal;

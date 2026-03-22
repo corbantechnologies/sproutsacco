@@ -20,11 +20,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, Form, Formik } from "formik";
-import { createSavingsDeposit } from "@/services/savingsdeposits";
+import { createLoanRepayment } from "@/services/loanrepayments";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
-function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
+const REPAYMENT_TYPE_CHOICES = [
+  { value: "Regular Repayment", label: "Regular Repayment" },
+  { value: "Interest Payment", label: "Interest Payment" },
+  { value: "Individual Settlement", label: "Individual Settlement" },
+  { value: "Early Settlement", label: "Early Settlement" },
+  { value: "Partial Payment", label: "Partial Payment" },
+];
+
+function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
@@ -33,30 +41,30 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="">
-            Create New Savings Deposit
-          </DialogTitle>
+          <DialogTitle>Log Loan Repayment</DialogTitle>
         </DialogHeader>
 
         <Formik
           initialValues={{
-            savings_account: accounts?.savings_account || "",
-            amount: 0,
-            description: "",
+            loan_account: loan_account || "",
+            amount: maxAmount || 0,
             payment_method: "",
-            deposit_type: "",
+            repayment_type: "Regular Repayment",
             transaction_status: "Completed",
-            is_active: true,
           }}
           onSubmit={async (values) => {
+            if (values.amount > maxAmount) {
+              toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
+              return;
+            }
             setLoading(true);
             try {
-              await createSavingsDeposit(values, token);
-              toast?.success("Deposit created successfully!");
+              await createLoanRepayment(values, token);
+              toast?.success("Repayment logged successfully!");
               onClose();
-              refetchMember();
+              if (refetchLoan) refetchLoan();
             } catch (error) {
-              toast?.error("Failed to create deposit!");
+              toast?.error("Failed to log repayment!");
             } finally {
               setLoading(false);
             }
@@ -65,28 +73,17 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
           {({ values, setFieldValue }) => (
             <Form className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="savings_account" className="text-black">
-                  Member Savings Account
+                <Label htmlFor="loan_account" className="text-black">
+                  Loan Account
                 </Label>
-                <Select
-                  value={values.savings_account}
-                  onValueChange={(value) => setFieldValue("savings_account", value)}
+                <Field
+                  as={Input}
+                  id="loan_account"
+                  name="loan_account"
+                  className="border-black bg-gray-50"
+                  readOnly
                   required
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select account" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {accounts?.map((account) => (
-                      <SelectItem
-                        key={account.id || account.reference}
-                        value={account.account_number}
-                      >
-                        {account.account_number} - {account.account_type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                />
               </div>
 
               <div className="space-y-2">
@@ -98,8 +95,8 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   type="number"
                   id="amount"
                   name="amount"
-                  className="border-black "
-                  placeholder="Enter deposit amount"
+                  className="border-black"
+                  placeholder="Enter repayment amount"
                   required
                   min="0.01"
                   step="0.01"
@@ -134,23 +131,23 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="deposit_type" className="text-black">
-                  Deposit Type
+                <Label htmlFor="repayment_type" className="text-black">
+                  Repayment Type
                 </Label>
                 <Select
-                  value={values.deposit_type}
-                  onValueChange={(value) => setFieldValue("deposit_type", value)}
+                  value={values.repayment_type}
+                  onValueChange={(value) => setFieldValue("repayment_type", value)}
                   required
                 >
                   <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select deposit type" />
+                    <SelectValue placeholder="Select repayment type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Opening Balance">Opening Balance</SelectItem>
-                    <SelectItem value="Payroll Deduction">Payroll Deduction</SelectItem>
-                    <SelectItem value="Individual Deposit">Individual Deposit</SelectItem>
-                    <SelectItem value="Dividend Deposit">Dividend Deposit</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    {REPAYMENT_TYPE_CHOICES.map((choice) => (
+                      <SelectItem key={choice.value} value={choice.value}>
+                        {choice.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -158,11 +155,11 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
               <DialogFooter>
                 <Button
                   type="submit"
-                  size={"sm"}
+                  size="sm"
                   disabled={loading}
-                  className="bg-primary hover:bg-[#022007] text-white text-sm sm:text-base py-2 px-3 sm:px-4 flex-1 sm:flex-none"
+                  className="bg-primary hover:bg-[#022007] text-white"
                 >
-                  {loading ? "Depositing..." : "Deposit"}
+                  {loading ? "Logging..." : "Log Repayment"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -173,4 +170,4 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
   );
 }
 
-export default CreateDepositAdmin;
+export default CreateLoanPayment;

@@ -20,11 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, Form, Formik } from "formik";
-import { createSavingsDeposit } from "@/services/savingsdeposits";
+import { createFeePayment } from "@/services/feepayments";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
-function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
+function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
@@ -34,29 +34,26 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="">
-            Create New Savings Deposit
+            Pay Member Fee
           </DialogTitle>
         </DialogHeader>
 
         <Formik
           initialValues={{
-            savings_account: accounts?.savings_account || "",
+            fee_account: "",
             amount: 0,
-            description: "",
             payment_method: "",
-            deposit_type: "",
             transaction_status: "Completed",
-            is_active: true,
           }}
           onSubmit={async (values) => {
             setLoading(true);
             try {
-              await createSavingsDeposit(values, token);
-              toast?.success("Deposit created successfully!");
+              await createFeePayment(values, token);
+              toast?.success("Fee payment logged successfully!");
               onClose();
               refetchMember();
             } catch (error) {
-              toast?.error("Failed to create deposit!");
+              toast?.error("Failed to log fee payment!");
             } finally {
               setLoading(false);
             }
@@ -65,24 +62,30 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
           {({ values, setFieldValue }) => (
             <Form className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="savings_account" className="text-black">
-                  Member Savings Account
+                <Label htmlFor="fee_account" className="text-black">
+                  Select Fee Account
                 </Label>
                 <Select
-                  value={values.savings_account}
-                  onValueChange={(value) => setFieldValue("savings_account", value)}
+                  value={values.fee_account}
+                  onValueChange={(value) => {
+                    setFieldValue("fee_account", value);
+                    const selected = accounts?.find(a => a.account_number === value);
+                    if (selected) {
+                      setFieldValue("amount", parseFloat(selected.outstanding_balance));
+                    }
+                  }}
                   required
                 >
                   <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select account" />
+                    <SelectValue placeholder="Select fee account" />
                   </SelectTrigger>
                   <SelectContent>
-                    {accounts?.map((account) => (
+                    {accounts?.filter(a => !a.is_paid).map((account) => (
                       <SelectItem
                         key={account.id || account.reference}
                         value={account.account_number}
                       >
-                        {account.account_number} - {account.account_type}
+                        {account.fee_type} ({account.account_number}) - {account.outstanding_balance} KES
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -91,7 +94,7 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
 
               <div className="space-y-2">
                 <Label htmlFor="amount" className="text-black">
-                  Amount
+                  Amount to Pay
                 </Label>
                 <Field
                   as={Input}
@@ -99,9 +102,9 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   id="amount"
                   name="amount"
                   className="border-black "
-                  placeholder="Enter deposit amount"
+                  placeholder="Enter amount"
                   required
-                  min="0.01"
+                  min="0"
                   step="0.01"
                 />
               </div>
@@ -133,28 +136,6 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="deposit_type" className="text-black">
-                  Deposit Type
-                </Label>
-                <Select
-                  value={values.deposit_type}
-                  onValueChange={(value) => setFieldValue("deposit_type", value)}
-                  required
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select deposit type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Opening Balance">Opening Balance</SelectItem>
-                    <SelectItem value="Payroll Deduction">Payroll Deduction</SelectItem>
-                    <SelectItem value="Individual Deposit">Individual Deposit</SelectItem>
-                    <SelectItem value="Dividend Deposit">Dividend Deposit</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
               <DialogFooter>
                 <Button
                   type="submit"
@@ -162,7 +143,7 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
                   disabled={loading}
                   className="bg-primary hover:bg-[#022007] text-white text-sm sm:text-base py-2 px-3 sm:px-4 flex-1 sm:flex-none"
                 >
-                  {loading ? "Depositing..." : "Deposit"}
+                  {loading ? "Logging Payment..." : "Log Payment"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -173,4 +154,4 @@ function CreateDepositAdmin({ isOpen, onClose, refetchMember, accounts }) {
   );
 }
 
-export default CreateDepositAdmin;
+export default CreateFeePayment;

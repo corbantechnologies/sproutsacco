@@ -2,7 +2,6 @@
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
 import React, { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,41 +20,42 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, Form, Formik } from "formik";
-import { createLoanProduct } from "@/services/loanproducts";
+import { updateLoanProduct } from "@/services/loanproducts";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import toast from "react-hot-toast";
 
-function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
+function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
+
+  if (!loanProduct) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="">
-            Create New Loan Type
-          </DialogTitle>
+          <DialogTitle>Update Loan Product: {loanProduct?.name}</DialogTitle>
         </DialogHeader>
         <Formik
           initialValues={{
-            name: "",
-            interest_rate: 0,
-            gl_principal_asset: "", //GL Account Name
-            gl_interest_asset: "", //GL Account Name
-            gl_penalty_revenue: "", //GL Account Name
-            gl_interest_revenue: "", //GL Account Name
+            name: loanProduct?.name || "",
+            interest_rate: loanProduct?.interest_rate || 0,
+            gl_principal_asset: loanProduct?.gl_principal_asset || "",
+            gl_interest_asset: loanProduct?.gl_interest_asset || "",
+            gl_penalty_revenue: loanProduct?.gl_penalty_revenue || "",
+            gl_interest_revenue: loanProduct?.gl_interest_revenue || "",
           }}
+          enableReinitialize={true}
           onSubmit={async (values) => {
             try {
               setLoading(true);
-              await createLoanProduct(values, token);
-              toast?.success("Loan product created successfully!");
+              await updateLoanProduct(loanProduct?.id || loanProduct?.reference, values, token);
+              toast?.success("Loan product updated successfully!");
               onClose();
               refetchLoanTypes();
             } catch (error) {
-              toast?.error("Failed to create loan product!");
+              toast?.error("Failed to update loan product!");
             } finally {
               setLoading(false);
             }
@@ -98,14 +98,10 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 <Select
                   value={values.gl_principal_asset}
                   onValueChange={(value) => setFieldValue("gl_principal_asset", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Principal Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Principal Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -125,14 +121,10 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 <Select
                   value={values.gl_interest_asset}
                   onValueChange={(value) => setFieldValue("gl_interest_asset", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Interest Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Interest Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -152,14 +144,10 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 <Select
                   value={values.gl_interest_revenue}
                   onValueChange={(value) => setFieldValue("gl_interest_revenue", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Interest Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Interest Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -179,14 +167,10 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 <Select
                   value={values.gl_penalty_revenue}
                   onValueChange={(value) => setFieldValue("gl_penalty_revenue", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Penalty Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Penalty Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -210,9 +194,9 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 <Button
                   type="submit"
                   className="bg-[#ea1315] hover:bg-[#c71012] text-white"
-                  disabled={loading || isLoadingGL}
+                  disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ? "Updating..." : "Update"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -223,4 +207,4 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
   );
 }
 
-export default CreateLoanProduct;
+export default UpdateLoanProduct;

@@ -56,6 +56,7 @@ function SaccoAdminNavbar() {
           <nav className="flex flex-col p-4 overflow-y-auto h-full">
             {[
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
+              { label: "Setup", href: "/sacco-admin/setup" },
               { label: "Reports", href: "/sacco-admin/reports" },
               {
                 label: "Loan Applications",

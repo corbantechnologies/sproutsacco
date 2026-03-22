@@ -19,42 +19,45 @@ import {
 } from "@/components/ui/select";
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
-import { createSavingType } from "@/services/savingtypes";
+import { updateVentureType } from "@/services/venturetypes";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
+function UpdateVentureType({ isOpen, onClose, refetchVentureTypes, ventureType }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
+
+  if (!ventureType) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="">Create New Saving Type</DialogTitle>
+          <DialogTitle>Update Venture Type: {ventureType?.name}</DialogTitle>
         </DialogHeader>
+
         <Formik
           initialValues={{
-            name: "",
-            interest_rate: 0,
-            can_guarantee: true,
-            gl_account: "", //GL Account Name
+            name: ventureType?.name || "",
+            interest_rate: ventureType?.interest_rate || 0,
+            gl_account: ventureType?.gl_account || "",
           }}
+          enableReinitialize={true}
           onSubmit={async (values) => {
-                        try {
-                            setLoading(true);
-                            await createSavingType(values, token);
-                            toast?.success("Saving type created successfully!");
-                            onClose();
-                            refetchSavingTypes();
-                        } catch (error) {
-                            toast?.error("Failed to create saving type!");
-                        } finally {
-                            setLoading(false);
-                        }
+            setLoading(true);
+            try {
+              await updateVentureType(ventureType?.id || ventureType?.reference, values, token);
+              toast?.success("Venture type updated successfully!");
+              onClose();
+              refetchVentureTypes();
+            } catch (error) {
+              toast?.error("Failed to update venture type!");
+            } finally {
+                setLoading(false);
+            }
           }}
         >
           {({ values, setFieldValue }) => (
@@ -90,14 +93,10 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Select
                   value={values.gl_account}
                   onValueChange={(value) => setFieldValue("gl_account", value)}
-                  disabled={isLoadingGL}
+                  // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select GL Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Select GL Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -107,17 +106,6 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Field
-                  type="checkbox"
-                  id="can_guarantee"
-                  name="can_guarantee"
-                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                />
-                <Label htmlFor="can_guarantee" className="text-black">
-                  Can be used as guarantee?
-                </Label>
               </div>
               <DialogFooter>
                 <Button
@@ -131,9 +119,9 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Button
                   type="submit"
                   className="bg-[#ea1315] hover:bg-[#c71012] text-white"
-                  disabled={loading || isLoadingGL}
+                  disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ? "Updating..." : "Update"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -142,6 +130,6 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
       </DialogContent>
     </Dialog>
   );
-};
+}
 
-export default CreateSavingTypeModal;
+export default UpdateVentureType;

@@ -1,6 +1,6 @@
 "use client";
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +20,7 @@ function CreateSavingsAccount({
   refetchSavings,
   savingTypes,
 }) {
-  const [loading, setLoading] = useTransition(false);
+  const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
 
   return (
@@ -37,16 +37,17 @@ function CreateSavingsAccount({
             account_type: "",
           }}
           onSubmit={async (values) => {
-            try {
-              setLoading(async () => {
-                await createSavingAccount(values, token);
-                toast?.success("Savings account created successfully!");
-                onClose();
-                refetchSavings();
-              });
-            } catch (error) {
-              toast?.error("Failed to create savings account!");
-            }
+                        try {
+                            setLoading(true);
+                            await createSavingAccount(values, token);
+                            toast?.success("Savings account created successfully!");
+                            onClose();
+                            refetchSavings();
+                        } catch (error) {
+                            toast?.error("Failed to create savings account!");
+                        } finally {
+                            setLoading(false);
+                        }
           }}
         >
           {({ values }) => (

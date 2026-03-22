@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -17,44 +18,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
-import { createSavingType } from "@/services/savingtypes";
+import { updateFeeType } from "@/services/feetypes";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
+const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: glAccounts, isLoading: isLoadingGL } = useFetchGLAccounts();
+
+  if (!feeType) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="">Create New Saving Type</DialogTitle>
+          <DialogTitle>Update Fee Type: {feeType?.name}</DialogTitle>
         </DialogHeader>
         <Formik
           initialValues={{
-            name: "",
-            interest_rate: 0,
-            can_guarantee: true,
-            gl_account: "", //GL Account Name
+            name: feeType?.name || "",
+            amount: feeType?.amount || "",
+            is_everyone: feeType?.is_everyone ?? false,
+            is_active: feeType?.is_active ?? true,
+            gl_account: feeType?.gl_account || "",
           }}
+          enableReinitialize={true}
           onSubmit={async (values) => {
-                        try {
-                            setLoading(true);
-                            await createSavingType(values, token);
-                            toast?.success("Saving type created successfully!");
-                            onClose();
-                            refetchSavingTypes();
-                        } catch (error) {
-                            toast?.error("Failed to create saving type!");
-                        } finally {
-                            setLoading(false);
-                        }
+            setLoading(true);
+            try {
+              await updateFeeType(feeType?.id || feeType?.reference, values, token);
+              toast?.success("Fee type updated successfully!");
+              onClose();
+              refetchFeeTypes();
+            } catch (error) {
+              toast?.error("Failed to update fee type!");
+            } finally {
+              setLoading(false);
+            }
           }}
         >
           {({ values, setFieldValue }) => (
@@ -71,18 +77,21 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                   required
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="interest_rate" className="text-black">
-                  Interest Rate (%)
+                <Label htmlFor="amount" className="text-black">
+                  Amount
                 </Label>
                 <Field
                   as={Input}
                   type="number"
-                  id="interest_rate"
-                  name="interest_rate"
+                  id="amount"
+                  name="amount"
                   className="border-black "
+                  required
                 />
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="gl_account" className="text-black">
                   GL Account
@@ -90,14 +99,10 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Select
                   value={values.gl_account}
                   onValueChange={(value) => setFieldValue("gl_account", value)}
-                  disabled={isLoadingGL}
+                // disabled={true}
                 >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select GL Account"
-                      }
-                    />
+                  <SelectTrigger className="border-black w-full bg-gray-50">
+                    <SelectValue placeholder="Select GL Account" />
                   </SelectTrigger>
                   <SelectContent>
                     {glAccounts?.map((acc) => (
@@ -108,17 +113,33 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="flex items-center space-x-2">
-                <Field
-                  type="checkbox"
-                  id="can_guarantee"
-                  name="can_guarantee"
-                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                <Checkbox
+                  id="is_everyone"
+                  checked={values.is_everyone}
+                  onCheckedChange={(checked) =>
+                    setFieldValue("is_everyone", checked)
+                  }
                 />
-                <Label htmlFor="can_guarantee" className="text-black">
-                  Can be used as guarantee?
+                <Label htmlFor="is_everyone" className="text-black">
+                  Is it for everyone?
                 </Label>
               </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="is_active"
+                  checked={values.is_active}
+                  onCheckedChange={(checked) =>
+                    setFieldValue("is_active", checked)
+                  }
+                />
+                <Label htmlFor="is_active" className="text-black">
+                  Is Active?
+                </Label>
+              </div>
+
               <DialogFooter>
                 <Button
                   type="button"
@@ -131,9 +152,9 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
                 <Button
                   type="submit"
                   className="bg-[#ea1315] hover:bg-[#c71012] text-white"
-                  disabled={loading || isLoadingGL}
+                  disabled={loading}
                 >
-                  {loading ? "Creating..." : "Create"}
+                  {loading ? "Updating..." : "Update"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -144,4 +165,5 @@ const CreateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes }) => {
   );
 };
 
-export default CreateSavingTypeModal;
+
+export default UpdateFeeTypeModal;
