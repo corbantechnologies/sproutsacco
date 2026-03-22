@@ -40,6 +40,7 @@ import {
   X,
   Send,
   Users,
+  Loader2,
 } from "lucide-react";
 import { MemberUpdateLoanApplication } from "@/forms/loanapplications/MemberUpdateLoanApplication";
 import CreateGuaranteeRequest from "@/forms/guaranteerequests/CreateGuaranteeRequest";
@@ -257,7 +258,7 @@ export default function LoanApplicationDetail({ params }) {
                   className="bg-[#045e32] hover:bg-[#034625] w-full sm:w-auto"
                 >
                   {isSubmitting ? (
-                    <MemberLoadingSpinner className="h-4 w-4 mr-2" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   ) : (
                     <Send className="mr-2 h-4 w-4" />
                   )}
@@ -291,7 +292,7 @@ export default function LoanApplicationDetail({ params }) {
                 className="bg-[#045e32] hover:bg-[#034625] w-full sm:w-auto"
               >
                 {isSubmitting ? (
-                  <MemberLoadingSpinner className="h-4 w-4 mr-2" />
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
                   <Send className="mr-2 h-4 w-4" />
                 )}

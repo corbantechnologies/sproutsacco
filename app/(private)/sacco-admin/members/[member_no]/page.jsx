@@ -442,7 +442,7 @@ function MemberDetail() {
                   <CreditCard className="h-6 w-6 text-primary" />
                   Loan Accounts
                 </CardTitle>
-                {member?.is_approved && (
+                {/* {member?.is_approved && (
                   <Button
                     onClick={() => setLoanModal(true)}
                     size="sm"
@@ -450,7 +450,7 @@ function MemberDetail() {
                   >
                     Create Loan
                   </Button>
-                )}
+                )} */}
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
