@@ -98,7 +98,7 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
                 <Select
                   value={values.gl_principal_asset}
                   onValueChange={(value) => setFieldValue("gl_principal_asset", value)}
-                  disabled={true}
+                  // disabled={true}
                 >
                   <SelectTrigger className="border-black w-full bg-gray-50">
                     <SelectValue placeholder="Principal Account" />
@@ -121,7 +121,7 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
                 <Select
                   value={values.gl_interest_asset}
                   onValueChange={(value) => setFieldValue("gl_interest_asset", value)}
-                  disabled={true}
+                  // disabled={true}
                 >
                   <SelectTrigger className="border-black w-full bg-gray-50">
                     <SelectValue placeholder="Interest Account" />
@@ -144,7 +144,7 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
                 <Select
                   value={values.gl_interest_revenue}
                   onValueChange={(value) => setFieldValue("gl_interest_revenue", value)}
-                  disabled={true}
+                  // disabled={true}
                 >
                   <SelectTrigger className="border-black w-full bg-gray-50">
                     <SelectValue placeholder="Interest Account" />
@@ -167,7 +167,7 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
                 <Select
                   value={values.gl_penalty_revenue}
                   onValueChange={(value) => setFieldValue("gl_penalty_revenue", value)}
-                  disabled={true}
+                  // disabled={true}
                 >
                   <SelectTrigger className="border-black w-full bg-gray-50">
                     <SelectValue placeholder="Penalty Account" />

@@ -94,12 +94,12 @@ const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="gl_account" className="text-black">
-                  GL Account (Read-only)
+                  GL Account
                 </Label>
                 <Select
                   value={values.gl_account}
                   onValueChange={(value) => setFieldValue("gl_account", value)}
-                  disabled={true}
+                // disabled={true}
                 >
                   <SelectTrigger className="border-black w-full bg-gray-50">
                     <SelectValue placeholder="Select GL Account" />
