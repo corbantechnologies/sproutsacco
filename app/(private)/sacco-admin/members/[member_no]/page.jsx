@@ -25,6 +25,7 @@ import {
   Settings,
   Wallet,
   Wallet2,
+  MoreVertical,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -34,11 +35,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { apiActions } from "@/tools/axios";
 import CreateDepositAdmin from "@/forms/savingsdepostis/CreateDepositAdmin";
 import CreateLoanAccountAdmin from "@/forms/loans/CreateLoanAdmin";
 import CreateVentureDeposits from "@/forms/venturedeposits/CreateVentureDeposits";
 import CreateVenturePayment from "@/forms/venturepayments/CreateVenturePayment";
+import CreateFeePayment from "@/forms/feepayments/CreateFeePayment";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
 import { useFetchMemberSummary } from "@/hooks/summary/actions";
 import MemberFinancialSummary from "@/components/members/dashboard/MemberFinancialSummary";
@@ -70,6 +77,7 @@ function MemberDetail() {
   const [loanModal, setLoanModal] = useState(false);
   const [ventureDepositModal, setVentureDepositModal] = useState(false);
   const [venturePaymentModal, setVenturePaymentModal] = useState(false);
+  const [feePaymentModal, setFeePaymentModal] = useState(false);
 
   const handleDownloadSummary = async () => {
     if (!member_no) return;
@@ -278,9 +286,9 @@ function MemberDetail() {
         </div>
 
         {/* Quick Action Cards */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
           {/* Savings Accounts */}
-          <Card className="shadow-md">
+          <Card className="shadow-md border-l-4 border-l-blue-500">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center gap-2 text-xl">
@@ -291,7 +299,7 @@ function MemberDetail() {
                   <Button
                     onClick={() => setDepositModal(true)}
                     size="sm"
-                    className="bg-primary hover:bg-primary/90 text-white"
+                    className="h-8 bg-primary hover:bg-primary/90 text-white"
                   >
                     Deposit
                   </Button>
@@ -321,8 +329,51 @@ function MemberDetail() {
             </CardContent>
           </Card>
 
+          {/* Fee Accounts */}
+          <Card className="shadow-md border-l-4 border-l-amber-500">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <Shield className="h-6 w-6 text-primary" />
+                  Fee Accounts
+                </CardTitle>
+                {member?.is_approved && (
+                  <Button
+                    onClick={() => setFeePaymentModal(true)}
+                    size="sm"
+                    className="h-8 bg-amber-600 hover:bg-amber-700 text-white disabled:bg-slate-300 disabled:text-slate-500"
+                    disabled={!member?.fee_accounts?.some(account => !account.is_paid)}
+                  >
+                    Pay Fee
+                  </Button>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {member?.fee_accounts?.length > 0 ? (
+                member.fee_accounts.map((account) => (
+                  <InfoField
+                    key={account.reference}
+                    icon={CreditCard}
+                    label={`${account.fee_type} - ${account.account_number}`}
+                    value={`${formatBalance(account.outstanding_balance)} KES`}
+                  />
+                ))
+              ) : (
+                <div className="py-4">
+                  <EmptyState
+                    title="No Fee Accounts"
+                    message="This member has no active fee accounts."
+                    icon={Shield}
+                    className="border-0 bg-transparent p-0"
+                  />
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           {/* Venture Accounts */}
-          <Card className="shadow-md">
+          <Card className="shadow-md border-l-4 border-l-emerald-500">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center gap-2 text-xl">
@@ -330,22 +381,33 @@ function MemberDetail() {
                   Venture Accounts
                 </CardTitle>
                 {member?.is_approved && (
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => setVentureDepositModal(true)}
-                      size="sm"
-                      className="bg-primary hover:bg-primary/90 text-white"
-                    >
-                      Deposit
-                    </Button>
-                    <Button
-                      onClick={() => setVenturePaymentModal(true)}
-                      size="sm"
-                      variant="destructive"
-                    >
-                      Pay
-                    </Button>
-                  </div>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-40 p-2" align="end">
+                      <div className="flex flex-col gap-1">
+                        <Button
+                          onClick={() => setVentureDepositModal(true)}
+                          size="sm"
+                          variant="ghost"
+                          className="justify-start font-normal h-8"
+                        >
+                          Deposit
+                        </Button>
+                        <Button
+                          onClick={() => setVenturePaymentModal(true)}
+                          size="sm"
+                          variant="ghost"
+                          className="justify-start font-normal h-8 text-destructive hover:text-destructive"
+                        >
+                          Pay
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 )}
               </div>
             </CardHeader>
@@ -373,7 +435,7 @@ function MemberDetail() {
           </Card>
 
           {/* Loan Accounts */}
-          <Card className="shadow-md">
+          <Card className="shadow-md border-l-4 border-l-rose-500">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center gap-2 text-xl">
@@ -384,7 +446,7 @@ function MemberDetail() {
                   <Button
                     onClick={() => setLoanModal(true)}
                     size="sm"
-                    className="bg-primary hover:bg-primary/90 text-white"
+                    className="h-8 bg-primary hover:bg-primary/90 text-white"
                   >
                     Create Loan
                   </Button>
@@ -487,10 +549,99 @@ function MemberDetail() {
                 </CardContent>
               </Card>
             )}
+
+            {member?.guarantor_profile && (
+              <Card className="shadow-md border-l-4 border-l-indigo-500">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="flex items-center gap-2 text-2xl">
+                      <Shield className="h-6 w-6 text-primary" />
+                      Guarantor Profile
+                    </CardTitle>
+                    <Badge
+                      className={
+                        member.guarantor_profile.is_eligible
+                          ? "bg-green-100 text-green-700 hover:bg-green-100"
+                          : "bg-red-100 text-red-700 hover:bg-red-100"
+                      }
+                    >
+                      {member.guarantor_profile.is_eligible ? "Eligible" : "Ineligible"}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <InfoField
+                      icon={Wallet}
+                      label="Committed Amount"
+                      value={`${formatBalance(member.guarantor_profile.committed_amount)} KES`}
+                    />
+                    <InfoField
+                      icon={Wallet2}
+                      label="Available Limit"
+                      value={`${formatBalance(member.guarantor_profile.available_amount)} KES`}
+                    />
+                    <InfoField
+                      icon={CheckCircle}
+                      label="Active Guarantees"
+                      value={`${member.guarantor_profile.active_guarantees_count} of ${member.guarantor_profile.max_active_guarantees}`}
+                    />
+                    <InfoField
+                      icon={Clock}
+                      label="Last Checked"
+                      value={formatDate(member.guarantor_profile.eligibility_checked_at)}
+                    />
+                  </div>
+
+                  {member.guarantor_profile.guarantees?.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1">
+                        Active Guarantees
+                      </h4>
+                      <div className="overflow-x-auto rounded-lg border border-secondary">
+                        <table className="w-full text-sm text-left">
+                          <thead className="bg-secondary/50 text-muted-foreground font-medium">
+                            <tr>
+                              <th className="p-3">Loan Application</th>
+                              <th className="p-3">Amount</th>
+                              <th className="p-3 text-right">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-secondary">
+                            {member.guarantor_profile.guarantees.map((guarantee, i) => (
+                              <tr key={i} className="hover:bg-secondary/20">
+                                <td className="p-3 font-mono text-xs">
+                                  {guarantee.loan_application}
+                                </td>
+                                <td className="p-3 font-semibold">
+                                  {formatBalance(guarantee.guaranteed_amount)} KES
+                                </td>
+                                <td className="p-3 text-right">
+                                  <Badge 
+                                    variant="outline"
+                                    className={
+                                      guarantee.status === "Accepted" 
+                                        ? "text-green-600 border-green-200" 
+                                        : "text-amber-600 border-amber-200"
+                                    }
+                                  >
+                                    {guarantee.status}
+                                  </Badge>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <div className="space-y-8">
-            <Card className="shadow-md">
+            <Card className="shadow-md border-l-4 border-l-slate-400">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xl">
                   <Shield className="h-5 w-5 text-primary" />
@@ -613,6 +764,13 @@ function MemberDetail() {
           onClose={() => setVenturePaymentModal(false)}
           refetchMember={refetchMember}
           ventures={member?.venture_accounts}
+        />
+
+        <CreateFeePayment
+          isOpen={feePaymentModal}
+          onClose={() => setFeePaymentModal(false)}
+          refetchMember={refetchMember}
+          accounts={member?.fee_accounts}
         />
       </div>
     </div>

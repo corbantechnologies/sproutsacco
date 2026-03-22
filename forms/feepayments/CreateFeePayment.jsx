@@ -20,19 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, Form, Formik } from "formik";
-import { createLoanRepayment } from "@/services/loanrepayments";
+import { createFeePayment } from "@/services/feepayments";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
-const REPAYMENT_TYPE_CHOICES = [
-  { value: "Regular Repayment", label: "Regular Repayment" },
-  { value: "Interest Payment", label: "Interest Payment" },
-  { value: "Individual Settlement", label: "Individual Settlement" },
-  { value: "Early Settlement", label: "Early Settlement" },
-  { value: "Partial Payment", label: "Partial Payment" },
-];
-
-function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount }) {
+function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
@@ -41,30 +33,27 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Log Loan Repayment</DialogTitle>
+          <DialogTitle className="">
+            Pay Member Fee
+          </DialogTitle>
         </DialogHeader>
 
         <Formik
           initialValues={{
-            loan_account: loan_account || "",
-            amount: maxAmount || 0,
+            fee_account: "",
+            amount: 0,
             payment_method: "",
-            repayment_type: "Regular Repayment",
             transaction_status: "Completed",
           }}
           onSubmit={async (values) => {
-            if (values.amount > maxAmount) {
-              toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
-              return;
-            }
             setLoading(true);
             try {
-              await createLoanRepayment(values, token);
-              toast?.success("Repayment logged successfully!");
+              await createFeePayment(values, token);
+              toast?.success("Fee payment logged successfully!");
               onClose();
-              if (refetchLoan) refetchLoan();
+              refetchMember();
             } catch (error) {
-              toast?.error("Failed to log repayment!");
+              toast?.error("Failed to log fee payment!");
             } finally {
               setLoading(false);
             }
@@ -73,32 +62,49 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
           {({ values, setFieldValue }) => (
             <Form className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="loan_account" className="text-black">
-                  Loan Account
+                <Label htmlFor="fee_account" className="text-black">
+                  Select Fee Account
                 </Label>
-                <Field
-                  as={Input}
-                  id="loan_account"
-                  name="loan_account"
-                  className="border-black bg-gray-50"
-                  readOnly
+                <Select
+                  value={values.fee_account}
+                  onValueChange={(value) => {
+                    setFieldValue("fee_account", value);
+                    const selected = accounts?.find(a => a.account_number === value);
+                    if (selected) {
+                      setFieldValue("amount", parseFloat(selected.outstanding_balance));
+                    }
+                  }}
                   required
-                />
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select fee account" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {accounts?.filter(a => !a.is_paid).map((account) => (
+                      <SelectItem
+                        key={account.id || account.reference}
+                        value={account.account_number}
+                      >
+                        {account.fee_type} ({account.account_number}) - {account.outstanding_balance} KES
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="amount" className="text-black">
-                  Amount
+                  Amount to Pay
                 </Label>
                 <Field
                   as={Input}
                   type="number"
                   id="amount"
                   name="amount"
-                  className="border-black"
-                  placeholder="Enter repayment amount"
+                  className="border-black "
+                  placeholder="Enter amount"
                   required
-                  min="0.01"
+                  min="0"
                   step="0.01"
                 />
               </div>
@@ -130,36 +136,14 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="repayment_type" className="text-black">
-                  Repayment Type
-                </Label>
-                <Select
-                  value={values.repayment_type}
-                  onValueChange={(value) => setFieldValue("repayment_type", value)}
-                  required
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select repayment type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {REPAYMENT_TYPE_CHOICES.map((choice) => (
-                      <SelectItem key={choice.value} value={choice.value}>
-                        {choice.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
               <DialogFooter>
                 <Button
                   type="submit"
-                  size="sm"
+                  size={"sm"}
                   disabled={loading}
-                  className="bg-primary hover:bg-[#022007] text-white"
+                  className="bg-primary hover:bg-[#022007] text-white text-sm sm:text-base py-2 px-3 sm:px-4 flex-1 sm:flex-none"
                 >
-                  {loading ? "Logging..." : "Log Repayment"}
+                  {loading ? "Logging Payment..." : "Log Payment"}
                 </Button>
               </DialogFooter>
             </Form>
@@ -170,4 +154,4 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
   );
 }
 
-export default CreateLoanPayment;
+export default CreateFeePayment;
