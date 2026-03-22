@@ -126,13 +126,15 @@ export default function LoanAccountDetail({ params }) {
           </div>
 
           <div className="flex gap-2 w-full md:w-auto">
-            <Button
-              onClick={() => setIsPaymentModalOpen(true)}
-              className="bg-primary hover:bg-[#022007] text-white flex-1 md:flex-none"
-            >
-              <Banknote className="mr-2 h-4 w-4" />
-              Log Payment
-            </Button>
+            {parseFloat(loan.outstanding_balance) > 0 && (
+              <Button
+                onClick={() => setIsPaymentModalOpen(true)}
+                className="bg-primary hover:bg-[#022007] text-white flex-1 md:flex-none"
+              >
+                <Banknote className="mr-2 h-4 w-4" />
+                Log Payment
+              </Button>
+            )}
           </div>
         </div>
 
@@ -391,6 +393,7 @@ export default function LoanAccountDetail({ params }) {
           onClose={() => setIsPaymentModalOpen(false)}
           refetchLoan={refetch}
           loan_account={loan.account_number}
+          maxAmount={parseFloat(loan.outstanding_balance)}
         />
       </div>
     </div>

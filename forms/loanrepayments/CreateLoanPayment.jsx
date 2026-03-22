@@ -32,7 +32,7 @@ const REPAYMENT_TYPE_CHOICES = [
   { value: "Partial Payment", label: "Partial Payment" },
 ];
 
-function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account }) {
+function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
@@ -53,6 +53,10 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account }) {
             transaction_status: "Completed",
           }}
           onSubmit={async (values) => {
+            if (values.amount > maxAmount) {
+              toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
+              return;
+            }
             setLoading(true);
             try {
               await createLoanRepayment(values, token);
