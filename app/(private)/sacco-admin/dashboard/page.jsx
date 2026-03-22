@@ -86,7 +86,7 @@ export default function SaccoAdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-8 space-y-8">
+    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -268,7 +268,7 @@ export default function SaccoAdminDashboard() {
                 <Plus className="mr-2 h-4 w-4" /> Create Type
               </Button>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               {savingTypes?.length > 0 ? (
                 <Table>
                   <TableHeader>
@@ -316,7 +316,7 @@ export default function SaccoAdminDashboard() {
                 <Plus className="mr-2 h-4 w-4" /> Create Product
               </Button>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               {loanProducts?.length > 0 ? (
                 <Table>
                   <TableHeader>
@@ -360,7 +360,7 @@ export default function SaccoAdminDashboard() {
                 <Plus className="mr-2 h-4 w-4" /> Create Type
               </Button>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               {ventureTypes?.length > 0 ? (
                 <Table>
                   <TableHeader>

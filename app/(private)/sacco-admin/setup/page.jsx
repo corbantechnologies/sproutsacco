@@ -172,7 +172,7 @@ export default function SetupPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50/50 p-6 space-y-6">
+        <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900">
@@ -253,7 +253,7 @@ export default function SetupPage() {
                     {/* GL Accounts Tab */}
                     <TabsContent value="gl">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {glaccounts?.length > 0 ? (
                                     <Table>
                                         <TableHeader>
@@ -303,7 +303,7 @@ export default function SetupPage() {
                     {/* Payment Accounts Tab */}
                     <TabsContent value="payment">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {paymentaccounts?.length > 0 ? (
                                     <Table>
                                         <TableHeader>
@@ -351,7 +351,7 @@ export default function SetupPage() {
                     {/* Fee Types Tab */}
                     <TabsContent value="fees">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {feetypes?.length > 0 ? (
                                     <Table>
                                         <TableHeader>
@@ -403,7 +403,7 @@ export default function SetupPage() {
                     {/* Saving Types Tab */}
                     <TabsContent value="savings">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {savingTypes?.length > 0 ? (
                                     <Table>
                                         <TableHeader>
@@ -449,7 +449,7 @@ export default function SetupPage() {
                     {/* Loan Products Tab */}
                     <TabsContent value="loans">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {loanProducts?.length > 0 ? (
                                     <Table>
                                         <TableHeader>
@@ -499,7 +499,7 @@ export default function SetupPage() {
                     {/* Venture Types Tab */}
                     <TabsContent value="ventures">
                         <Card className="shadow-sm">
-                            <CardContent className="p-0">
+                            <CardContent className="p-0 overflow-x-auto">
                                 {ventureTypes?.length > 0 ? (
                                     <Table>
                                         <TableHeader>

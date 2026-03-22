@@ -39,8 +39,9 @@ export default function BalanceSheet({ data }) {
                     {/* Assets */}
                     <div>
                         <h3 className="font-semibold mb-2 text-lg text-primary">Assets</h3>
-                        <Table>
-                            <TableBody>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableBody>
                                 <SectionRow label="Cash Equivalents" value={assets.cash_equivalents} />
                                 <SectionRow label="Loans Receivable" value={assets.loans_receivable} />
                                 <SectionRow
@@ -51,10 +52,12 @@ export default function BalanceSheet({ data }) {
                             </TableBody>
                         </Table>
                     </div>
+                </div>
 
-                    {/* Liabilities */}
-                    <div>
-                        <h3 className="font-semibold mb-2 text-lg text-primary">Liabilities</h3>
+                {/* Liabilities */}
+                <div>
+                    <h3 className="font-semibold mb-2 text-lg text-primary">Liabilities</h3>
+                    <div className="overflow-x-auto">
                         <Table>
                             <TableBody>
                                 <SectionRow label="Member Savings" value={liabilities.member_savings} />
@@ -67,19 +70,22 @@ export default function BalanceSheet({ data }) {
                             </TableBody>
                         </Table>
                     </div>
+                </div>
 
                     {/* Equity */}
                     <div>
                         <h3 className="font-semibold mb-2 text-lg text-primary">Equity</h3>
-                        <Table>
-                            <TableBody>
-                                <SectionRow label="Retained Earnings / Equity" value={equity} isTotal />
-                            </TableBody>
-                        </Table>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableBody>
+                                    <SectionRow label="Retained Earnings / Equity" value={equity} isTotal />
+                                </TableBody>
+                            </Table>
+                        </div>
                     </div>
 
                     <div className="pt-4 border-t">
-                        <div className="flex justify-between items-center font-bold text-lg">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 font-bold text-lg">
                             <span>Total Liabilities & Equity</span>
                             <span>{formatCurrency(liabilities.total_liabilities + equity)}</span>
                         </div>

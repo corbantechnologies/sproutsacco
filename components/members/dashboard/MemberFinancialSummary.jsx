@@ -178,7 +178,7 @@ function SummaryTabContent({ data, type, emptyMessage }) {
             value={selectedAccountIndex.toString()}
             onValueChange={(val) => setSelectedAccountIndex(parseInt(val))}
           >
-            <SelectTrigger className="w-[280px]">
+            <SelectTrigger className="w-full sm:w-[280px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

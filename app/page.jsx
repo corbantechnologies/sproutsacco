@@ -350,7 +350,7 @@ function LandingPage() {
               </p>
             </div>
 
-            <div className="flex gap-16">
+            <div className="flex flex-col sm:flex-row gap-10 sm:gap-16">
               <div className="flex flex-col gap-4">
                 <span className="text-[12px] font-black uppercase tracking-[3px] text-slate-900">
                   Legal

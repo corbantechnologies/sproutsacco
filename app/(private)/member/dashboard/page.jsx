@@ -56,7 +56,7 @@ function MemberDashboard() {
     member?.guarantor_profile?.available_amount || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6 md:p-8 space-y-8">
+    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>

@@ -172,8 +172,8 @@ function MemberDetail() {
   if (isLoadingMember || isLoadingSummary) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto p-6 space-y-8">
+    <div className="min-h-screen bg-background p-4 md:p-6">
+      <div className="mx-auto space-y-8">
         {/* Breadcrumbs */}
         <Breadcrumb>
           <BreadcrumbList>
@@ -199,34 +199,34 @@ function MemberDetail() {
 
         {/* Header Card */}
         <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-primary/5 to-primary/10">
-          <CardContent className="p-8">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
-              <Avatar className="h-24 w-24 border-4 border-primary/20">
-                <AvatarFallback className="bg-primary text-white text-2xl font-bold">
+          <CardContent className="p-4 md:p-8">
+            <div className="flex flex-col lg:flex-row items-center lg:items-center gap-6 text-center lg:text-left">
+              <Avatar className="h-20 w-20 md:h-24 md:w-24 border-4 border-primary/20">
+                <AvatarFallback className="bg-primary text-white text-xl md:text-2xl font-bold">
                   {getInitials(member?.first_name, member?.last_name)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="flex-1 space-y-4">
                 <div>
-                  <h1 className="text-4xl font-bold text-foreground mb-2">
+                  <h1 className="text-2xl md:text-4xl font-bold text-foreground mb-2">
                     {member?.first_name}{" "}
                     {member?.middle_name && member.middle_name + " "}
                     {member?.last_name}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
-                    <span className="flex items-center gap-1">
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-muted-foreground">
+                    <span className="flex items-center gap-1 text-sm">
                       <CreditCard className="h-4 w-4" />
                       Member #{member?.member_no}
                     </span>
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 text-sm">
                       <Calendar className="h-4 w-4" />
                       Joined {formatDate(member?.created_at)}
                     </span>
                   </div>
                 </div>
-
-                <div className="flex flex-wrap gap-3">
+                
+                <div className="flex flex-wrap justify-center lg:justify-start gap-3">
                   <Badge
                     variant={member?.is_approved ? "default" : "secondary"}
                     className={
@@ -251,7 +251,7 @@ function MemberDetail() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row w-full lg:w-auto gap-3">
                 <Button
                   variant="outline"
                   onClick={handleDownloadSummary}
