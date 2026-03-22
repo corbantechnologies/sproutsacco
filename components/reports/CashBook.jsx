@@ -27,7 +27,7 @@ export default function CashBook({ data }) {
     return (
         <Card>
             <CardHeader>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <CardTitle>Cash Book</CardTitle>
                         <CardDescription>
@@ -35,7 +35,7 @@ export default function CashBook({ data }) {
                             {new Date(end_date).toLocaleDateString()}
                         </CardDescription>
                     </div>
-                    <div className="flex gap-6 text-right">
+                    <div className="flex flex-wrap gap-4 md:gap-6 text-left md:text-right">
                         <div>
                             <p className="text-sm text-muted-foreground">Opening Balance</p>
                             <p className="font-semibold">{formatCurrency(opening_balance)}</p>
@@ -50,8 +50,9 @@ export default function CashBook({ data }) {
                 </div>
             </CardHeader>
             <CardContent>
-                <Table>
-                    <TableHeader>
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableHeader>
                         <TableRow>
                             <TableHead>Date</TableHead>
                             <TableHead>Description</TableHead>
@@ -122,7 +123,8 @@ export default function CashBook({ data }) {
                         )}
                     </TableBody>
                 </Table>
-            </CardContent>
-        </Card>
+            </div>
+        </CardContent>
+    </Card>
     );
 }

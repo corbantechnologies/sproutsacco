@@ -36,8 +36,9 @@ export default function PnLReport({ data }) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <Table>
-                    <TableBody>
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableBody>
                         {/* Income Section */}
                         <TableRow className="bg-muted/20">
                             <TableCell colSpan={2} className="font-semibold text-primary">
@@ -81,7 +82,8 @@ export default function PnLReport({ data }) {
                         </TableRow>
                     </TableBody>
                 </Table>
-            </CardContent>
-        </Card>
+            </div>
+        </CardContent>
+    </Card>
     );
 }

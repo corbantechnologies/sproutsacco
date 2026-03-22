@@ -219,7 +219,7 @@ const AccountsListTable = ({ accountsList }) => {
           {allSavingsTypes.length > 0 && (
             <Popover open={openSavings} onOpenChange={setOpenSavings}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-56 justify-between">
+                <Button variant="outline" className="w-full sm:w-56 justify-between">
                   {selectedSavingsTypes.length > 0
                     ? `${selectedSavingsTypes.length} selected`
                     : "All Savings Types"}
@@ -264,7 +264,7 @@ const AccountsListTable = ({ accountsList }) => {
           {allVentureTypes.length > 0 && (
             <Popover open={openVentures} onOpenChange={setOpenVentures}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-56 justify-between">
+                <Button variant="outline" className="w-full sm:w-56 justify-between">
                   {selectedVentureTypes.length > 0
                     ? `${selectedVentureTypes.length} selected`
                     : "All Venture Types"}
@@ -309,7 +309,7 @@ const AccountsListTable = ({ accountsList }) => {
           {allLoanTypes.length > 0 && (
             <Popover open={openLoans} onOpenChange={setOpenLoans}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-56 justify-between">
+                <Button variant="outline" className="w-full sm:w-56 justify-between">
                   {selectedLoanTypes.length > 0
                     ? `${selectedLoanTypes.length} selected`
                     : "All Loan Types"}
@@ -502,7 +502,7 @@ const AccountsListTable = ({ accountsList }) => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
           <div className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
             {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}{" "}

@@ -57,6 +57,7 @@ function SaccoAdminNavbar() {
             {[
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
               { label: "Setup", href: "/sacco-admin/setup" },
+              { label: "Accounting", href: "/sacco-admin/accounting" },
               { label: "Reports", href: "/sacco-admin/reports" },
               {
                 label: "Loan Applications",

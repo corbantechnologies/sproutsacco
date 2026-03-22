@@ -25,14 +25,14 @@ export default function DebtorsList({ data }) {
     return (
         <Card>
             <CardHeader>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <CardTitle>Debtors Report</CardTitle>
                         <CardDescription>
                             As of {new Date(generated_at).toLocaleString()}
                         </CardDescription>
                     </div>
-                    <div className="text-right">
+                    <div className="text-left sm:text-right">
                         <p className="text-sm text-muted-foreground">Total Outstanding</p>
                         <p className="text-xl font-bold text-red-600">
                             {formatCurrency(total_outstanding)}
@@ -41,8 +41,9 @@ export default function DebtorsList({ data }) {
                 </div>
             </CardHeader>
             <CardContent>
-                <Table>
-                    <TableHeader>
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableHeader>
                         <TableRow>
                             <TableHead>Member</TableHead>
                             <TableHead>Account No</TableHead>
@@ -83,7 +84,8 @@ export default function DebtorsList({ data }) {
                         )}
                     </TableBody>
                 </Table>
-            </CardContent>
-        </Card>
+            </div>
+        </CardContent>
+    </Card>
     );
 }
