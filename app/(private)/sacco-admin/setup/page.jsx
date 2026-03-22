@@ -21,6 +21,7 @@ import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
 import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
 import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
+import LoadingSpinner from "@/components/general/LoadingSpinner";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -101,6 +102,18 @@ export default function SetupPage() {
     const [updateLoanProductOpen, setUpdateLoanProductOpen] = useState(false);
     const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
     const [updateFeeTypeOpen, setUpdateFeeTypeOpen] = useState(false);
+
+    if (
+        isLoadingMyself ||
+        isLoadingGLAccounts ||
+        isLoadingPaymentAccounts ||
+        isLoadingFeeTypes ||
+        isLoadingSavingTypes ||
+        isLoadingLoanProducts ||
+        isLoadingVentureTypes
+    ) {
+        return <LoadingSpinner />;
+    }
 
     const glSetupDone = glaccounts?.length > 0;
     const paymentSetupDone = paymentaccounts?.length > 0;

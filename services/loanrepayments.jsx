@@ -5,7 +5,7 @@ import { apiActions, apiMultipartActions } from "@/tools/axios";
 // SACCO Admins
 export const createLoanRepayment = async (values, token) => {
   const response = await apiActions?.post(
-    "/api/v1/loanrepayments/",
+    "/api/v1/loanpayments/",
     values,
     token
   );
@@ -13,13 +13,13 @@ export const createLoanRepayment = async (values, token) => {
 };
 
 export const getLoanRepayments = async (token) => {
-  const response = await apiActions?.get("/api/v1/loanrepayments/", token);
+  const response = await apiActions?.get("/api/v1/loanpayments/", token);
   return response?.data?.results;
 };
 
 export const getLoanRepayment = async (reference, token) => {
   const response = await apiActions?.get(
-    `/api/v1/loanrepayments/${reference}/`,
+    `/api/v1/loanpayments/${reference}/`,
     token
   );
   return response?.data;
@@ -27,7 +27,7 @@ export const getLoanRepayment = async (reference, token) => {
 
 export const createBulkLoanRepayment = async (values, token) => {
   await apiMultipartActions?.post(
-    "/api/v1/loanrepayments/bulk/upload/",
+    "/api/v1/loanpayments/bulk/upload/",
     values,
     token
   );

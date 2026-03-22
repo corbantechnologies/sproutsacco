@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -393,12 +394,17 @@ function MemberDetail() {
             <CardContent className="space-y-4">
               {member?.loan_accounts?.length > 0 ? (
                 member.loan_accounts.map((account) => (
-                  <InfoField
+                  <Link
                     key={account.reference}
-                    icon={CreditCard}
-                    label={`${account.product} - ${account.account_number}`}
-                    value={`${formatBalance(account.outstanding_balance)} KES`}
-                  />
+                    href={`/sacco-admin/members/${member_no}/${account.reference}`}
+                    className="block transition-transform hover:scale-[1.01]"
+                  >
+                    <InfoField
+                      icon={CreditCard}
+                      label={`${account.product} - ${account.account_number}`}
+                      value={`${formatBalance(account.outstanding_balance)} KES`}
+                    />
+                  </Link>
                 ))
               ) : (
                 <div className="py-4">
