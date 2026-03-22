@@ -10,11 +10,17 @@ import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
 
 import CreateGLAccountModal from "@/forms/glaccounts/CreateGLAccount";
+import UpdateGLAccountModal from "@/forms/glaccounts/UpdateGLAccount";
 import CreatePaymentAccountModal from "@/forms/paymentaccounts/CreatePaymentAccount";
+import UpdatePaymentAccountModal from "@/forms/paymentaccounts/UpdatePaymentAccount";
 import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
+import UpdateSavingTypeModal from "@/forms/savingtypes/UpdateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
+import UpdateLoanProduct from "@/forms/loanproducts/UpdateLoanProduct";
 import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
+import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
+import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,7 +44,8 @@ import {
     Settings2,
     AlertCircle,
     BadgePercent,
-    Briefcase
+    Briefcase,
+    Pencil
 } from "lucide-react";
 
 export default function SetupPage() {
@@ -80,6 +87,20 @@ export default function SetupPage() {
     const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
     const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
     const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
+
+    const [selectedGLAccount, setSelectedGLAccount] = useState(null);
+    const [selectedPaymentAccount, setSelectedPaymentAccount] = useState(null);
+    const [selectedSavingType, setSelectedSavingType] = useState(null);
+    const [selectedLoanProduct, setSelectedLoanProduct] = useState(null);
+    const [selectedVentureType, setSelectedVentureType] = useState(null);
+    const [selectedFeeType, setSelectedFeeType] = useState(null);
+
+    const [updateGLAccountOpen, setUpdateGLAccountOpen] = useState(false);
+    const [updatePaymentAccountOpen, setUpdatePaymentAccountOpen] = useState(false);
+    const [updateSavingTypeOpen, setUpdateSavingTypeOpen] = useState(false);
+    const [updateLoanProductOpen, setUpdateLoanProductOpen] = useState(false);
+    const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
+    const [updateFeeTypeOpen, setUpdateFeeTypeOpen] = useState(false);
 
     const glSetupDone = glaccounts?.length > 0;
     const paymentSetupDone = paymentaccounts?.length > 0;
@@ -228,6 +249,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Category</TableHead>
                                                 <TableHead className="text-xs font-bold">Code</TableHead>
                                                 <TableHead className="text-xs font-bold">Status</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -240,6 +262,19 @@ export default function SetupPage() {
                                                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                                             {acc.is_active ? "Active" : "Inactive"}
                                                         </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedGLAccount(acc);
+                                                                setUpdateGLAccountOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -263,6 +298,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">GL Account</TableHead>
                                                 <TableHead className="text-xs font-bold">Status</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -274,6 +310,19 @@ export default function SetupPage() {
                                                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                                             {acc.is_active ? "Active" : "Inactive"}
                                                         </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedPaymentAccount(acc);
+                                                                setUpdatePaymentAccountOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -299,6 +348,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">GL Account</TableHead>
                                                 <TableHead className="text-xs font-bold">Is Everyone?</TableHead>
                                                 <TableHead className="text-xs font-bold">Status</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -312,6 +362,19 @@ export default function SetupPage() {
                                                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${fee.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
                                                             {fee.is_active ? "Active" : "Inactive"}
                                                         </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedFeeType(fee);
+                                                                setUpdateFeeTypeOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -336,6 +399,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
                                                 <TableHead className="text-xs font-bold">Guarantee?</TableHead>
                                                 <TableHead className="text-xs font-bold">GL Account</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -345,6 +409,19 @@ export default function SetupPage() {
                                                     <TableCell className="text-xs">{type.interest_rate}%</TableCell>
                                                     <TableCell className="text-xs">{type.can_guarantee ? "Yes" : "No"}</TableCell>
                                                     <TableCell className="text-xs truncate max-w-[200px]">{type.gl_account || "-"}</TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedSavingType(type);
+                                                                setUpdateSavingTypeOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -370,6 +447,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Interest (Asset)</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
                                                 <TableHead className="text-xs font-bold">Penalty (Revenue)</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -381,6 +459,19 @@ export default function SetupPage() {
                                                     <TableCell className="text-xs">{loan.gl_interest_asset || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_penalty_revenue || "-"}</TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedLoanProduct(loan);
+                                                                setUpdateLoanProductOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -403,6 +494,7 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
                                                 <TableHead className="text-xs font-bold">GL Account</TableHead>
+                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -411,6 +503,19 @@ export default function SetupPage() {
                                                     <TableCell className="text-xs font-medium">{venture.name}</TableCell>
                                                     <TableCell className="text-xs">{venture.interest_rate}%</TableCell>
                                                     <TableCell className="text-xs truncate max-w-[200px]">{venture.gl_account || "-"}</TableCell>
+                                                    <TableCell className="text-right p-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7"
+                                                            onClick={() => {
+                                                                setSelectedVentureType(venture);
+                                                                setUpdateVentureTypeOpen(true);
+                                                            }}
+                                                        >
+                                                            <Pencil className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -454,6 +559,44 @@ export default function SetupPage() {
                 isOpen={createVentureTypeOpen}
                 onClose={() => setCreateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
+            />
+
+            {/* Update Modals */}
+            <UpdateGLAccountModal
+                isOpen={updateGLAccountOpen}
+                onClose={() => setUpdateGLAccountOpen(false)}
+                refetchGLAccounts={refetchGLAccounts}
+                glAccount={selectedGLAccount}
+            />
+            <UpdatePaymentAccountModal
+                isOpen={updatePaymentAccountOpen}
+                onClose={() => setUpdatePaymentAccountOpen(false)}
+                refetchPaymentAccounts={refetchPaymentAccounts}
+                paymentAccount={selectedPaymentAccount}
+            />
+            <UpdateSavingTypeModal
+                isOpen={updateSavingTypeOpen}
+                onClose={() => setUpdateSavingTypeOpen(false)}
+                refetchSavingTypes={refetchSavingTypes}
+                savingType={selectedSavingType}
+            />
+            <UpdateFeeTypeModal
+                isOpen={updateFeeTypeOpen}
+                onClose={() => setUpdateFeeTypeOpen(false)}
+                refetchFeeTypes={refetchFeeTypes}
+                feeType={selectedFeeType}
+            />
+            <UpdateLoanProduct
+                isOpen={updateLoanProductOpen}
+                onClose={() => setUpdateLoanProductOpen(false)}
+                refetchLoanTypes={refetchLoanProducts}
+                loanProduct={selectedLoanProduct}
+            />
+            <UpdateVentureType
+                isOpen={updateVentureTypeOpen}
+                onClose={() => setUpdateVentureTypeOpen(false)}
+                refetchVentureTypes={refetchVentureTypes}
+                ventureType={selectedVentureType}
             />
         </div>
     );

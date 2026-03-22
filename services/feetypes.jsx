@@ -3,18 +3,18 @@
 import { apiActions } from "@/tools/axios";
 
 // SACCO ADMINS
-// create saving type
+// create fee type
 export const createFeeType = async (values, token) => {
     await apiActions?.post("/api/v1/feetypes/", values, token);
 };
 
-// get saving types
+// get fee types
 export const getFeeTypes = async (token) => {
     const response = await apiActions?.get("/api/v1/feetypes/", token);
     return response?.data?.results;
 };
 
-// get saving type detail by reference
+// get fee type detail by reference
 export const getFeeTypeDetail = async (reference, token) => {
     const response = await apiActions?.get(
         `/api/v1/feetypes/${reference}/`,
@@ -23,7 +23,7 @@ export const getFeeTypeDetail = async (reference, token) => {
     return response?.data;
 };
 
-// update saving type: to be used rarely
+// update fee type
 export const updateFeeType = async (reference, formData, token) => {
     const response = await apiActions?.patch(
         `/api/v1/feetypes/${reference}/`,
