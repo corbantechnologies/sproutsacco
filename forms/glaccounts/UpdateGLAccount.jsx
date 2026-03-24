@@ -18,6 +18,14 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
+const CATEGORIES = [
+    { value: "ASSET", label: "Asset" },
+    { value: "LIABILITY", label: "Liability" },
+    { value: "EQUITY", label: "Equity" },
+    { value: "REVENUE", label: "Revenue" },
+    { value: "EXPENSE", label: "Expense" },
+];
+
 const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount }) => {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
@@ -71,13 +79,27 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                     </p>
                                 )}
                             </div>
-                            
+
                             <div className="space-y-2">
                                 <Label className="text-black">Category (Read-only)</Label>
-                                <Input
-                                    value={glAccount?.category}
-                                    className="border-black bg-gray-50"
-                                />
+                                <Select
+                                    name="category"
+                                    value={values.category}
+                                    onValueChange={(value) => setFieldValue("category", value)}
+                                    disabled={hasTransactions}
+                                    className="border-black"
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={glAccount?.category} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {CATEGORIES.map((category) => (
+                                            <SelectItem key={category.value} value={category.value}>
+                                                {category.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </div>
 
                             <div className="space-y-2">
@@ -98,7 +120,7 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                     Is Active?
                                 </Label>
                             </div>
-                            
+
                             <DialogFooter>
                                 <Button
                                     type="button"
