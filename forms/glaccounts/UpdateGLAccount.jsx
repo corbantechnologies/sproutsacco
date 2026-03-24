@@ -50,6 +50,8 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                 <Formik
                     initialValues={{
                         name: glAccount?.name || "",
+                        category: glAccount?.category || "",
+                        code: glAccount?.code || "",
                         is_active: glAccount?.is_active ?? true,
                     }}
                     onSubmit={async (values) => {
@@ -76,28 +78,24 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                     as={Input}
                                     id="name"
                                     name="name"
-                                    className="border-black"
+                                    className="border-black bg-gray-50"
                                     required
-                                    disabled={hasTransactions}
+                                    disabled
                                 />
-                                {hasTransactions && (
-                                    <p className="text-xs text-muted-foreground">
-                                        Name cannot be changed because this account has transactions.
-                                    </p>
-                                )}
+                                <p className="text-xs text-muted-foreground">
+                                    Name cannot be changed.
+                                </p>
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-black">Category (Read-only)</Label>
+                                <Label className="text-black">Category</Label>
                                 <Select
                                     name="category"
                                     value={values.category}
                                     onValueChange={(value) => setFieldValue("category", value)}
-                                    disabled={hasTransactions}
-                                    className="border-black"
                                 >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder={glAccount?.category} />
+                                    <SelectTrigger className="border-black">
+                                        <SelectValue placeholder="Select category" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {CATEGORIES.map((category) => (
@@ -110,10 +108,12 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-black">Code (Read-only)</Label>
-                                <Input
-                                    value={glAccount?.code}
-                                    className="border-black bg-gray-50"
+                                <Label htmlFor="code" className="text-black">Code</Label>
+                                <Field
+                                    as={Input}
+                                    id="code"
+                                    name="code"
+                                    className="border-black"
                                 />
                             </div>
 
