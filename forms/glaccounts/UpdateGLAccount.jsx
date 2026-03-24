@@ -57,7 +57,7 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                     onSubmit={async (values) => {
                         try {
                             setLoading(true);
-                            await updateGLAccount(glAccount?.id || glAccount?.reference, values, token);
+                            await updateGLAccount(glAccount?.reference, values, token);
                             toast?.success("GL Account updated successfully!");
                             onClose();
                             refetchGLAccounts();
