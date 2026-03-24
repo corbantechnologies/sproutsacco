@@ -77,7 +77,6 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                 <Input
                                     value={glAccount?.category}
                                     className="border-black bg-gray-50"
-                                    disabled
                                 />
                             </div>
 
@@ -86,7 +85,6 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                 <Input
                                     value={glAccount?.code}
                                     className="border-black bg-gray-50"
-                                    disabled
                                 />
                             </div>
 
