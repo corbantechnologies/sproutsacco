@@ -41,6 +41,7 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
         <Formik
           initialValues={{
             name: "",
+            interest_method: "", //Choices are:  INTEREST_METHOD_CHOICES = [("Flat", "Flat-rate"),("Reducing", "Reducing (Diminishing) Balance"),]
             interest_rate: 0,
             processing_fee: 0,
             gl_principal_asset: "", //GL Account Name
@@ -76,6 +77,27 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   required
                   className="border-black "
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="interest_method" className="text-black">
+                  Interest Method
+                </Label>
+                <Select
+                  value={values.interest_method}
+                  onValueChange={(value) => setFieldValue("interest_method", value)}
+                  required
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select Interest Method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Flat">Flat-rate</SelectItem>
+                    <SelectItem value="Reducing">
+                      Reducing (Diminishing) Balance
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="interest_rate" className="text-black">

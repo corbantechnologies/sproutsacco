@@ -34,14 +34,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { 
-    CheckCircle2, 
-    Circle, 
-    ArrowRight, 
-    Building2, 
-    Wallet, 
-    PiggyBank, 
-    HandCoins, 
+import {
+    CheckCircle2,
+    Circle,
+    ArrowRight,
+    Building2,
+    Wallet,
+    PiggyBank,
+    HandCoins,
     Settings2,
     AlertCircle,
     BadgePercent,
@@ -219,8 +219,8 @@ export default function SetupPage() {
                             <CardDescription className="text-xs line-clamp-1">{step.description}</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 pt-1">
-                            <Button 
-                                onClick={step.onClick} 
+                            <Button
+                                onClick={step.onClick}
                                 disabled={step.disabled}
                                 className={`w-full h-8 text-xs font-bold ${step.done ? "bg-slate-50 text-slate-700 hover:bg-slate-100" : "bg-[#ea1315] text-white hover:bg-[#c71012]"}`}
                                 variant={step.done ? "ghost" : "default"}
@@ -455,6 +455,7 @@ export default function SetupPage() {
                                         <TableHeader>
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest Method</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
                                                 <TableHead className="text-xs font-bold">Processing Fee</TableHead>
                                                 <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
@@ -468,6 +469,7 @@ export default function SetupPage() {
                                             {loanProducts.map((loan) => (
                                                 <TableRow key={loan.id || loan.reference}>
                                                     <TableCell className="text-xs font-medium">{loan.name}</TableCell>
+                                                    <TableCell className="text-xs">{loan.interest_method}</TableCell>
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
                                                     <TableCell className="text-xs">{loan.processing_fee}%</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
@@ -545,15 +547,15 @@ export default function SetupPage() {
             </div>
 
             {/* Modals */}
-            <CreateGLAccountModal 
-                isOpen={createGLAccountOpen} 
-                onClose={() => setCreateGLAccountOpen(false)} 
-                refetchGLAccounts={refetchGLAccounts} 
+            <CreateGLAccountModal
+                isOpen={createGLAccountOpen}
+                onClose={() => setCreateGLAccountOpen(false)}
+                refetchGLAccounts={refetchGLAccounts}
             />
-            <CreatePaymentAccountModal 
-                isOpen={createPaymentAccountOpen} 
-                onClose={() => setCreatePaymentAccountOpen(false)} 
-                refetchPaymentAccounts={refetchPaymentAccounts} 
+            <CreatePaymentAccountModal
+                isOpen={createPaymentAccountOpen}
+                onClose={() => setCreatePaymentAccountOpen(false)}
+                refetchPaymentAccounts={refetchPaymentAccounts}
             />
             <CreateSavingTypeModal
                 isOpen={createSavingTypeOpen}
@@ -616,4 +618,4 @@ export default function SetupPage() {
         </div>
     );
 }
-
+
