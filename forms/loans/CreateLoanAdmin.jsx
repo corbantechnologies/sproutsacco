@@ -82,7 +82,7 @@ function CreateLoanAccountAdmin({
                   <option value="" label="Select loan type" />
                   {loanProducts?.map((type) => (
                     <option key={type?.reference} value={type?.name}>
-                      {type?.name}
+                      {type?.name} - {type?.interest_method}
                     </option>
                   ))}
                 </Field>
