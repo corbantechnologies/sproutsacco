@@ -94,7 +94,7 @@ export function CreateLoanApplication({ onSuccess, memberPath }) {
                 </option>
                 {availableProducts.map((product) => (
                   <option key={product?.reference} value={product?.name}>
-                    {product?.name} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
+                    {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
                   </option>
                 ))}
               </Field>

@@ -12,15 +12,26 @@ export function LoanProductShowcase({ showTitle = true }) {
 
   if (isLoading) {
     return (
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="min-w-[280px] h-48 bg-slate-100 animate-pulse rounded-xl border border-slate-200" />
+          <div key={i} className="h-48 bg-slate-100 animate-pulse rounded-xl border border-slate-200" />
         ))}
       </div>
     );
   }
 
   if (!loanProducts || loanProducts.length === 0) return null;
+
+  const getMethodDescription = (method) => {
+    switch (method) {
+      case "Flat":
+        return "The interest amount remains fixed based on the original loan balance throughout the term.";
+      case "Reducing":
+        return "Interest is calculated on the declining balance, meaning you pay less interest as you repay the principal.";
+      default:
+        return "Standard cooperative interest calculation method.";
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -31,11 +42,11 @@ export function LoanProductShowcase({ showTitle = true }) {
         </div>
       )}
       
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {loanProducts.map((product) => (
           <Card 
             key={product.reference} 
-            className="min-w-[300px] snap-center border-slate-200 hover:border-[#236c2e]/30 hover:shadow-md transition-all duration-300"
+            className="border-slate-200 hover:border-[#236c2e]/30 hover:shadow-md transition-all duration-300 flex flex-col"
           >
             <CardHeader className="p-4 pb-2">
               <div className="flex justify-between items-start">
@@ -47,31 +58,37 @@ export function LoanProductShowcase({ showTitle = true }) {
                 </Badge>
               </div>
               <CardTitle className="text-base font-bold mt-3">{product.name}</CardTitle>
-              <CardDescription className="text-xs">Automated Repayment Schedules</CardDescription>
+              <CardDescription className="text-xs font-medium text-slate-600">
+                {product.interest_method} Repayment Basis
+              </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-2">
-              <div className="grid grid-cols-2 gap-3 mt-2">
-                <div className="space-y-1">
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Interest Rate</p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-bold text-slate-900">{product.interest_rate}%</span>
-                    <span className="text-[10px] text-slate-500 font-medium">/ year</span>
+            <CardContent className="p-4 pt-2 flex-grow flex flex-col justify-between">
+              <div>
+                <div className="grid grid-cols-2 gap-3 mt-2">
+                  <div className="space-y-1">
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Interest Rate</p>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-bold text-slate-900">{product.interest_rate}%</span>
+                      <span className="text-[10px] text-slate-500 font-medium">/ year</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Processing Fee</p>
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-bold text-slate-900">{product.processing_fee}%</span>
+                      <span className="text-[10px] text-slate-500 font-medium">flat</span>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Processing Fee</p>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-bold text-slate-900">{product.processing_fee}%</span>
-                    <span className="text-[10px] text-slate-500 font-medium">flat</span>
+
+                <div className="mt-4 p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                  <div className="flex items-start gap-2">
+                    <Info className="w-3.5 h-3.5 text-[#236c2e] mt-0.5 shrink-0" />
+                    <p className="text-base leading-relaxed text-slate-500 font-medium">
+                      {getMethodDescription(product.interest_method)}
+                    </p>
                   </div>
                 </div>
-              </div>
-              
-              <div className="mt-4 pt-3 border-t border-dashed flex items-center gap-2">
-                <Info className="w-3 h-3 text-slate-400" />
-                <p className="text-[10px] font-medium text-slate-500">
-                  Calculated using {product.interest_method.toLowerCase()} basis
-                </p>
               </div>
             </CardContent>
           </Card>
