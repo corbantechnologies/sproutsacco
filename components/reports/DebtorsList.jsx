@@ -48,11 +48,14 @@ export default function DebtorsList({ data }) {
                             <TableHead>Member</TableHead>
                             <TableHead>Account No</TableHead>
                             <TableHead>Loan Product</TableHead>
-                            <TableHead className="text-right">Principal</TableHead>
-                            <TableHead className="text-right">Outstanding</TableHead>
+                            <TableHead>Principal</TableHead>
+                            <TableHead>Interest</TableHead>
+                            <TableHead>Pro. Fees</TableHead>
+                            <TableHead>Outstanding</TableHead>
                             <TableHead>Status</TableHead>
                         </TableRow>
                     </TableHeader>
+                        
                     <TableBody>
                         {debtors.map((debtor) => (
                             <TableRow key={debtor.account_number}>
@@ -64,10 +67,16 @@ export default function DebtorsList({ data }) {
                                 </TableCell>
                                 <TableCell>{debtor.account_number}</TableCell>
                                 <TableCell>{debtor.loan_product}</TableCell>
-                                <TableCell className="text-right">
+                                <TableCell>
                                     {formatCurrency(debtor.principal)}
                                 </TableCell>
-                                <TableCell className="text-right font-bold">
+                                <TableCell>
+                                    {formatCurrency(debtor.total_interest)}
+                                </TableCell>
+                                <TableCell>
+                                    {formatCurrency(debtor.processing_fee)}
+                                </TableCell>
+                                <TableCell>
                                     {formatCurrency(debtor.outstanding_balance)}
                                 </TableCell>
                                 <TableCell>

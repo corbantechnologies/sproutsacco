@@ -519,13 +519,22 @@ export default function AdminLoanApplicationDetail({ params }) {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="bg-gray-50/50 border-t p-4">
+              <CardFooter className="bg-gray-50/50 border-t p-4 flex flex-col gap-2">
                 <div className="w-full flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">
                     Projected Total Interest:
                   </span>
                   <span className="font-semibold text-gray-900">
                     {formatCurrency(application.total_interest)}
+                  </span>
+                </div>
+
+                <div className="w-full flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">
+                    Processing Fee:
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    {formatCurrency(application.processing_fee)}
                   </span>
                 </div>
               </CardFooter>

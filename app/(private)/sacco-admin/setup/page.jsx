@@ -456,6 +456,7 @@ export default function SetupPage() {
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
+                                                <TableHead className="text-xs font-bold">Processing Fee</TableHead>
                                                 <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest (Asset)</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
@@ -468,6 +469,7 @@ export default function SetupPage() {
                                                 <TableRow key={loan.id || loan.reference}>
                                                     <TableCell className="text-xs font-medium">{loan.name}</TableCell>
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
+                                                    <TableCell className="text-xs">{loan.processing_fee}%</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_interest_asset || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>

@@ -26,6 +26,8 @@ import {
   Wallet,
   Wallet2,
   MoreVertical,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -78,6 +80,52 @@ function MemberDetail() {
   const [ventureDepositModal, setVentureDepositModal] = useState(false);
   const [venturePaymentModal, setVenturePaymentModal] = useState(false);
   const [feePaymentModal, setFeePaymentModal] = useState(false);
+
+  // Pagination states
+  const ITEMS_PER_PAGE = 3;
+  const [savingsPage, setSavingsPage] = useState(1);
+  const [feesPage, setFeesPage] = useState(1);
+  const [venturesPage, setVenturesPage] = useState(1);
+  const [loansPage, setLoansPage] = useState(1);
+
+  const paginate = (items, page) => {
+    if (!items) return [];
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    return items.slice(start, start + ITEMS_PER_PAGE);
+  };
+
+  const PaginationControls = ({ currentPage, totalItems, onPageChange }) => {
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    if (totalPages <= 1) return null;
+
+    return (
+      <div className="flex items-center justify-between mt-4 pt-2 border-t border-secondary/30">
+        <span className="text-xs text-muted-foreground">
+          Page {currentPage} of {totalPages}
+        </span>
+        <div className="flex gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+            disabled={currentPage === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
 
   const handleDownloadSummary = async () => {
     if (!member_no) return;
@@ -308,14 +356,21 @@ function MemberDetail() {
             </CardHeader>
             <CardContent className="space-y-4">
               {member?.savings?.length > 0 ? (
-                member.savings.map((account) => (
-                  <InfoField
-                    key={account.reference}
-                    icon={Wallet2}
-                    label={`${account.account_type} - ${account.account_number}`}
-                    value={`${formatBalance(account.balance)} KES`}
+                <>
+                  {paginate(member.savings, savingsPage).map((account) => (
+                    <InfoField
+                      key={account.reference}
+                      icon={Wallet2}
+                      label={`${account.account_type} - ${account.account_number}`}
+                      value={`${formatBalance(account.balance)} KES`}
+                    />
+                  ))}
+                  <PaginationControls
+                    currentPage={savingsPage}
+                    totalItems={member.savings.length}
+                    onPageChange={setSavingsPage}
                   />
-                ))
+                </>
               ) : (
                 <div className="py-4">
                   <EmptyState
@@ -351,14 +406,21 @@ function MemberDetail() {
             </CardHeader>
             <CardContent className="space-y-4">
               {member?.fee_accounts?.length > 0 ? (
-                member.fee_accounts.map((account) => (
-                  <InfoField
-                    key={account.reference}
-                    icon={CreditCard}
-                    label={`${account.fee_type} - ${account.account_number}`}
-                    value={`${formatBalance(account.outstanding_balance)} KES`}
+                <>
+                  {paginate(member.fee_accounts, feesPage).map((account) => (
+                    <InfoField
+                      key={account.reference}
+                      icon={CreditCard}
+                      label={`${account.fee_type} - ${account.account_number}`}
+                      value={`${formatBalance(account.outstanding_balance)} KES`}
+                    />
+                  ))}
+                  <PaginationControls
+                    currentPage={feesPage}
+                    totalItems={member.fee_accounts.length}
+                    onPageChange={setFeesPage}
                   />
-                ))
+                </>
               ) : (
                 <div className="py-4">
                   <EmptyState
@@ -413,14 +475,21 @@ function MemberDetail() {
             </CardHeader>
             <CardContent className="space-y-4">
               {member?.venture_accounts?.length > 0 ? (
-                member.venture_accounts.map((account) => (
-                  <InfoField
-                    key={account.reference}
-                    icon={Wallet2}
-                    label={`${account.venture_type} - ${account.account_number}`}
-                    value={`${formatBalance(account.balance)} KES`}
+                <>
+                  {paginate(member.venture_accounts, venturesPage).map((account) => (
+                    <InfoField
+                      key={account.reference}
+                      icon={Wallet2}
+                      label={`${account.venture_type} - ${account.account_number}`}
+                      value={`${formatBalance(account.balance)} KES`}
+                    />
+                  ))}
+                  <PaginationControls
+                    currentPage={venturesPage}
+                    totalItems={member.venture_accounts.length}
+                    onPageChange={setVenturesPage}
                   />
-                ))
+                </>
               ) : (
                 <div className="py-4">
                   <EmptyState
@@ -455,19 +524,26 @@ function MemberDetail() {
             </CardHeader>
             <CardContent className="space-y-4">
               {member?.loan_accounts?.length > 0 ? (
-                member.loan_accounts.map((account) => (
-                  <Link
-                    key={account.reference}
-                    href={`/sacco-admin/members/${member_no}/${account.reference}`}
-                    className="block transition-transform hover:scale-[1.01]"
-                  >
-                    <InfoField
-                      icon={CreditCard}
-                      label={`${account.product} - ${account.account_number}`}
-                      value={`${formatBalance(account.outstanding_balance)} KES`}
-                    />
-                  </Link>
-                ))
+                <>
+                  {paginate(member.loan_accounts, loansPage).map((account) => (
+                    <Link
+                      key={account.reference}
+                      href={`/sacco-admin/members/${member_no}/${account.reference}`}
+                      className="block transition-transform hover:scale-[1.01]"
+                    >
+                      <InfoField
+                        icon={CreditCard}
+                        label={`${account.product} - ${account.account_number}`}
+                        value={`${formatBalance(account.outstanding_balance)} KES`}
+                      />
+                    </Link>
+                  ))}
+                  <PaginationControls
+                    currentPage={loansPage}
+                    totalItems={member.loan_accounts.length}
+                    onPageChange={setLoansPage}
+                  />
+                </>
               ) : (
                 <div className="py-4">
                   <EmptyState

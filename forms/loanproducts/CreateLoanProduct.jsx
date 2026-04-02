@@ -42,10 +42,11 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
           initialValues={{
             name: "",
             interest_rate: 0,
+            processing_fee: 0,
             gl_principal_asset: "", //GL Account Name
-            gl_interest_asset: "", //GL Account Name
             gl_penalty_revenue: "", //GL Account Name
             gl_interest_revenue: "", //GL Account Name
+            gl_processing_fee_revenue: "", //GL Account Name
           }}
           onSubmit={async (values) => {
             try {
@@ -90,6 +91,20 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="processing_fee" className="text-black">
+                  Processing Fee (%)
+                </Label>
+                <Field
+                  as={Input}
+                  type="number"
+                  id="processing_fee"
+                  name="processing_fee"
+                  className="border-black "
+                  required
+                />
+              </div>
+
               {/* GL Principal Account (Asset) */}
               <div className="space-y-2">
                 <Label htmlFor="gl_principal_asset" className="text-black">
@@ -104,33 +119,6 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Principal Account"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {glAccounts?.map((acc) => (
-                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
-                        {acc.name} ({acc.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* GL Interest Account (Asset) */}
-              <div className="space-y-2">
-                <Label htmlFor="gl_interest_asset" className="text-black">
-                  Interest GL Account (Asset)
-                </Label>
-                <Select
-                  value={values.gl_interest_asset}
-                  onValueChange={(value) => setFieldValue("gl_interest_asset", value)}
-                  disabled={isLoadingGL}
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Interest Account"
                       }
                     />
                   </SelectTrigger>
@@ -185,6 +173,33 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Penalty Account"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {glAccounts?.map((acc) => (
+                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
+                        {acc.name} ({acc.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* GL Processing Fee Account (Revenue) */}
+              <div className="space-y-2">
+                <Label htmlFor="gl_processing_fee_revenue" className="text-black">
+                  Processing Fee GL Account (Revenue)
+                </Label>
+                <Select
+                  value={values.gl_processing_fee_revenue}
+                  onValueChange={(value) => setFieldValue("gl_processing_fee_revenue", value)}
+                  disabled={isLoadingGL}
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue
+                      placeholder={
+                        isLoadingGL ? "Loading..." : "Select Processing Fee Account"
                       }
                     />
                   </SelectTrigger>
