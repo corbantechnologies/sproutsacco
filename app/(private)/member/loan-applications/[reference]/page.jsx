@@ -394,6 +394,7 @@ export default function LoanApplicationDetail({ params }) {
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
+                        <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
                         <TableHead className="text-right">Balance</TableHead>
                       </TableRow>
@@ -409,6 +410,9 @@ export default function LoanApplicationDetail({ params }) {
                           </TableCell>
                           <TableCell>
                             {formatCurrency(row.interest_due)}
+                          </TableCell>
+                          <TableCell>
+                            {formatCurrency(row.fee_due)}
                           </TableCell>
                           <TableCell className="font-semibold text-[#045e32]">
                             {formatCurrency(row.total_due)}

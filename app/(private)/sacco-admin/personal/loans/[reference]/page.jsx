@@ -192,12 +192,13 @@ function LoanDetail() {
     autoTable(doc, {
       startY: y,
       head: [
-        ["Due Date", "Principal", "Interest", "Total Due", "Balance After"],
+        ["Due Date", "Principal", "Interest", "Fees", "Total Due", "Balance After"],
       ],
       body: schedule.map((s) => [
         formatDate(s.due_date),
         formatCurrency(s.principal_due),
         formatCurrency(s.interest_due),
+        formatCurrency(s.fee_due),
         formatCurrency(s.total_due),
         formatCurrency(s.balance_after),
       ]),
@@ -446,6 +447,7 @@ function LoanDetail() {
                       <TableHead>Due Date</TableHead>
                       <TableHead>Principal</TableHead>
                       <TableHead>Interest</TableHead>
+                      <TableHead>Fees</TableHead>
                       <TableHead>Total Due</TableHead>
                       <TableHead className="text-right">
                         Balance After
@@ -463,6 +465,9 @@ function LoanDetail() {
                         </TableCell>
                         <TableCell>
                           {formatCurrency(row.interest_due)}
+                        </TableCell>
+                        <TableCell>
+                          {formatCurrency(row.fee_due)}
                         </TableCell>
                         <TableCell className="font-bold text-[#045e32]">
                           {formatCurrency(row.total_due)}
