@@ -397,7 +397,6 @@ function MemberDetail() {
                     onClick={() => setFeePaymentModal(true)}
                     size="sm"
                     className="h-8 bg-amber-600 hover:bg-amber-700 text-white disabled:bg-slate-300 disabled:text-slate-500"
-                    disabled={!member?.fee_accounts?.some(account => !account.is_paid)}
                   >
                     Pay Fee
                   </Button>
