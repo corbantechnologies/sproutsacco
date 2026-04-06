@@ -47,7 +47,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
         <Formik
           initialValues={{
             loan_account: loan_account || "",
-            amount: maxAmount || 0,
+            amount: "",
             payment_method: "",
             repayment_type: "Regular Repayment",
             transaction_status: "Completed",
