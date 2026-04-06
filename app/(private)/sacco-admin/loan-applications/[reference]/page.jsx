@@ -72,7 +72,8 @@ export default function AdminLoanApplicationDetail({ params }) {
   const { reference } = use(params);
   const {
     data: application,
-    isLoading,
+    isPending,
+    isError,
     refetch,
   } = useFetchLoanApplicationDetail(reference);
   const token = useAxiosAuth();
@@ -271,13 +272,17 @@ export default function AdminLoanApplicationDetail({ params }) {
     return application?.projection?.schedule || [];
   }, [application]);
 
-  if (isLoading) return <MemberLoadingSpinner />;
-  if (!application)
+  if (isPending) return <MemberLoadingSpinner />;
+  if (isError || !application)
     return (
       <div className="p-8">
         <EmptyState
-          title="Application Not Found"
-          message="The loan application you are looking for does not exist or has been deleted."
+          title={isError ? "Error Loading Application" : "Application Not Found"}
+          message={
+            isError
+              ? "There was a problem fetching the loan application. Please try again later."
+              : "The loan application you are looking for does not exist or has been deleted."
+          }
           icon={FileText}
         />
       </div>

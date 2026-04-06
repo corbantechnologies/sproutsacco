@@ -435,7 +435,7 @@ function MemberDetail() {
           </Card>
 
           {/* Venture Accounts */}
-          <Card className="shadow-md border-l-4 border-l-emerald-500">
+          {/* <Card className="shadow-md border-l-4 border-l-emerald-500">
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle className="flex items-center gap-2 text-xl">
@@ -501,7 +501,7 @@ function MemberDetail() {
                 </div>
               )}
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Loan Accounts */}
           <Card className="shadow-md border-l-4 border-l-rose-500">
