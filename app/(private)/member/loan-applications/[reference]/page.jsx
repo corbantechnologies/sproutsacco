@@ -396,6 +396,7 @@ export default function LoanApplicationDetail({ params }) {
                         <TableHead>Interest</TableHead>
                         <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Balance</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -417,6 +418,18 @@ export default function LoanApplicationDetail({ params }) {
                           <TableCell className="font-semibold text-[#045e32]">
                             {formatCurrency(row.total_due)}
                           </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className={
+                                row.is_paid
+                                  ? "bg-green-100 text-green-700 border-green-200"
+                                  : "bg-gray-100 text-gray-700 border-gray-200"
+                              }
+                            >
+                              {row.is_paid ? "Paid" : "Not Paid"}
+                            </Badge>
+                          </TableCell>
                           <TableCell className="text-right text-muted-foreground">
                             {formatCurrency(row.balance_after)}
                           </TableCell>
@@ -425,7 +438,7 @@ export default function LoanApplicationDetail({ params }) {
                       {schedule.length === 0 && (
                         <TableRow>
                           <TableCell
-                            colSpan={5}
+                            colSpan={6}
                             className="text-center h-24 text-muted-foreground"
                           >
                             {application.status === "Pending"
@@ -526,14 +539,13 @@ export default function LoanApplicationDetail({ params }) {
                         </p>
                         <Badge
                           variant="outline"
-                          className={`text-xs mt-1 ${
-                            g.status === "Accepted"
+                          className={`text-xs mt-1 ${g.status === "Accepted"
                               ? "bg-green-50 text-green-700 border-green-200"
                               : g.status === "Declined" ||
                                 g.status === "Cancelled"
-                              ? "bg-red-50 text-red-700 border-red-200"
-                              : "bg-gray-100 text-gray-700"
-                          }`}
+                                ? "bg-red-50 text-red-700 border-red-200"
+                                : "bg-gray-100 text-gray-700"
+                            }`}
                         >
                           {g.status}
                         </Badge>

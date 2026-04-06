@@ -25,11 +25,11 @@ import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
 const REPAYMENT_TYPE_CHOICES = [
-  { value: "Regular Repayment", label: "Regular Repayment" },
-  { value: "Interest Payment", label: "Interest Payment" },
-  { value: "Individual Settlement", label: "Individual Settlement" },
-  { value: "Early Settlement", label: "Early Settlement" },
-  { value: "Partial Payment", label: "Partial Payment" },
+  { value: "Regular Repayment", label: "Regular Repayment" }, // pays an installment
+  { value: "Partial Payment", label: "Partial Payment" }, // pays part of an installment
+  { value: "Early Settlement", label: "Early Settlement" }, // pays the entire loan
+  { value: "Penalty Payment", label: "Penalty Payment" }, // pays penalty
+  { value: "Interest Only", label: "Interest Only" }, // pays only interest
 ];
 
 function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount }) {
@@ -86,6 +86,29 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 />
               </div>
 
+              {/* Very important as it determines the amount */}
+              <div className="space-y-2">
+                <Label htmlFor="repayment_type" className="text-black">
+                  Repayment Type
+                </Label>
+                <Select
+                  value={values.repayment_type}
+                  onValueChange={(value) => setFieldValue("repayment_type", value)}
+                  required
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select repayment type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {REPAYMENT_TYPE_CHOICES.map((choice) => (
+                      <SelectItem key={choice.value} value={choice.value}>
+                        {choice.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="amount" className="text-black">
                   Amount
@@ -130,27 +153,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="repayment_type" className="text-black">
-                  Repayment Type
-                </Label>
-                <Select
-                  value={values.repayment_type}
-                  onValueChange={(value) => setFieldValue("repayment_type", value)}
-                  required
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue placeholder="Select repayment type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {REPAYMENT_TYPE_CHOICES.map((choice) => (
-                      <SelectItem key={choice.value} value={choice.value}>
-                        {choice.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+
 
               <DialogFooter>
                 <Button

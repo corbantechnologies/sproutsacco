@@ -254,13 +254,15 @@ export default function LoanAccountDetail({ params }) {
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
+                        <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Balance After</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {loan.application_details?.projection_snapshot?.schedule?.length > 0 ? (
-                        loan.application_details.projection_snapshot.schedule.map((item, i) => (
+                      {loan.projection_snapshot?.schedule?.length > 0 ? (
+                        loan.projection_snapshot.schedule.map((item, i) => (
                           <TableRow key={i}>
                             <TableCell className="font-medium whitespace-nowrap">
                               {format(new Date(item.due_date), "MMM dd, yyyy")}
@@ -271,8 +273,23 @@ export default function LoanAccountDetail({ params }) {
                             <TableCell>
                               {formatCurrency(item.interest_due)}
                             </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.fee_due)}
+                            </TableCell>
                             <TableCell className="font-semibold text-primary">
                               {formatCurrency(item.total_due)}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant="outline"
+                                className={
+                                  item.is_paid
+                                    ? "bg-green-100 text-green-700 border-green-200"
+                                    : "bg-gray-100 text-gray-700 border-gray-200"
+                                }
+                              >
+                                {item.is_paid ? "Paid" : "Not Paid"}
+                              </Badge>
                             </TableCell>
                             <TableCell className="text-right text-muted-foreground">
                               {formatCurrency(item.balance_after)}
@@ -281,7 +298,7 @@ export default function LoanAccountDetail({ params }) {
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
+                          <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
                             No projection schedule found for this loan.
                           </TableCell>
                         </TableRow>
