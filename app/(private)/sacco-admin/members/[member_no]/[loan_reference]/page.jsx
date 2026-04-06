@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { use, useMemo, useState } from "react";
+import React, { use, useState } from "react";
 import { format } from "date-fns";
 import { useFetchLoanDetail, useFetchLoanPayOffAmount } from "@/hooks/loans/actions";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
@@ -54,7 +54,7 @@ export default function LoanAccountDetail({ params }) {
     refetch,
   } = useFetchLoanDetail(loan_reference);
 
-  const { data: payoffQuote, isPending: isPayoffLoading } =
+  const { data: payoffQuote, isLoading: isPayoffLoading } =
     useFetchLoanPayOffAmount(loan_reference);
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -382,72 +382,68 @@ export default function LoanAccountDetail({ params }) {
               </CardContent>
             </Card>
 
-            {parseFloat(loan.outstanding_balance) > 0 && (
-              <Card className="border-green-200 bg-green-50/30 overflow-hidden">
-                <CardHeader className="bg-green-100/50 pb-3">
-                  <CardTitle className="text-lg flex items-center gap-2 text-green-800">
-                    <Banknote className="h-5 w-5" /> Payoff Quote
-                  </CardTitle>
-                  <CardDescription className="text-green-700/70">
-                    Breakdown for immediate settlement
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 pt-4">
-                  {isPayoffLoading ? (
-                    <div className="py-4 text-center text-sm text-green-600 animate-pulse">
-                      Calculating payoff amount...
+            <Card className="border-green-200 bg-green-50/30 overflow-hidden">
+              <CardHeader className="bg-green-100/50 pb-3">
+                <CardTitle className="text-lg flex items-center gap-2 text-green-800">
+                  <Banknote className="h-5 w-5" /> Payoff Quote
+                </CardTitle>
+                <CardDescription className="text-green-700/70">
+                  Breakdown for immediate settlement
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-4">
+                {isPayoffLoading ? (
+                  <div className="py-4 text-center text-sm text-green-600 animate-pulse">
+                    Calculating payoff amount...
+                  </div>
+                ) : payoffQuote ? (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        Principal to Clear
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.principal_to_clear)}
+                      </span>
                     </div>
-                  ) : payoffQuote ? (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Principal to Clear
-                        </span>
-                        <span className="font-medium">
-                          {formatCurrency(payoffQuote.principal_to_clear)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Accrued Interest
-                        </span>
-                        <span className="font-medium">
-                          {formatCurrency(payoffQuote.interest_to_recognize)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          Unpaid Fees
-                        </span>
-                        <span className="font-medium">
-                          {formatCurrency(payoffQuote.unpaid_fees)}
-                        </span>
-                      </div>
-                      <Separator className="bg-green-200" />
-                      <div className="flex justify-between items-center pt-1">
-                        <span className="text-sm font-bold text-green-900">
-                          Total Payoff
-                        </span>
-                        <span className="text-xl font-black text-green-700">
-                          {formatCurrency(payoffQuote.total_payoff_amount)}
-                        </span>
-                      </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        Accrued Interest
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.interest_to_recognize)}
+                      </span>
                     </div>
-                  ) : (
-                    <div className="py-4 text-center text-xs text-amber-600 italic">
-                      Unable to generate payoff quote
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Unpaid Fees</span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.unpaid_fees)}
+                      </span>
                     </div>
-                  )}
-                </CardContent>
-                <CardFooter className="bg-green-50 px-6 py-3 border-t border-green-100 flex items-start gap-2">
-                  <Info className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
-                  <p className="text-[10px] leading-tight text-green-800/60 font-medium">
-                    This amount includes the outstanding principal, interest
-                    accrued to date, and any unpaid fees.
-                  </p>
-                </CardFooter>
-              </Card>
-            )}
+                    <Separator className="bg-green-200" />
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-sm font-bold text-green-900">
+                        Total Payoff
+                      </span>
+                      <span className="text-xl font-black text-green-700">
+                        {formatCurrency(payoffQuote.total_payoff_amount)}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-4 text-center text-xs text-amber-600 italic">
+                    Unable to generate payoff quote
+                  </div>
+                )}
+              </CardContent>
+              <CardFooter className="bg-green-50 px-6 py-3 border-t border-green-100 flex items-start gap-2">
+                <Info className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                <p className="text-[10px] leading-tight text-green-800/60 font-medium">
+                  This amount includes the outstanding principal, interest
+                  accrued to date, and any unpaid fees.
+                </p>
+              </CardFooter>
+            </Card>
 
             <Card>
               <CardHeader>

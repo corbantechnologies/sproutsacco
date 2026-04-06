@@ -29,6 +29,7 @@ export function useFetchLoanPayOffAmount(reference) {
   return useQuery({
     queryKey: ["loan-payoff", reference],
     queryFn: () => getLoanPayOffAmount(reference, token),
-    enabled: !!reference,
+    enabled: !!reference ,
   });
 }
+

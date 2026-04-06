@@ -3,8 +3,9 @@
 import React, { useState, useMemo } from "react";
 import { format, startOfMonth, endOfMonth, isWithinInterval } from "date-fns";
 import { useParams } from "next/navigation";
-import { useFetchLoanDetail } from "@/hooks/loans/actions";
+import { useFetchLoanDetail, useFetchLoanPayOffAmount } from "@/hooks/loans/actions";
 import { useFetchMember } from "@/hooks/members/actions";
+import { Banknote, Info } from "lucide-react";
 import MemberLoadingSpinner from "@/components/general/MemberLoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,6 +50,9 @@ function LoanDetail() {
         data: member,
         refetch: refetchMember,
     } = useFetchMember();
+
+    const { data: payoffQuote, isLoading: isPayoffLoading } =
+        useFetchLoanPayOffAmount(reference);
 
     // --- Computed Data ---
 
@@ -323,29 +327,96 @@ function LoanDetail() {
                                 </CardContent>
                             </Card>
 
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-[#045e32]">Terms & Dates</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="flex justify-between py-2 border-b">
-                                        <span className="text-muted-foreground">Interest Rate</span>
-                                        <span className="font-semibold">{loan.product_details?.interest_rate}% {loan.product_details?.interest_period}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b">
-                                        <span className="text-muted-foreground">Start Date</span>
-                                        <span className="font-semibold">{formatDate(loan.start_date)}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b">
-                                        <span className="text-muted-foreground">End Date</span>
-                                        <span className="font-semibold">{formatDate(loan.end_date)}</span>
-                                    </div>
-                                    <div className="flex justify-between py-2 border-b">
-                                        <span className="text-muted-foreground">Calculation Method</span>
-                                        <span className="font-semibold">{loan.product_details?.calculation_schedule || 'N/A'}</span>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            <div className="space-y-6">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="text-[#045e32]">Terms & Dates</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        <div className="flex justify-between py-2 border-b">
+                                            <span className="text-muted-foreground">Interest Rate</span>
+                                            <span className="font-semibold">{loan.product_details?.interest_rate}% {loan.product_details?.interest_period}</span>
+                                        </div>
+                                        <div className="flex justify-between py-2 border-b">
+                                            <span className="text-muted-foreground">Start Date</span>
+                                            <span className="font-semibold">{formatDate(loan.start_date)}</span>
+                                        </div>
+                                        <div className="flex justify-between py-2 border-b">
+                                            <span className="text-muted-foreground">End Date</span>
+                                            <span className="font-semibold">{formatDate(loan.end_date)}</span>
+                                        </div>
+                                        <div className="flex justify-between py-2 border-b">
+                                            <span className="text-muted-foreground">Calculation Method</span>
+                                            <span className="font-semibold">{loan.product_details?.calculation_schedule || 'N/A'}</span>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                <Card className="border-green-200 bg-green-50/30 overflow-hidden shadow-sm">
+                                    <CardHeader className="bg-green-100/50 pb-3">
+                                        <CardTitle className="text-lg flex items-center gap-2 text-green-800">
+                                            <Banknote className="h-5 w-5" /> Payoff Quote
+                                        </CardTitle>
+                                        <CardDescription className="text-green-700/70">
+                                            Breakdown for immediate settlement
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3 pt-4">
+                                        {isPayoffLoading ? (
+                                            <div className="py-4 text-center text-sm text-green-600 animate-pulse">
+                                                Calculating payoff amount...
+                                            </div>
+                                        ) : payoffQuote ? (
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        Principal to Clear
+                                                    </span>
+                                                    <span className="font-medium">
+                                                        {formatCurrency(payoffQuote.principal_to_clear)}
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        Accrued Interest
+                                                    </span>
+                                                    <span className="font-medium">
+                                                        {formatCurrency(payoffQuote.interest_to_recognize)}
+                                                    </span>
+                                                </div>
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        Unpaid Fees
+                                                    </span>
+                                                    <span className="font-medium">
+                                                        {formatCurrency(payoffQuote.unpaid_fees)}
+                                                    </span>
+                                                </div>
+                                                <Separator className="bg-green-200" />
+                                                <div className="flex justify-between items-center pt-1">
+                                                    <span className="text-sm font-bold text-green-900">
+                                                        Total Payoff
+                                                    </span>
+                                                    <span className="text-xl font-black text-green-700">
+                                                        {formatCurrency(payoffQuote.total_payoff_amount)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="py-4 text-center text-xs text-amber-600 italic">
+                                                Unable to generate payoff quote
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                    <CardFooter className="bg-green-50 px-6 py-3 border-t border-green-100 flex items-start gap-2">
+                                        <Info className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                                        <p className="text-[10px] leading-tight text-green-800/60 font-medium">
+                                            This amount includes the outstanding principal, interest
+                                            accrued to date, and any unpaid fees.
+                                        </p>
+                                    </CardFooter>
+                                </Card>
+                            </div>
                         </div>
                     )}
 
