@@ -52,7 +52,7 @@ const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
           onSubmit={async (values) => {
             setLoading(true);
             try {
-              await updateFeeType(feeType?.id || feeType?.reference, values, token);
+              await updateFeeType(feeType?.reference, values, token);
               toast?.success("Fee type updated successfully!");
               onClose();
               refetchFeeTypes();

@@ -49,7 +49,7 @@ const UpdateSavingTypeModal = ({ isOpen, onClose, refetchSavingTypes, savingType
           onSubmit={async (values) => {
             try {
               setLoading(true);
-              await updateSavingType(savingType?.id || savingType?.reference, values, token);
+              await updateSavingType(savingType?.reference, values, token);
               toast?.success("Saving type updated successfully!");
               onClose();
               refetchSavingTypes();

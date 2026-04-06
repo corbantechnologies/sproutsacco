@@ -80,7 +80,7 @@ function CreateFeePayment({ isOpen, onClose, refetchMember, accounts }) {
                     <SelectValue placeholder="Select fee account" />
                   </SelectTrigger>
                   <SelectContent>
-                    {accounts?.filter(a => !a.is_paid).map((account) => (
+                    {accounts?.map((account) => (
                       <SelectItem
                         key={account.id || account.reference}
                         value={account.account_number}

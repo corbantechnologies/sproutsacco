@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useFetchMember } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
+// import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
@@ -17,8 +17,8 @@ import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import UpdateSavingTypeModal from "@/forms/savingtypes/UpdateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import UpdateLoanProduct from "@/forms/loanproducts/UpdateLoanProduct";
-import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
-import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
+// import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
+// import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
 import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
@@ -76,31 +76,31 @@ export default function SetupPage() {
         isLoading: isLoadingLoanProducts,
         refetch: refetchLoanProducts,
     } = useFetchLoanProducts();
-    const {
-        data: ventureTypes,
-        isLoading: isLoadingVentureTypes,
-        refetch: refetchVentureTypes,
-    } = useFetchVentureTypes();
+    // const {
+    //     data: ventureTypes,
+    //     isLoading: isLoadingVentureTypes,
+    //     refetch: refetchVentureTypes,
+    // } = useFetchVentureTypes();
 
     const [createGLAccountOpen, setCreateGLAccountOpen] = useState(false);
     const [createPaymentAccountOpen, setCreatePaymentAccountOpen] = useState(false);
     const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
     const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
-    const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
+    // const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
     const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
 
     const [selectedGLAccount, setSelectedGLAccount] = useState(null);
     const [selectedPaymentAccount, setSelectedPaymentAccount] = useState(null);
     const [selectedSavingType, setSelectedSavingType] = useState(null);
     const [selectedLoanProduct, setSelectedLoanProduct] = useState(null);
-    const [selectedVentureType, setSelectedVentureType] = useState(null);
+    // const [selectedVentureType, setSelectedVentureType] = useState(null);
     const [selectedFeeType, setSelectedFeeType] = useState(null);
 
     const [updateGLAccountOpen, setUpdateGLAccountOpen] = useState(false);
     const [updatePaymentAccountOpen, setUpdatePaymentAccountOpen] = useState(false);
     const [updateSavingTypeOpen, setUpdateSavingTypeOpen] = useState(false);
     const [updateLoanProductOpen, setUpdateLoanProductOpen] = useState(false);
-    const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
+    // const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
     const [updateFeeTypeOpen, setUpdateFeeTypeOpen] = useState(false);
 
     if (
@@ -109,8 +109,8 @@ export default function SetupPage() {
         isLoadingPaymentAccounts ||
         isLoadingFeeTypes ||
         isLoadingSavingTypes ||
-        isLoadingLoanProducts ||
-        isLoadingVentureTypes
+        isLoadingLoanProducts // ||
+        // isLoadingVentureTypes
     ) {
         return <LoadingSpinner />;
     }
@@ -161,14 +161,14 @@ export default function SetupPage() {
             onClick: () => setCreateLoanProductOpen(true),
             disabled: !mandatorySetupDone,
         },
-        {
-            title: "Venture Types",
-            description: "Configure investment venture types.",
-            icon: Briefcase,
-            done: ventureTypes?.length > 0,
-            onClick: () => setCreateVentureTypeOpen(true),
-            disabled: !mandatorySetupDone,
-        },
+        // {
+        //     title: "Venture Types",
+        //     description: "Configure investment venture types.",
+        //     icon: Briefcase,
+        //     done: ventureTypes?.length > 0,
+        //     onClick: () => setCreateVentureTypeOpen(true),
+        //     disabled: !mandatorySetupDone,
+        // },
     ];
 
     return (
@@ -247,7 +247,7 @@ export default function SetupPage() {
                         <TabsTrigger value="fees" className="text-xs">Fee Types</TabsTrigger>
                         <TabsTrigger value="savings" className="text-xs">Savings Types</TabsTrigger>
                         <TabsTrigger value="loans" className="text-xs">Loan Products</TabsTrigger>
-                        <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger>
+                        {/* <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger> */}
                     </TabsList>
 
                     {/* GL Accounts Tab */}
@@ -499,7 +499,7 @@ export default function SetupPage() {
                     </TabsContent>
 
                     {/* Venture Types Tab */}
-                    <TabsContent value="ventures">
+                    {/* <TabsContent value="ventures">
                         <Card className="shadow-sm">
                             <CardContent className="p-0 overflow-x-auto">
                                 {ventureTypes?.length > 0 ? (
@@ -540,7 +540,7 @@ export default function SetupPage() {
                                 )}
                             </CardContent>
                         </Card>
-                    </TabsContent>
+                    </TabsContent> */}
                 </Tabs>
             </div>
 
@@ -570,11 +570,11 @@ export default function SetupPage() {
                 onClose={() => setCreateLoanProductOpen(false)}
                 refetchLoanTypes={refetchLoanProducts}
             />
-            <CreateVentureType
+            {/* <CreateVentureType
                 isOpen={createVentureTypeOpen}
                 onClose={() => setCreateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
-            />
+            /> */}
 
             {/* Update Modals */}
             <UpdateGLAccountModal
@@ -607,12 +607,12 @@ export default function SetupPage() {
                 refetchLoanTypes={refetchLoanProducts}
                 loanProduct={selectedLoanProduct}
             />
-            <UpdateVentureType
+            {/* <UpdateVentureType
                 isOpen={updateVentureTypeOpen}
                 onClose={() => setUpdateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
                 ventureType={selectedVentureType}
-            />
+            /> */}
         </div>
     );
 }

@@ -51,7 +51,7 @@ function UpdateLoanProduct({ isOpen, onClose, refetchLoanTypes, loanProduct }) {
           onSubmit={async (values) => {
             try {
               setLoading(true);
-              await updateLoanProduct(loanProduct?.id || loanProduct?.reference, values, token);
+              await updateLoanProduct(loanProduct?.reference, values, token);
               toast?.success("Loan product updated successfully!");
               onClose();
               refetchLoanTypes();

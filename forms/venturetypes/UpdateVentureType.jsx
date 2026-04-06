@@ -49,7 +49,7 @@ function UpdateVentureType({ isOpen, onClose, refetchVentureTypes, ventureType }
           onSubmit={async (values) => {
             setLoading(true);
             try {
-              await updateVentureType(ventureType?.id || ventureType?.reference, values, token);
+              await updateVentureType(ventureType?.reference, values, token);
               toast?.success("Venture type updated successfully!");
               onClose();
               refetchVentureTypes();
