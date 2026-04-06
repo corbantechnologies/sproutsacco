@@ -52,6 +52,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
             repayment_type: "Regular Repayment",
             transaction_status: "Completed",
           }}
+          enableReinitialize={true}
           onSubmit={async (values) => {
             if (values.amount > maxAmount) {
               toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
@@ -120,6 +121,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                   name="amount"
                   className="border-black"
                   placeholder="Enter repayment amount"
+                  autoComplete="off"
                   required
                   min="0.01"
                   step="0.01"
