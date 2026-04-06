@@ -14,7 +14,10 @@ export const getLoan = async (reference, token) => {
 };
 
 export const getLoanPayOffAmount = async (reference, token) => {
-  const response = await apiActions?.get(`/api/v1/loanaccounts/${reference}/payoff-quote/`, token);
+  const response = await apiActions?.get(
+    `/api/v1/loanaccounts/${reference}/payoff-quote/`,
+    token
+  );
   return response?.data;
 };
 

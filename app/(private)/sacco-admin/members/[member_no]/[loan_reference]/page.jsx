@@ -54,8 +54,11 @@ export default function LoanAccountDetail({ params }) {
     refetch,
   } = useFetchLoanDetail(loan_reference);
 
-  const { data: payoffQuote, isLoading: isPayoffLoading } =
-    useFetchLoanPayOffAmount(loan_reference);
+  const { 
+    data: payoffQuote, 
+    isLoading: isPayoffLoading,
+    isRefetching: isPayoffRefetching 
+  } = useFetchLoanPayOffAmount(loan_reference);
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -392,7 +395,7 @@ export default function LoanAccountDetail({ params }) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 pt-4">
-                {isPayoffLoading ? (
+                {isPayoffLoading || isPayoffRefetching ? (
                   <div className="py-4 text-center text-sm text-green-600 animate-pulse">
                     Calculating payoff amount...
                   </div>

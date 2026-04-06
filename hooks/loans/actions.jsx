@@ -27,9 +27,9 @@ export function useFetchLoanPayOffAmount(reference) {
   const token = useAxiosAuth();
 
   return useQuery({
-    queryKey: ["loan-payoff", reference],
+    queryKey: ["loanaccounts", reference, "payoff-quote"],
     queryFn: () => getLoanPayOffAmount(reference, token),
-    enabled: !!reference ,
+    enabled: !!reference,
   });
 }
 
