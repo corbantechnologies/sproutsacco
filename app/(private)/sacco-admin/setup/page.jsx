@@ -459,7 +459,6 @@ export default function SetupPage() {
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
                                                 <TableHead className="text-xs font-bold">Processing Fee</TableHead>
                                                 <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest (Asset)</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
                                                 <TableHead className="text-xs font-bold">Penalty (Revenue)</TableHead>
                                                 <TableHead className="text-xs font-bold text-right">Actions</TableHead>
@@ -473,7 +472,6 @@ export default function SetupPage() {
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
                                                     <TableCell className="text-xs">{loan.processing_fee}%</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_interest_asset || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_penalty_revenue || "-"}</TableCell>
                                                     <TableCell className="text-right p-2">

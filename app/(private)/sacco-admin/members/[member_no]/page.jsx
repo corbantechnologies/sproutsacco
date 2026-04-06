@@ -334,7 +334,7 @@ function MemberDetail() {
         </div>
 
         {/* Quick Action Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Savings Accounts */}
           <Card className="shadow-md border-l-4 border-l-blue-500">
             <CardHeader>
