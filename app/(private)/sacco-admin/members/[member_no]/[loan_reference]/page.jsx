@@ -145,11 +145,11 @@ export default function LoanAccountDetail({ params }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-3 space-y-6">
             {/* Financial Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card className="bg-white border-l-4 border-l-[#174271]">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
@@ -185,6 +185,19 @@ export default function LoanAccountDetail({ params }) {
                 <CardContent>
                   <p className="text-2xl font-bold text-slate-900">
                     {formatCurrency(loan.total_interest_accrued)}
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white border-l-4 border-l-indigo-500">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Processing Fee
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {formatCurrency(loan.processing_fee)}
                   </p>
                 </CardContent>
               </Card>
@@ -263,6 +276,11 @@ export default function LoanAccountDetail({ params }) {
                         <TableHead>Interest</TableHead>
                         <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
+                        <TableHead>Principal Paid</TableHead>
+                        <TableHead>Interest Paid</TableHead>
+                        <TableHead>Fees Paid</TableHead>
+                        <TableHead>Total Paid</TableHead>
+                        <TableHead>Total Uncleared</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Balance After</TableHead>
                       </TableRow>
@@ -285,6 +303,21 @@ export default function LoanAccountDetail({ params }) {
                             </TableCell>
                             <TableCell className="font-semibold text-primary">
                               {formatCurrency(item.total_due)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.principal_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.interest_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.fee_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.amount_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.total_due - item.amount_paid)}
                             </TableCell>
                             <TableCell>
                               <Badge
