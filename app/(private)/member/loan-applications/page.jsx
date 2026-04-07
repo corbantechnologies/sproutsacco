@@ -33,6 +33,7 @@ import {
 import { Plus, X } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { CreateLoanApplication } from "@/forms/loanapplications/CreateLoanApplication";
+import { LoanProductShowcase } from "@/components/loans/LoanProductShowcase";
 
 export default function LoanApplications() {
   const {
@@ -97,6 +98,8 @@ export default function LoanApplications() {
             New Application
           </Button>
         </div>
+
+        <LoanProductShowcase />
 
         <Card>
           <CardHeader>

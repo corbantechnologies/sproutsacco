@@ -1,6 +1,6 @@
 "use client";
 
-import { getLoan, getLoans } from "@/services/loanaccounts";
+import { getLoan, getLoans, getLoanPayOffAmount } from "@/services/loanaccounts";
 import useAxiosAuth from "../authentication/useAxiosAuth";
 import { useQuery } from "@tanstack/react-query";
 
@@ -22,3 +22,14 @@ export function useFetchLoanDetail(reference) {
     enabled: !!reference,
   });
 }
+
+export function useFetchLoanPayOffAmount(reference) {
+  const token = useAxiosAuth();
+
+  return useQuery({
+    queryKey: ["loanaccounts", reference, "payoff-quote"],
+    queryFn: () => getLoanPayOffAmount(reference, token),
+    enabled: !!reference,
+  });
+}
+

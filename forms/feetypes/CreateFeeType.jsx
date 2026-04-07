@@ -43,6 +43,7 @@ const CreateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes }) => {
             name: "",
             amount: "",
             is_everyone: false,
+            can_exceed_limit: false, // if true, users can pay more than the amount
             is_active: true,
             gl_account: "", //GLAccount name
           }}
@@ -125,6 +126,19 @@ const CreateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes }) => {
                 />
                 <Label htmlFor="is_everyone" className="text-black">
                   Is it for everyone?
+                </Label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="can_exceed_limit"
+                  checked={values.can_exceed_limit}
+                  onCheckedChange={(checked) =>
+                    setFieldValue("can_exceed_limit", checked)
+                  }
+                />
+                <Label htmlFor="can_exceed_limit" className="text-black">
+                  Can exceed amount limit?
                 </Label>
               </div>
 

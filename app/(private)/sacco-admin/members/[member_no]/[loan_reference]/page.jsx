@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React, { use, useMemo, useState } from "react";
+import React, { use, useState } from "react";
 import { format } from "date-fns";
-import { useFetchLoanDetail } from "@/hooks/loans/actions";
+import { useFetchLoanDetail, useFetchLoanPayOffAmount } from "@/hooks/loans/actions";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,12 +50,19 @@ export default function LoanAccountDetail({ params }) {
   const { member_no, loan_reference } = use(params);
   const {
     data: loan,
-    isLoading,
+    isLoading: isLoanLoading,
     refetch,
   } = useFetchLoanDetail(loan_reference);
+
+  const { 
+    data: payoffQuote, 
+    isLoading: isPayoffLoading,
+    isRefetching: isPayoffRefetching 
+  } = useFetchLoanPayOffAmount(loan_reference);
+
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoanLoading) return <LoadingSpinner />;
   if (!loan)
     return (
       <div className="p-8 text-center">
@@ -138,11 +145,11 @@ export default function LoanAccountDetail({ params }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-3 space-y-6">
             {/* Financial Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card className="bg-white border-l-4 border-l-[#174271]">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
@@ -178,6 +185,19 @@ export default function LoanAccountDetail({ params }) {
                 <CardContent>
                   <p className="text-2xl font-bold text-slate-900">
                     {formatCurrency(loan.total_interest_accrued)}
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white border-l-4 border-l-indigo-500">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Processing Fee
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {formatCurrency(loan.processing_fee)}
                   </p>
                 </CardContent>
               </Card>
@@ -254,13 +274,20 @@ export default function LoanAccountDetail({ params }) {
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
+                        <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
+                        <TableHead>Principal Paid</TableHead>
+                        <TableHead>Interest Paid</TableHead>
+                        <TableHead>Fees Paid</TableHead>
+                        <TableHead>Total Paid</TableHead>
+                        <TableHead>Total Uncleared</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Balance After</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {loan.application_details?.projection_snapshot?.schedule?.length > 0 ? (
-                        loan.application_details.projection_snapshot.schedule.map((item, i) => (
+                      {loan.projection_snapshot?.schedule?.length > 0 ? (
+                        loan.projection_snapshot.schedule.map((item, i) => (
                           <TableRow key={i}>
                             <TableCell className="font-medium whitespace-nowrap">
                               {format(new Date(item.due_date), "MMM dd, yyyy")}
@@ -271,8 +298,38 @@ export default function LoanAccountDetail({ params }) {
                             <TableCell>
                               {formatCurrency(item.interest_due)}
                             </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.fee_due)}
+                            </TableCell>
                             <TableCell className="font-semibold text-primary">
                               {formatCurrency(item.total_due)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.principal_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.interest_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.fee_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.amount_paid)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(item.total_due - item.amount_paid)}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant="outline"
+                                className={
+                                  item.is_paid
+                                    ? "bg-green-100 text-green-700 border-green-200"
+                                    : "bg-gray-100 text-gray-700 border-gray-200"
+                                }
+                              >
+                                {item.is_paid ? "Paid" : "Not Paid"}
+                              </Badge>
                             </TableCell>
                             <TableCell className="text-right text-muted-foreground">
                               {formatCurrency(item.balance_after)}
@@ -281,7 +338,7 @@ export default function LoanAccountDetail({ params }) {
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
+                          <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
                             No projection schedule found for this loan.
                           </TableCell>
                         </TableRow>
@@ -359,6 +416,69 @@ export default function LoanAccountDetail({ params }) {
                   </div>
                 </div>
               </CardContent>
+            </Card>
+
+            <Card className="border-green-200 bg-green-50/30 overflow-hidden">
+              <CardHeader className="bg-green-100/50 pb-3">
+                <CardTitle className="text-lg flex items-center gap-2 text-green-800">
+                  <Banknote className="h-5 w-5" /> Payoff Quote
+                </CardTitle>
+                <CardDescription className="text-green-700/70">
+                  Breakdown for immediate settlement
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-4">
+                {isPayoffLoading || isPayoffRefetching ? (
+                  <div className="py-4 text-center text-sm text-green-600 animate-pulse">
+                    Calculating payoff amount...
+                  </div>
+                ) : payoffQuote ? (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        Principal to Clear
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.principal_to_clear)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        Accrued Interest
+                      </span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.interest_to_recognize)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Unpaid Fees</span>
+                      <span className="font-medium">
+                        {formatCurrency(payoffQuote.unpaid_fees)}
+                      </span>
+                    </div>
+                    <Separator className="bg-green-200" />
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-sm font-bold text-green-900">
+                        Total Payoff
+                      </span>
+                      <span className="text-xl font-black text-green-700">
+                        {formatCurrency(payoffQuote.total_payoff_amount)}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-4 text-center text-xs text-amber-600 italic">
+                    Unable to generate payoff quote
+                  </div>
+                )}
+              </CardContent>
+              <CardFooter className="bg-green-50 px-6 py-3 border-t border-green-100 flex items-start gap-2">
+                <Info className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
+                <p className="text-[10px] leading-tight text-green-800/60 font-medium">
+                  This amount includes the outstanding principal, interest
+                  accrued to date, and any unpaid fees.
+                </p>
+              </CardFooter>
             </Card>
 
             <Card>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useFetchMember } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
+// import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
@@ -17,8 +17,8 @@ import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
 import UpdateSavingTypeModal from "@/forms/savingtypes/UpdateSavingType";
 import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
 import UpdateLoanProduct from "@/forms/loanproducts/UpdateLoanProduct";
-import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
-import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
+// import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
+// import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
 import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
 import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
@@ -34,14 +34,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { 
-    CheckCircle2, 
-    Circle, 
-    ArrowRight, 
-    Building2, 
-    Wallet, 
-    PiggyBank, 
-    HandCoins, 
+import {
+    CheckCircle2,
+    Circle,
+    ArrowRight,
+    Building2,
+    Wallet,
+    PiggyBank,
+    HandCoins,
     Settings2,
     AlertCircle,
     BadgePercent,
@@ -76,31 +76,31 @@ export default function SetupPage() {
         isLoading: isLoadingLoanProducts,
         refetch: refetchLoanProducts,
     } = useFetchLoanProducts();
-    const {
-        data: ventureTypes,
-        isLoading: isLoadingVentureTypes,
-        refetch: refetchVentureTypes,
-    } = useFetchVentureTypes();
+    // const {
+    //     data: ventureTypes,
+    //     isLoading: isLoadingVentureTypes,
+    //     refetch: refetchVentureTypes,
+    // } = useFetchVentureTypes();
 
     const [createGLAccountOpen, setCreateGLAccountOpen] = useState(false);
     const [createPaymentAccountOpen, setCreatePaymentAccountOpen] = useState(false);
     const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
     const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
-    const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
+    // const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
     const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
 
     const [selectedGLAccount, setSelectedGLAccount] = useState(null);
     const [selectedPaymentAccount, setSelectedPaymentAccount] = useState(null);
     const [selectedSavingType, setSelectedSavingType] = useState(null);
     const [selectedLoanProduct, setSelectedLoanProduct] = useState(null);
-    const [selectedVentureType, setSelectedVentureType] = useState(null);
+    // const [selectedVentureType, setSelectedVentureType] = useState(null);
     const [selectedFeeType, setSelectedFeeType] = useState(null);
 
     const [updateGLAccountOpen, setUpdateGLAccountOpen] = useState(false);
     const [updatePaymentAccountOpen, setUpdatePaymentAccountOpen] = useState(false);
     const [updateSavingTypeOpen, setUpdateSavingTypeOpen] = useState(false);
     const [updateLoanProductOpen, setUpdateLoanProductOpen] = useState(false);
-    const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
+    // const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
     const [updateFeeTypeOpen, setUpdateFeeTypeOpen] = useState(false);
 
     if (
@@ -109,8 +109,8 @@ export default function SetupPage() {
         isLoadingPaymentAccounts ||
         isLoadingFeeTypes ||
         isLoadingSavingTypes ||
-        isLoadingLoanProducts ||
-        isLoadingVentureTypes
+        isLoadingLoanProducts // ||
+        // isLoadingVentureTypes
     ) {
         return <LoadingSpinner />;
     }
@@ -161,14 +161,14 @@ export default function SetupPage() {
             onClick: () => setCreateLoanProductOpen(true),
             disabled: !mandatorySetupDone,
         },
-        {
-            title: "Venture Types",
-            description: "Configure investment venture types.",
-            icon: Briefcase,
-            done: ventureTypes?.length > 0,
-            onClick: () => setCreateVentureTypeOpen(true),
-            disabled: !mandatorySetupDone,
-        },
+        // {
+        //     title: "Venture Types",
+        //     description: "Configure investment venture types.",
+        //     icon: Briefcase,
+        //     done: ventureTypes?.length > 0,
+        //     onClick: () => setCreateVentureTypeOpen(true),
+        //     disabled: !mandatorySetupDone,
+        // },
     ];
 
     return (
@@ -219,8 +219,8 @@ export default function SetupPage() {
                             <CardDescription className="text-xs line-clamp-1">{step.description}</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 pt-1">
-                            <Button 
-                                onClick={step.onClick} 
+                            <Button
+                                onClick={step.onClick}
                                 disabled={step.disabled}
                                 className={`w-full h-8 text-xs font-bold ${step.done ? "bg-slate-50 text-slate-700 hover:bg-slate-100" : "bg-[#ea1315] text-white hover:bg-[#c71012]"}`}
                                 variant={step.done ? "ghost" : "default"}
@@ -247,7 +247,7 @@ export default function SetupPage() {
                         <TabsTrigger value="fees" className="text-xs">Fee Types</TabsTrigger>
                         <TabsTrigger value="savings" className="text-xs">Savings Types</TabsTrigger>
                         <TabsTrigger value="loans" className="text-xs">Loan Products</TabsTrigger>
-                        <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger>
+                        {/* <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger> */}
                     </TabsList>
 
                     {/* GL Accounts Tab */}
@@ -455,9 +455,10 @@ export default function SetupPage() {
                                         <TableHeader>
                                             <TableRow className="bg-slate-50">
                                                 <TableHead className="text-xs font-bold">Name</TableHead>
+                                                <TableHead className="text-xs font-bold">Interest Method</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest Rate</TableHead>
+                                                <TableHead className="text-xs font-bold">Processing Fee</TableHead>
                                                 <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest (Asset)</TableHead>
                                                 <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
                                                 <TableHead className="text-xs font-bold">Penalty (Revenue)</TableHead>
                                                 <TableHead className="text-xs font-bold text-right">Actions</TableHead>
@@ -467,9 +468,10 @@ export default function SetupPage() {
                                             {loanProducts.map((loan) => (
                                                 <TableRow key={loan.id || loan.reference}>
                                                     <TableCell className="text-xs font-medium">{loan.name}</TableCell>
+                                                    <TableCell className="text-xs">{loan.interest_method}</TableCell>
                                                     <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
+                                                    <TableCell className="text-xs">{loan.processing_fee}%</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_interest_asset || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>
                                                     <TableCell className="text-xs">{loan.gl_penalty_revenue || "-"}</TableCell>
                                                     <TableCell className="text-right p-2">
@@ -497,7 +499,7 @@ export default function SetupPage() {
                     </TabsContent>
 
                     {/* Venture Types Tab */}
-                    <TabsContent value="ventures">
+                    {/* <TabsContent value="ventures">
                         <Card className="shadow-sm">
                             <CardContent className="p-0 overflow-x-auto">
                                 {ventureTypes?.length > 0 ? (
@@ -538,20 +540,20 @@ export default function SetupPage() {
                                 )}
                             </CardContent>
                         </Card>
-                    </TabsContent>
+                    </TabsContent> */}
                 </Tabs>
             </div>
 
             {/* Modals */}
-            <CreateGLAccountModal 
-                isOpen={createGLAccountOpen} 
-                onClose={() => setCreateGLAccountOpen(false)} 
-                refetchGLAccounts={refetchGLAccounts} 
+            <CreateGLAccountModal
+                isOpen={createGLAccountOpen}
+                onClose={() => setCreateGLAccountOpen(false)}
+                refetchGLAccounts={refetchGLAccounts}
             />
-            <CreatePaymentAccountModal 
-                isOpen={createPaymentAccountOpen} 
-                onClose={() => setCreatePaymentAccountOpen(false)} 
-                refetchPaymentAccounts={refetchPaymentAccounts} 
+            <CreatePaymentAccountModal
+                isOpen={createPaymentAccountOpen}
+                onClose={() => setCreatePaymentAccountOpen(false)}
+                refetchPaymentAccounts={refetchPaymentAccounts}
             />
             <CreateSavingTypeModal
                 isOpen={createSavingTypeOpen}
@@ -568,11 +570,11 @@ export default function SetupPage() {
                 onClose={() => setCreateLoanProductOpen(false)}
                 refetchLoanTypes={refetchLoanProducts}
             />
-            <CreateVentureType
+            {/* <CreateVentureType
                 isOpen={createVentureTypeOpen}
                 onClose={() => setCreateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
-            />
+            /> */}
 
             {/* Update Modals */}
             <UpdateGLAccountModal
@@ -605,13 +607,13 @@ export default function SetupPage() {
                 refetchLoanTypes={refetchLoanProducts}
                 loanProduct={selectedLoanProduct}
             />
-            <UpdateVentureType
+            {/* <UpdateVentureType
                 isOpen={updateVentureTypeOpen}
                 onClose={() => setUpdateVentureTypeOpen(false)}
                 refetchVentureTypes={refetchVentureTypes}
                 ventureType={selectedVentureType}
-            />
+            /> */}
         </div>
     );
 }
-
+

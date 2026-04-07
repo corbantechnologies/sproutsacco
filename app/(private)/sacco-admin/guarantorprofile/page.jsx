@@ -39,7 +39,7 @@ import toast from "react-hot-toast";
 import EmptyState from "@/components/general/EmptyState";
 
 export default function GuarantorProfilePage() {
-  const { data: profile, isLoading, refetch } = useFetchGuarantorProfile();
+  const { data: profile, isPending, isError, refetch } = useFetchGuarantorProfile();
   const token = useAxiosAuth();
 
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -93,13 +93,17 @@ export default function GuarantorProfilePage() {
     }
   };
 
-  if (isLoading) return <MemberLoadingSpinner />;
-  if (!profile)
+  if (isPending) return <MemberLoadingSpinner />;
+  if (isError || !profile)
     return (
       <div className="p-8">
         <EmptyState
-          title="Profile Not Found"
-          message="Could not load your guarantor profile. Please try again later."
+          title={isError ? "Error Loading Profile" : "Profile Not Found"}
+          message={
+            isError
+              ? "There was a problem fetching your guarantor profile. Please try again later."
+              : "Could not load your guarantor profile. Please try again later."
+          }
           icon={AlertCircle}
         />
       </div>

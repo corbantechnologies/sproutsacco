@@ -41,11 +41,13 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
         <Formik
           initialValues={{
             name: "",
+            interest_method: "", //Choices are:  INTEREST_METHOD_CHOICES = [("Flat", "Flat-rate"),("Reducing", "Reducing (Diminishing) Balance"),]
             interest_rate: 0,
+            processing_fee: 0,
             gl_principal_asset: "", //GL Account Name
-            gl_interest_asset: "", //GL Account Name
             gl_penalty_revenue: "", //GL Account Name
             gl_interest_revenue: "", //GL Account Name
+            gl_processing_fee_revenue: "", //GL Account Name
           }}
           onSubmit={async (values) => {
             try {
@@ -76,6 +78,27 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   className="border-black "
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="interest_method" className="text-black">
+                  Interest Method
+                </Label>
+                <Select
+                  value={values.interest_method}
+                  onValueChange={(value) => setFieldValue("interest_method", value)}
+                  required
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue placeholder="Select Interest Method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Flat">Flat-rate</SelectItem>
+                    <SelectItem value="Reducing">
+                      Reducing (Diminishing) Balance
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="interest_rate" className="text-black">
                   Interest Rate (%)
@@ -85,6 +108,20 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                   type="number"
                   id="interest_rate"
                   name="interest_rate"
+                  className="border-black "
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="processing_fee" className="text-black">
+                  Processing Fee (%)
+                </Label>
+                <Field
+                  as={Input}
+                  type="number"
+                  id="processing_fee"
+                  name="processing_fee"
                   className="border-black "
                   required
                 />
@@ -104,33 +141,6 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Principal Account"
-                      }
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {glAccounts?.map((acc) => (
-                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
-                        {acc.name} ({acc.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* GL Interest Account (Asset) */}
-              <div className="space-y-2">
-                <Label htmlFor="gl_interest_asset" className="text-black">
-                  Interest GL Account (Asset)
-                </Label>
-                <Select
-                  value={values.gl_interest_asset}
-                  onValueChange={(value) => setFieldValue("gl_interest_asset", value)}
-                  disabled={isLoadingGL}
-                >
-                  <SelectTrigger className="border-black w-full">
-                    <SelectValue
-                      placeholder={
-                        isLoadingGL ? "Loading..." : "Select Interest Account"
                       }
                     />
                   </SelectTrigger>
@@ -185,6 +195,33 @@ function CreateLoanProduct({ isOpen, onClose, refetchLoanTypes }) {
                     <SelectValue
                       placeholder={
                         isLoadingGL ? "Loading..." : "Select Penalty Account"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {glAccounts?.map((acc) => (
+                      <SelectItem key={acc.id || acc.reference} value={acc.name}>
+                        {acc.name} ({acc.code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* GL Processing Fee Account (Revenue) */}
+              <div className="space-y-2">
+                <Label htmlFor="gl_processing_fee_revenue" className="text-black">
+                  Processing Fee GL Account (Revenue)
+                </Label>
+                <Select
+                  value={values.gl_processing_fee_revenue}
+                  onValueChange={(value) => setFieldValue("gl_processing_fee_revenue", value)}
+                  disabled={isLoadingGL}
+                >
+                  <SelectTrigger className="border-black w-full">
+                    <SelectValue
+                      placeholder={
+                        isLoadingGL ? "Loading..." : "Select Processing Fee Account"
                       }
                     />
                   </SelectTrigger>

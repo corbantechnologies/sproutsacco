@@ -41,6 +41,7 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import useUserMemberNo from "@/hooks/authentication/useUserMemberNo";
 import { ChevronLeft, ChevronRight, FileText, User } from "lucide-react";
+import { LoanProductShowcase } from "@/components/loans/LoanProductShowcase";
 
 export default function AdminLoanApplications() {
   const { data: loanApplications, isLoading } = useFetchLoanApplications();
@@ -190,6 +191,8 @@ export default function AdminLoanApplications() {
             </div>
           </div>
         </div>
+
+        <LoanProductShowcase />
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">

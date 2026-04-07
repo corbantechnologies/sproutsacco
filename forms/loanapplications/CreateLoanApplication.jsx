@@ -56,7 +56,7 @@ export function CreateLoanApplication({ onSuccess, memberPath }) {
             `/${memberPath}/loan-applications/${response?.reference}`,
           );
         } catch (error) {
-          console.error("Loan Application Error:", error);
+          console.log("Loan Application Error:", error);
           const errorData = error?.response?.data;
 
           if (errorData) {
@@ -94,7 +94,7 @@ export function CreateLoanApplication({ onSuccess, memberPath }) {
                 </option>
                 {availableProducts.map((product) => (
                   <option key={product?.reference} value={product?.name}>
-                    {product?.name} ({product?.interest_rate}% p.a)
+                    {product?.name} - {product?.interest_method} ({product?.interest_rate}% p.a) {product?.processing_fee}% processing fee
                   </option>
                 ))}
               </Field>

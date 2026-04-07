@@ -72,7 +72,8 @@ export default function AdminLoanApplicationDetail({ params }) {
   const { reference } = use(params);
   const {
     data: application,
-    isLoading,
+    isPending,
+    isError,
     refetch,
   } = useFetchLoanApplicationDetail(reference);
   const token = useAxiosAuth();
@@ -271,13 +272,17 @@ export default function AdminLoanApplicationDetail({ params }) {
     return application?.projection?.schedule || [];
   }, [application]);
 
-  if (isLoading) return <MemberLoadingSpinner />;
-  if (!application)
+  if (isPending) return <MemberLoadingSpinner />;
+  if (isError || !application)
     return (
       <div className="p-8">
         <EmptyState
-          title="Application Not Found"
-          message="The loan application you are looking for does not exist or has been deleted."
+          title={isError ? "Error Loading Application" : "Application Not Found"}
+          message={
+            isError
+              ? "There was a problem fetching the loan application. Please try again later."
+              : "The loan application you are looking for does not exist or has been deleted."
+          }
           icon={FileText}
         />
       </div>
@@ -519,13 +524,22 @@ export default function AdminLoanApplicationDetail({ params }) {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="bg-gray-50/50 border-t p-4">
+              <CardFooter className="bg-gray-50/50 border-t p-4 flex flex-col gap-2">
                 <div className="w-full flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">
                     Projected Total Interest:
                   </span>
                   <span className="font-semibold text-gray-900">
                     {formatCurrency(application.total_interest)}
+                  </span>
+                </div>
+
+                <div className="w-full flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">
+                    Processing Fee:
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    {formatCurrency(application.processing_fee)}
                   </span>
                 </div>
               </CardFooter>
@@ -549,7 +563,9 @@ export default function AdminLoanApplicationDetail({ params }) {
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
+                        <TableHead>Fees</TableHead>
                         <TableHead>Total Due</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Balance</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -565,8 +581,23 @@ export default function AdminLoanApplicationDetail({ params }) {
                           <TableCell>
                             {formatCurrency(row.interest_due)}
                           </TableCell>
+                          <TableCell>
+                            {formatCurrency(row.fee_due)}
+                          </TableCell>
                           <TableCell className="font-semibold text-[#045e32]">
                             {formatCurrency(row.total_due)}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className={
+                                row.is_paid
+                                  ? "bg-green-100 text-green-700 border-green-200"
+                                  : "bg-gray-100 text-gray-700 border-gray-200"
+                              }
+                            >
+                              {row.is_paid ? "Paid" : "Not Paid"}
+                            </Badge>
                           </TableCell>
                           <TableCell className="text-right text-muted-foreground">
                             {formatCurrency(row.balance_after)}
@@ -576,7 +607,7 @@ export default function AdminLoanApplicationDetail({ params }) {
                       {schedule.length === 0 && (
                         <TableRow>
                           <TableCell
-                            colSpan={5}
+                            colSpan={6}
                             className="text-center h-24 text-muted-foreground"
                           >
                             {application.status === "Pending"

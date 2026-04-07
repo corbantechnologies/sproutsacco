@@ -38,7 +38,7 @@ const UpdatePaymentAccountModal = ({ isOpen, onClose, refetchPaymentAccounts, pa
                     onSubmit={async (values) => {
                         try {
                             setLoading(true);
-                            await updatePaymentAccount(paymentAccount?.id || paymentAccount?.reference, values, token);
+                            await updatePaymentAccount(paymentAccount?.reference, values, token);
                             toast?.success("Payment Account updated successfully!");
                             onClose();
                             refetchPaymentAccounts();

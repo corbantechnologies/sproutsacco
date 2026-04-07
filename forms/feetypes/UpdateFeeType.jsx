@@ -44,7 +44,7 @@ const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
           initialValues={{
             name: feeType?.name || "",
             amount: feeType?.amount || "",
-            is_everyone: feeType?.is_everyone ?? false,
+            can_exceed_limit: feeType?.can_exceed_limit ?? false,
             is_active: feeType?.is_active ?? true,
             gl_account: feeType?.gl_account || "",
           }}
@@ -52,7 +52,7 @@ const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
           onSubmit={async (values) => {
             setLoading(true);
             try {
-              await updateFeeType(feeType?.id || feeType?.reference, values, token);
+              await updateFeeType(feeType?.reference, values, token);
               toast?.success("Fee type updated successfully!");
               onClose();
               refetchFeeTypes();
@@ -116,14 +116,14 @@ const UpdateFeeTypeModal = ({ isOpen, onClose, refetchFeeTypes, feeType }) => {
 
               <div className="flex items-center space-x-2">
                 <Checkbox
-                  id="is_everyone"
-                  checked={values.is_everyone}
+                  id="can_exceed_limit"
+                  checked={values.can_exceed_limit}
                   onCheckedChange={(checked) =>
-                    setFieldValue("is_everyone", checked)
+                    setFieldValue("can_exceed_limit", checked)
                   }
                 />
-                <Label htmlFor="is_everyone" className="text-black">
-                  Is it for everyone?
+                <Label htmlFor="can_exceed_limit" className="text-black">
+                  Can exceed amount limit?
                 </Label>
               </div>
 

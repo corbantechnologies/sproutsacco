@@ -322,6 +322,7 @@ export default function SaccoAdminDashboard() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Name</TableHead>
+                      <TableHead>Interest Method</TableHead>
                       <TableHead>Interest Rate</TableHead>
                       <TableHead>Description</TableHead>
                     </TableRow>
@@ -332,6 +333,7 @@ export default function SaccoAdminDashboard() {
                         <TableCell className="font-medium">
                           {product.name}
                         </TableCell>
+                        <TableCell>{product.interest_method}</TableCell>
                         <TableCell>{product.interest_rate}%</TableCell>
                         <TableCell>{product.description || "-"}</TableCell>
                       </TableRow>
