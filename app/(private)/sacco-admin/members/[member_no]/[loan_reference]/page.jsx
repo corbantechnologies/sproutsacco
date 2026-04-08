@@ -275,85 +275,6 @@ export default function LoanAccountDetail({ params }) {
               </CardContent>
             </Card>
 
-            {/* Loan Penalties */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-amber-500" /> Loan Penalties
-                </CardTitle>
-                <Button
-                  size="sm"
-                  onClick={() => setIsPenaltyModalOpen(true)}
-                  className="bg-primary hover:bg-[#022007] text-white text-xs"
-                >
-                  Apply Penalty
-                </Button>
-              </CardHeader>
-              <CardContent className="p-0 sm:p-6">
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="bg-gray-50/50">
-                        <TableHead>Date</TableHead>
-                        <TableHead>Code</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Action</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {penalties?.length > 0 ? (
-                        penalties.map((penalty, i) => (
-                          <TableRow key={i}>
-                            <TableCell className="font-medium">
-                              {format(new Date(penalty.created_at), "MMM dd, yyyy")}
-                            </TableCell>
-                            <TableCell className="font-mono text-xs">
-                              {penalty.penalty_code}
-                            </TableCell>
-                            <TableCell className="font-bold">
-                              {formatCurrency(penalty.amount)}
-                            </TableCell>
-                            <TableCell>
-                              <Badge 
-                                variant="outline" 
-                                className={`text-[10px] py-0 ${
-                                  penalty.status === "Pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
-                                  penalty.status === "Paid" ? "bg-green-100 text-green-700 border-green-200" :
-                                  "bg-gray-100 text-gray-700 border-gray-200"
-                                }`}
-                              >
-                                {penalty.status}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-primary"
-                                onClick={() => {
-                                  setSelectedPenalty(penalty);
-                                  setIsUpdatePenaltyModalOpen(true);
-                                }}
-                                disabled={penalty.status !== "Pending"}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
-                            No penalties recorded for this loan.
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Repayment Schedule */}
             <Card>
@@ -370,6 +291,7 @@ export default function LoanAccountDetail({ params }) {
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-gray-50/50">
+                        <TableHead>Code</TableHead>
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
@@ -388,6 +310,9 @@ export default function LoanAccountDetail({ params }) {
                       {loan.projection_snapshot?.schedule?.length > 0 ? (
                         loan.projection_snapshot.schedule.map((item, i) => (
                           <TableRow key={i}>
+                            <TableCell className="font-medium whitespace-nowrap">
+                              {item.installment_code}
+                            </TableCell>
                             <TableCell className="font-medium whitespace-nowrap">
                               {format(new Date(item.due_date), "MMM dd, yyyy")}
                             </TableCell>
@@ -439,6 +364,101 @@ export default function LoanAccountDetail({ params }) {
                         <TableRow>
                           <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
                             No projection schedule found for this loan.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Loan Penalties */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-amber-500" /> Loan Penalties
+                </CardTitle>
+                <Button
+                  size="sm"
+                  onClick={() => setIsPenaltyModalOpen(true)}
+                  className="bg-primary hover:bg-[#022007] text-white text-xs"
+                >
+                  Apply Penalty
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0 sm:p-6">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50/50">
+                        <TableHead>Date / Code</TableHead>
+                        <TableHead>Installment</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Amount Paid</TableHead>
+                        <TableHead>Balance</TableHead>
+                        <TableHead>Charged By</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {penalties?.length > 0 ? (
+                        penalties.map((penalty, i) => (
+                          <TableRow key={i}>
+                            <TableCell>
+                              <div className="flex flex-col gap-0.5">
+                                <span className="text-sm font-medium">{format(new Date(penalty.created_at), "MMM d, yyyy")}</span>
+                                <span className="font-mono text-[10px] text-muted-foreground">{penalty.penalty_code}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="font-mono text-xs">
+                              {penalty.installment_code}
+                            </TableCell>
+                            <TableCell className="font-bold">
+                              {formatCurrency(penalty.amount)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(penalty.amount_paid)}
+                            </TableCell>
+                            <TableCell className="font-semibold text-amber-700">
+                              {formatCurrency(penalty.balance)}
+                            </TableCell>
+                            <TableCell className="text-sm">
+                              {penalty.charged_by}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant="outline"
+                                className={`text-[10px] py-0 ${
+                                  penalty.status === "Pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                                  penalty.status === "Paid" ? "bg-green-100 text-green-700 border-green-200" :
+                                  "bg-gray-100 text-gray-700 border-gray-200"
+                                }`}
+                              >
+                                {penalty.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-primary"
+                                onClick={() => {
+                                  setSelectedPenalty(penalty);
+                                  setIsUpdatePenaltyModalOpen(true);
+                                }}
+                                disabled={penalty.status !== "Pending"}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={8} className="text-center h-24 text-muted-foreground">
+                            No penalties recorded for this loan.
                           </TableCell>
                         </TableRow>
                       )}

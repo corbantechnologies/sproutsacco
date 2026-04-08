@@ -40,7 +40,24 @@ function CreateLoanPenalty({ isOpen, onClose, refetchLoan, loan_account }) {
               onClose();
               if (refetchLoan) refetchLoan();
             } catch (error) {
-              toast?.error("Failed to apply penalty!");
+              console.error("Create Penalty Error:", error);
+              const errorData = error?.response?.data;
+              if (typeof errorData === "string") {
+                toast.error(errorData);
+              } else if (errorData?.detail) {
+                toast.error(errorData.detail);
+              } else if (errorData) {
+                const firstErrorKey = Object.keys(errorData)[0];
+                const firstError = errorData[firstErrorKey];
+                const errorMessage = Array.isArray(firstError)
+                  ? firstError[0]
+                  : firstError;
+                toast.error(
+                  `${firstErrorKey.replace(/_/g, " ")}: ${errorMessage}`
+                );
+              } else {
+                toast.error("Failed to apply penalty! ❌");
+              }
             } finally {
               setLoading(false);
             }

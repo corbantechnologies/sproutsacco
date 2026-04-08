@@ -13,7 +13,7 @@ export const createLoanPenalty = async (values, token) => {
 };
 
 export const updateLoanPenalty = async (reference, values, token) => {
-    const response = await apiActions?.put(
+    const response = await apiActions?.patch(
         `/api/v1/loanpenalties/${reference}/`,
         values,
         token
