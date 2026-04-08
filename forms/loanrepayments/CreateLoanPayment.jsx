@@ -25,14 +25,15 @@ import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
 
 const REPAYMENT_TYPE_CHOICES = [
-  { value: "Regular Repayment", label: "Regular Repayment" }, // pays an installment
-  { value: "Partial Payment", label: "Partial Payment" }, // pays part of an installment
-  { value: "Early Settlement", label: "Early Settlement" }, // pays the entire loan
-  { value: "Penalty Payment", label: "Penalty Payment" }, // pays penalty
-  { value: "Interest Only", label: "Interest Only" }, // pays only interest
+  { value: "Regular Repayment", label: "Regular Repayment" },
+  { value: "Partial Payment", label: "Partial Payment" },
+  { value: "Early Settlement", label: "Early Settlement" },
+  { value: "Penalty Payment", label: "Penalty Payment" },
+  { value: "Loan Clearance", label: "Loan Clearance" },
+  { value: "Interest Only", label: "Interest Only" },
 ];
 
-function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount }) {
+function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmount, loanData, exactClearanceAmount }) {
   const [loading, setLoading] = useState(false);
   const token = useAxiosAuth();
   const { data: paymentAccounts, isLoading: isLoadingPayment } = useFetchPaymentAccounts();
@@ -54,7 +55,10 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
           }}
           enableReinitialize={true}
           onSubmit={async (values) => {
-            if (values.amount > maxAmount) {
+            const isLoanClearance = values.repayment_type === "Loan Clearance";
+            const isPenaltyPayment = values.repayment_type === "Penalty Payment";
+            // For standard types, cap at outstanding balance; penalty/clearance amounts are validated server-side
+            if (!isLoanClearance && !isPenaltyPayment && values.amount > maxAmount) {
               toast.error(`Amount cannot exceed the remaining balance of ${maxAmount.toLocaleString()}`);
               return;
             }
@@ -65,6 +69,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
               onClose();
               if (refetchLoan) refetchLoan();
             } catch (error) {
+              console.log(error);
               toast?.error("Failed to log repayment!");
             } finally {
               setLoading(false);
@@ -94,7 +99,14 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 </Label>
                 <Select
                   value={values.repayment_type}
-                  onValueChange={(value) => setFieldValue("repayment_type", value)}
+                  onValueChange={(value) => {
+                    setFieldValue("repayment_type", value);
+                    if (value === "Loan Clearance") {
+                      // Prefer exact server-calculated figure; fall back to model estimate
+                      const fillAmount = exactClearanceAmount ?? parseFloat(loanData?.total_clearance_amount ?? 0);
+                      if (fillAmount > 0) setFieldValue("amount", fillAmount);
+                    }
+                  }}
                   required
                 >
                   <SelectTrigger className="border-black w-full">
@@ -110,7 +122,7 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                 </Select>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <Label htmlFor="amount" className="text-black">
                   Amount
                 </Label>
@@ -126,6 +138,22 @@ function CreateLoanPayment({ isOpen, onClose, refetchLoan, loan_account, maxAmou
                   min="0.01"
                   step="0.01"
                 />
+                {/* Contextual hints per repayment type */}
+                {values.repayment_type === "Loan Clearance" && (
+                  <p className="text-[11px] text-amber-600 font-medium">
+                    ⚡ Includes loan balance + all outstanding penalties. Amount is pre-filled from the account estimate — the server will validate the exact figure.
+                  </p>
+                )}
+                {values.repayment_type === "Early Settlement" && loanData?.total_penalties_owed > 0 && (
+                  <p className="text-[11px] text-red-600 font-medium">
+                    ⛔ This loan has outstanding penalties. Use &quot;Loan Clearance&quot; to settle both together.
+                  </p>
+                )}
+                {values.repayment_type === "Penalty Payment" && loanData?.total_penalties_owed > 0 && (
+                  <p className="text-[11px] text-blue-600">
+                    Total penalties outstanding: <span className="font-bold">{parseFloat(loanData.total_penalties_owed).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">

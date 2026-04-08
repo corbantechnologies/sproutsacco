@@ -61,6 +61,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                             category: "ASSET",
                             code: "",
                             is_active: true,
+                            is_current_account: true,
                         }}
                         onSubmit={async (values) => {
                             try {
@@ -140,6 +141,17 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                                     />
                                     <Label htmlFor="is_active" className="text-sm font-medium text-slate-700 cursor-pointer">
                                         Is this account active?
+                                    </Label>
+                                </div>
+                                <div className="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    <Checkbox
+                                        id="is_current_account"
+                                        checked={values.is_current_account}
+                                        onCheckedChange={(checked) => setFieldValue("is_current_account", checked)}
+                                        className="border-slate-300 data-[state=checked]:bg-[#ea1315] data-[state=checked]:border-[#ea1315]"
+                                    />
+                                    <Label htmlFor="is_current_account" className="text-sm font-medium text-slate-700 cursor-pointer">
+                                        Is this a current account?
                                     </Label>
                                 </div>
 

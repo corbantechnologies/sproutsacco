@@ -43,8 +43,13 @@ import {
   Banknote,
   Calendar,
   User,
+  AlertTriangle,
+  Pencil,
 } from "lucide-react";
 import CreateLoanPayment from "@/forms/loanrepayments/CreateLoanPayment";
+import { useFetchLoanPenaltiesByLoanAccountReference } from "@/hooks/loanpenalties/actions";
+import CreateLoanPenalty from "@/forms/loanpenalties/CreateLoanPenalty";
+import UpdateLoanPenalty from "@/forms/loanpenalties/UpdateLoanPenalty";
 
 export default function LoanAccountDetail({ params }) {
   const { member_no, loan_reference } = use(params);
@@ -54,6 +59,12 @@ export default function LoanAccountDetail({ params }) {
     refetch,
   } = useFetchLoanDetail(loan_reference);
 
+  const {
+    data: penalties,
+    isLoading: isPenaltiesLoading,
+    refetch: refetchPenalties,
+  } = useFetchLoanPenaltiesByLoanAccountReference(loan_reference);
+
   const { 
     data: payoffQuote, 
     isLoading: isPayoffLoading,
@@ -61,6 +72,14 @@ export default function LoanAccountDetail({ params }) {
   } = useFetchLoanPayOffAmount(loan_reference);
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPenaltyModalOpen, setIsPenaltyModalOpen] = useState(false);
+  const [isUpdatePenaltyModalOpen, setIsUpdatePenaltyModalOpen] = useState(false);
+  const [selectedPenalty, setSelectedPenalty] = useState(null);
+
+  const refetchAll = () => {
+    refetch();
+    refetchPenalties();
+  };
 
   if (isLoanLoading) return <LoadingSpinner />;
   if (!loan)
@@ -201,6 +220,44 @@ export default function LoanAccountDetail({ params }) {
                   </p>
                 </CardContent>
               </Card>
+
+              {/* Penalty & Clearance summary cards — only shown for active loans */}
+              {parseFloat(loan.total_penalties_owed) > 0 && (
+                <Card className="bg-white border-l-4 border-l-red-500">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xs font-bold uppercase tracking-wider text-red-500 flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4" /> Penalties Owed
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-red-600">
+                      {formatCurrency(loan.total_penalties_owed)}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1">Total outstanding penalty balance</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {loan.status !== "Closed" && (
+                <Card className="bg-white border-l-4 border-l-purple-500">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                      Estimated Clearance
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-purple-700">
+                      {formatCurrency(loan.total_clearance_amount)}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      {parseFloat(loan.total_penalties_owed) > 0
+                        ? "Loan balance + pending penalties"
+                        : "Full outstanding balance"}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
             </div>
 
             {/* Repayment History */}
@@ -256,6 +313,7 @@ export default function LoanAccountDetail({ params }) {
               </CardContent>
             </Card>
 
+
             {/* Repayment Schedule */}
             <Card>
               <CardHeader>
@@ -271,6 +329,7 @@ export default function LoanAccountDetail({ params }) {
                   <Table>
                     <TableHeader>
                       <TableRow className="bg-gray-50/50">
+                        <TableHead>Code</TableHead>
                         <TableHead>Due Date</TableHead>
                         <TableHead>Principal</TableHead>
                         <TableHead>Interest</TableHead>
@@ -289,6 +348,9 @@ export default function LoanAccountDetail({ params }) {
                       {loan.projection_snapshot?.schedule?.length > 0 ? (
                         loan.projection_snapshot.schedule.map((item, i) => (
                           <TableRow key={i}>
+                            <TableCell className="font-medium whitespace-nowrap">
+                              {item.installment_code}
+                            </TableCell>
                             <TableCell className="font-medium whitespace-nowrap">
                               {format(new Date(item.due_date), "MMM dd, yyyy")}
                             </TableCell>
@@ -340,6 +402,101 @@ export default function LoanAccountDetail({ params }) {
                         <TableRow>
                           <TableCell colSpan={6} className="text-center h-24 text-muted-foreground">
                             No projection schedule found for this loan.
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Loan Penalties */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-amber-500" /> Loan Penalties
+                </CardTitle>
+                <Button
+                  size="sm"
+                  onClick={() => setIsPenaltyModalOpen(true)}
+                  className="bg-primary hover:bg-[#022007] text-white text-xs"
+                >
+                  Apply Penalty
+                </Button>
+              </CardHeader>
+              <CardContent className="p-0 sm:p-6">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50/50">
+                        <TableHead>Date / Code</TableHead>
+                        <TableHead>Installment</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Amount Paid</TableHead>
+                        <TableHead>Balance</TableHead>
+                        <TableHead>Charged By</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Action</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {penalties?.length > 0 ? (
+                        penalties.map((penalty, i) => (
+                          <TableRow key={i}>
+                            <TableCell>
+                              <div className="flex flex-col gap-0.5">
+                                <span className="text-sm font-medium">{format(new Date(penalty.created_at), "MMM d, yyyy")}</span>
+                                <span className="font-mono text-[10px] text-muted-foreground">{penalty.penalty_code}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell className="font-mono text-xs">
+                              {penalty.installment_code}
+                            </TableCell>
+                            <TableCell className="font-bold">
+                              {formatCurrency(penalty.amount)}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(penalty.amount_paid)}
+                            </TableCell>
+                            <TableCell className="font-semibold text-amber-700">
+                              {formatCurrency(penalty.balance)}
+                            </TableCell>
+                            <TableCell className="text-sm">
+                              {penalty.charged_by}
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant="outline"
+                                className={`text-[10px] py-0 ${
+                                  penalty.status === "Pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                                  penalty.status === "Paid" ? "bg-green-100 text-green-700 border-green-200" :
+                                  "bg-gray-100 text-gray-700 border-gray-200"
+                                }`}
+                              >
+                                {penalty.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-primary"
+                                onClick={() => {
+                                  setSelectedPenalty(penalty);
+                                  setIsUpdatePenaltyModalOpen(true);
+                                }}
+                                disabled={penalty.status !== "Pending"}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={8} className="text-center h-24 text-muted-foreground">
+                            No penalties recorded for this loan.
                           </TableCell>
                         </TableRow>
                       )}
@@ -435,36 +592,36 @@ export default function LoanAccountDetail({ params }) {
                 ) : payoffQuote ? (
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        Principal to Clear
-                      </span>
-                      <span className="font-medium">
-                        {formatCurrency(payoffQuote.principal_to_clear)}
-                      </span>
+                      <span className="text-muted-foreground">Principal to Clear</span>
+                      <span className="font-medium">{formatCurrency(payoffQuote.principal_to_clear)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        Accrued Interest
-                      </span>
-                      <span className="font-medium">
-                        {formatCurrency(payoffQuote.interest_to_recognize)}
-                      </span>
+                      <span className="text-muted-foreground">Accrued Interest</span>
+                      <span className="font-medium">{formatCurrency(payoffQuote.interest_to_recognize)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Unpaid Fees</span>
-                      <span className="font-medium">
-                        {formatCurrency(payoffQuote.unpaid_fees)}
-                      </span>
+                      <span className="font-medium">{formatCurrency(payoffQuote.unpaid_fees)}</span>
                     </div>
+                    {parseFloat(loan.total_penalties_owed) > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-red-600 font-medium">Penalties Owed</span>
+                        <span className="font-medium text-red-600">{formatCurrency(loan.total_penalties_owed)}</span>
+                      </div>
+                    )}
                     <Separator className="bg-green-200" />
                     <div className="flex justify-between items-center pt-1">
-                      <span className="text-sm font-bold text-green-900">
-                        Total Payoff
-                      </span>
-                      <span className="text-xl font-black text-green-700">
-                        {formatCurrency(payoffQuote.total_payoff_amount)}
-                      </span>
+                      <span className="text-sm font-bold text-green-900">Settlement Only</span>
+                      <span className="text-lg font-black text-green-700">{formatCurrency(payoffQuote.total_payoff_amount)}</span>
                     </div>
+                    {parseFloat(loan.total_penalties_owed) > 0 && (
+                      <div className="flex justify-between items-center bg-purple-50 border border-purple-200 rounded-md px-3 py-2 mt-1">
+                        <span className="text-sm font-bold text-purple-900">Full Clearance</span>
+                        <span className="text-lg font-black text-purple-700">
+                          {formatCurrency(parseFloat(payoffQuote.total_payoff_amount) + parseFloat(loan.total_penalties_owed))}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="py-4 text-center text-xs text-amber-600 italic">
@@ -511,9 +668,29 @@ export default function LoanAccountDetail({ params }) {
         <CreateLoanPayment
           isOpen={isPaymentModalOpen}
           onClose={() => setIsPaymentModalOpen(false)}
-          refetchLoan={refetch}
+          refetchLoan={refetchAll}
           loan_account={loan.account_number}
           maxAmount={parseFloat(loan.outstanding_balance)}
+          loanData={loan}
+          exactClearanceAmount={
+            payoffQuote
+              ? parseFloat(payoffQuote.total_payoff_amount) + parseFloat(loan.total_penalties_owed || 0)
+              : null
+          }
+        />
+
+        <CreateLoanPenalty
+          isOpen={isPenaltyModalOpen}
+          onClose={() => setIsPenaltyModalOpen(false)}
+          refetchLoan={refetchAll}
+          loan_account={loan.account_number}
+        />
+
+        <UpdateLoanPenalty
+          isOpen={isUpdatePenaltyModalOpen}
+          onClose={() => setIsUpdatePenaltyModalOpen(false)}
+          refetchLoan={refetchAll}
+          penalty={selectedPenalty}
         />
       </div>
     </div>

@@ -53,6 +53,7 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                         category: glAccount?.category || "",
                         code: glAccount?.code || "",
                         is_active: glAccount?.is_active ?? true,
+                        is_current_account: glAccount?.is_current_account ?? true,
                     }}
                     onSubmit={async (values) => {
                         try {
@@ -125,6 +126,17 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                 />
                                 <Label htmlFor="is_active" className="text-black">
                                     Is Active?
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="is_current_account"
+                                    checked={values.is_current_account}
+                                    onCheckedChange={(checked) => setFieldValue("is_current_account", checked)}
+                                />
+                                <Label htmlFor="is_current_account" className="text-black">
+                                    Is Current Account?
                                 </Label>
                             </div>
 
