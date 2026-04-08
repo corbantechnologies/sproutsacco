@@ -53,6 +53,7 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                         category: glAccount?.category || "",
                         code: glAccount?.code || "",
                         is_active: glAccount?.is_active ?? true,
+                        is_current_account: glAccount?.is_current_account ?? true,
                     }}
                     onSubmit={async (values) => {
                         try {

@@ -61,6 +61,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                             category: "ASSET",
                             code: "",
                             is_active: true,
+                            is_current_account: true,
                         }}
                         onSubmit={async (values) => {
                             try {
