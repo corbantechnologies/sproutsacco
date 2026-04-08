@@ -45,9 +45,17 @@ export const submitForAmendment = async (reference, token) => {
 export const amendLoanApplication = async (reference, values, token) => {
     // Done by admin. 
     // Basically updates the loan application: requested_amount can be changed.
+    // Allows the admin to draft and preview the changes before finalizing.
+    // Allows them to check the schedules
+    await apiActions?.patch(`/api/v1/loanapplications/${reference}/amend/`, values, token)
+}
+
+export const finalizeLoanAmendment = async (reference, values, token) => {
+    // Done by admin.
+    // Basically updates the loan application: requested_amount can be changed.
     // If it is okay with the admin, they just leave the requested_amount as it is.
     // they have to always write an amendment note: amendment_note whether the loan application is changed or not.
-    await apiActions?.patch(`/api/v1/loanapplications/${reference}/amend/`, values, token)
+    await apiActions?.patch(`/api/v1/loanapplications/${reference}/finalize-amendment/`, values, token)
 }
 
 export const acceptAmendment = async (reference, token) => {

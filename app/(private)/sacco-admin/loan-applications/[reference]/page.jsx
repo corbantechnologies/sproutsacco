@@ -46,7 +46,8 @@ import {
   Loader2,
 } from "lucide-react";
 import { MemberUpdateLoanApplication } from "@/forms/loanapplications/MemberUpdateLoanApplication";
-import { AdminAmendLoanApplication } from "@/forms/loanapplications/AdminAmendLoanApplication";
+import { AdminUpdateLoanApplication } from "@/forms/loanapplications/AdminUpdateLoanApplication";
+import { AdminFinalizeAmendment } from "@/forms/loanapplications/AdminFinalizeAmendment";
 import {
   submitForAmendment,
   approveLoanApplication,
@@ -79,6 +80,7 @@ export default function AdminLoanApplicationDetail({ params }) {
   const token = useAxiosAuth();
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isAmendModalOpen, setIsAmendModalOpen] = useState(false);
+  const [isUpdateAdminModalOpen, setIsUpdateAdminModalOpen] = useState(false);
   const [isGuarantorModalOpen, setIsGuarantorModalOpen] = useState(false);
   const [isDisburseModalOpen, setIsDisburseModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -459,13 +461,23 @@ export default function AdminLoanApplicationDetail({ params }) {
                   </Button>
                 )}
                 {application.status === "Ready for Amendment" && (
-                  <Button
-                    onClick={() => setIsAmendModalOpen(true)}
-                    className="bg-amber-600 hover:bg-amber-700 w-full sm:w-auto"
-                  >
-                    <Edit className="mr-2 h-4 w-4" />
-                    Amend Application
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                    <Button
+                      onClick={() => setIsUpdateAdminModalOpen(true)}
+                      variant="outline"
+                      className="border-amber-600 text-amber-600 hover:bg-amber-50 w-full sm:w-auto"
+                    >
+                      <Pencil className="mr-2 h-4 w-4" />
+                      Update Application
+                    </Button>
+                    <Button
+                      onClick={() => setIsAmendModalOpen(true)}
+                      className="bg-amber-600 hover:bg-amber-700 w-full sm:w-auto"
+                    >
+                      <CheckCircle2 className="mr-2 h-4 w-4" />
+                      Finalize Amendment
+                    </Button>
+                  </div>
                 )}
               </>
             )}
@@ -776,13 +788,42 @@ export default function AdminLoanApplicationDetail({ params }) {
           </div>
         )}
 
-        {/* Admin Amend Modal */}
+        {/* Admin Update Draft Modal */}
+        {isUpdateAdminModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+              <div className="flex items-center justify-between p-6 border-b">
+                <h2 className="text-xl font-bold text-gray-900">
+                  Update Draft
+                </h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsUpdateAdminModalOpen(false)}
+                  className="h-8 w-8 rounded-full"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="p-6">
+                <AdminUpdateLoanApplication
+                  closeModal={() => setIsUpdateAdminModalOpen(false)}
+                  reference={reference}
+                  loanApplication={application}
+                  onSuccess={refetch}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Admin Finalize Amendment Modal */}
         {isAmendModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-xl font-bold text-gray-900">
-                  Amend Application
+                  Finalize Amendment
                 </h2>
                 <Button
                   variant="ghost"
@@ -794,7 +835,7 @@ export default function AdminLoanApplicationDetail({ params }) {
                 </Button>
               </div>
               <div className="p-6">
-                <AdminAmendLoanApplication
+                <AdminFinalizeAmendment
                   closeModal={() => setIsAmendModalOpen(false)}
                   reference={reference}
                   loanApplication={application}
