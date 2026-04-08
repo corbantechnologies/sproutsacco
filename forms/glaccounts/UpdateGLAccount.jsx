@@ -129,6 +129,17 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                 </Label>
                             </div>
 
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="is_current_account"
+                                    checked={values.is_current_account}
+                                    onCheckedChange={(checked) => setFieldValue("is_current_account", checked)}
+                                />
+                                <Label htmlFor="is_current_account" className="text-black">
+                                    Is Current Account?
+                                </Label>
+                            </div>
+
                             <DialogFooter>
                                 <Button
                                     type="button"
