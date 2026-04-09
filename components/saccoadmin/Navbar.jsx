@@ -58,7 +58,6 @@ function SaccoAdminNavbar() {
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
               { label: "Members", href: "/sacco-admin/members" },
               { label: "Loans", href: "/sacco-admin/loans" },
-              { label: "Savings", href: "/sacco-admin/savings" },
               { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
               {
                 label: "Setup",
@@ -82,7 +81,6 @@ function SaccoAdminNavbar() {
                 label: "Guarantor Profile",
                 href: "/sacco-admin/personal/guarantorprofile",
               },
-              { label: "Withdrawals", href: "/sacco-admin/withdrawals" },
               { label: "Settings", href: "/sacco-admin/settings" },
             ].map((link) => (
               <React.Fragment key={link.href}>
