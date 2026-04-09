@@ -75,7 +75,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                 </p>
             </div>
 
-            <div className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+            <div className="bg-slate-50 rounded p-8 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div className="flex items-center gap-5">
                     <div className="bg-white p-4 rounded shadow-sm border border-slate-50">
                         <Download className="w-7 h-7 text-[#174271]" />
@@ -97,7 +97,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-[3rem] p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                    className={`border-2 border-dashed rounded p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
                         ? "border-[#174271] bg-[#174271]/5 shadow-inner"
                         : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50 shadow-sm"
                         }`}
@@ -137,7 +137,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-6">
-                            <div className="p-8 bg-slate-50 rounded-[2.5rem] text-slate-200 border-4 border-white shadow-inner">
+                            <div className="p-8 bg-slate-50 rounded text-slate-200 border-4 border-white shadow-inner">
                                 <FileUp className="w-16 h-16" />
                             </div>
                             <div className="space-y-2">
@@ -155,7 +155,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-slate-800 text-white px-24 h-16 rounded-[2rem] font-semibold text-xl shadow-2xl shadow-slate-200 transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4 uppercase tracking-tighter"
+                        className="bg-[#174271] hover:bg-slate-800 text-white px-24 h-16 rounded font-semibold text-xl shadow-2xl shadow-slate-200 transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4 uppercase tracking-tighter"
                         disabled={loading || !file}
                     >
                         {loading ? "Synchronizing Data..." : "Engage Bulk Upload"}
