@@ -56,14 +56,27 @@ function SaccoAdminNavbar() {
           <nav className="flex flex-col p-4 overflow-y-auto h-full">
             {[
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
-              { label: "Setup", href: "/sacco-admin/setup" },
+              { label: "Members", href: "/sacco-admin/members" },
+              { label: "Loans", href: "/sacco-admin/loans" },
+              { label: "Savings", href: "/sacco-admin/savings" },
+              { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
+              {
+                label: "Setup",
+                href: "/sacco-admin/setup",
+                children: [
+                   { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
+                   { label: "Payment Accounts", href: "/sacco-admin/setup/payment-accounts" },
+                   { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
+                   { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
+                   { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
+                ]
+              },
               { label: "Accounting", href: "/sacco-admin/accounting" },
               { label: "Reports", href: "/sacco-admin/reports" },
               {
                 label: "Loan Applications",
                 href: "/sacco-admin/loan-applications",
               },
-              { label: "Members", href: "/sacco-admin/members" },
               { label: "Personal Profile", href: "/sacco-admin/personal" },
               {
                 label: "Guarantor Profile",
@@ -73,14 +86,29 @@ function SaccoAdminNavbar() {
               { label: "Withdrawals", href: "/sacco-admin/withdrawals" },
               { label: "Settings", href: "/sacco-admin/settings" },
             ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-slate-50 hover:text-[#174271] rounded-md"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              <React.Fragment key={link.href}>
+                <Link
+                  href={link.href}
+                  className="px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-slate-50 hover:text-[#174271] rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+                {link.children && (
+                  <div className="ml-6 flex flex-col border-l border-slate-100 pl-2">
+                    {link.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="px-4 py-1.5 text-[12px] font-medium text-slate-500 transition-colors hover:text-[#174271] rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </React.Fragment>
             ))}
 
             <div className="mt-auto pt-4 border-t border-slate-100">

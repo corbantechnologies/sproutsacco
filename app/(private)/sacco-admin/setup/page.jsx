@@ -1,39 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 import { useFetchMember } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
 import { useFetchLoanProducts } from "@/hooks/loanproducts/actions";
-// import { useFetchVentureTypes } from "@/hooks/venturetypes/actions";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import { useFetchFeeTypes } from "@/hooks/feetypes/actions";
 
-import CreateGLAccountModal from "@/forms/glaccounts/CreateGLAccount";
-import UpdateGLAccountModal from "@/forms/glaccounts/UpdateGLAccount";
-import CreatePaymentAccountModal from "@/forms/paymentaccounts/CreatePaymentAccount";
-import UpdatePaymentAccountModal from "@/forms/paymentaccounts/UpdatePaymentAccount";
-import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
-import UpdateSavingTypeModal from "@/forms/savingtypes/UpdateSavingType";
-import CreateLoanProduct from "@/forms/loanproducts/CreateLoanProduct";
-import UpdateLoanProduct from "@/forms/loanproducts/UpdateLoanProduct";
-// import CreateVentureType from "@/forms/venturetypes/CreateVentureType";
-// import UpdateVentureType from "@/forms/venturetypes/UpdateVentureType";
-import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
-import UpdateFeeTypeModal from "@/forms/feetypes/UpdateFeeType";
 import LoadingSpinner from "@/components/general/LoadingSpinner";
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import {
     CheckCircle2,
     Circle,
@@ -42,66 +20,18 @@ import {
     Wallet,
     PiggyBank,
     HandCoins,
-    Settings2,
     AlertCircle,
     BadgePercent,
-    Briefcase,
-    Pencil
 } from "lucide-react";
 
 export default function SetupPage() {
+    const router = useRouter();
     const { data: myself, isLoading: isLoadingMyself } = useFetchMember();
-    const {
-        data: glaccounts,
-        isLoading: isLoadingGLAccounts,
-        refetch: refetchGLAccounts
-    } = useFetchGLAccounts();
-    const {
-        data: paymentaccounts,
-        isLoading: isLoadingPaymentAccounts,
-        refetch: refetchPaymentAccounts
-    } = useFetchPaymentAccounts();
-    const {
-        data: feetypes,
-        isLoading: isLoadingFeeTypes,
-        refetch: refetchFeeTypes
-    } = useFetchFeeTypes();
-    const {
-        data: savingTypes,
-        isLoading: isLoadingSavingTypes,
-        refetch: refetchSavingTypes,
-    } = useFetchSavingsTypes();
-    const {
-        data: loanProducts,
-        isLoading: isLoadingLoanProducts,
-        refetch: refetchLoanProducts,
-    } = useFetchLoanProducts();
-    // const {
-    //     data: ventureTypes,
-    //     isLoading: isLoadingVentureTypes,
-    //     refetch: refetchVentureTypes,
-    // } = useFetchVentureTypes();
-
-    const [createGLAccountOpen, setCreateGLAccountOpen] = useState(false);
-    const [createPaymentAccountOpen, setCreatePaymentAccountOpen] = useState(false);
-    const [createSavingTypeOpen, setCreateSavingTypeOpen] = useState(false);
-    const [createLoanProductOpen, setCreateLoanProductOpen] = useState(false);
-    // const [createVentureTypeOpen, setCreateVentureTypeOpen] = useState(false);
-    const [createFeeTypeOpen, setCreateFeeTypeOpen] = useState(false);
-
-    const [selectedGLAccount, setSelectedGLAccount] = useState(null);
-    const [selectedPaymentAccount, setSelectedPaymentAccount] = useState(null);
-    const [selectedSavingType, setSelectedSavingType] = useState(null);
-    const [selectedLoanProduct, setSelectedLoanProduct] = useState(null);
-    // const [selectedVentureType, setSelectedVentureType] = useState(null);
-    const [selectedFeeType, setSelectedFeeType] = useState(null);
-
-    const [updateGLAccountOpen, setUpdateGLAccountOpen] = useState(false);
-    const [updatePaymentAccountOpen, setUpdatePaymentAccountOpen] = useState(false);
-    const [updateSavingTypeOpen, setUpdateSavingTypeOpen] = useState(false);
-    const [updateLoanProductOpen, setUpdateLoanProductOpen] = useState(false);
-    // const [updateVentureTypeOpen, setUpdateVentureTypeOpen] = useState(false);
-    const [updateFeeTypeOpen, setUpdateFeeTypeOpen] = useState(false);
+    const { data: glaccounts, isLoading: isLoadingGLAccounts } = useFetchGLAccounts();
+    const { data: paymentaccounts, isLoading: isLoadingPaymentAccounts } = useFetchPaymentAccounts();
+    const { data: feetypes, isLoading: isLoadingFeeTypes } = useFetchFeeTypes();
+    const { data: savingTypes, isLoading: isLoadingSavingTypes } = useFetchSavingsTypes();
+    const { data: loanProducts, isLoading: isLoadingLoanProducts } = useFetchLoanProducts();
 
     if (
         isLoadingMyself ||
@@ -109,8 +39,7 @@ export default function SetupPage() {
         isLoadingPaymentAccounts ||
         isLoadingFeeTypes ||
         isLoadingSavingTypes ||
-        isLoadingLoanProducts // ||
-        // isLoadingVentureTypes
+        isLoadingLoanProducts
     ) {
         return <LoadingSpinner />;
     }
@@ -125,7 +54,7 @@ export default function SetupPage() {
             description: "Define General Ledger chart of accounts.",
             icon: Building2,
             done: glSetupDone,
-            onClick: () => setCreateGLAccountOpen(true),
+            href: "/sacco-admin/setup/gl-accounts",
             mandatory: true,
         },
         {
@@ -133,7 +62,7 @@ export default function SetupPage() {
             description: "Configure bank and cash accounts.",
             icon: Wallet,
             done: paymentSetupDone,
-            onClick: () => setCreatePaymentAccountOpen(true),
+            href: "/sacco-admin/setup/payment-accounts",
             mandatory: true,
             disabled: !glSetupDone,
         },
@@ -142,7 +71,7 @@ export default function SetupPage() {
             description: "Define various SACCO fee structures.",
             icon: BadgePercent,
             done: feetypes?.length > 0,
-            onClick: () => setCreateFeeTypeOpen(true),
+            href: "/sacco-admin/setup/feetypes",
             disabled: !mandatorySetupDone,
         },
         {
@@ -150,7 +79,7 @@ export default function SetupPage() {
             description: "Define types of savings accounts.",
             icon: PiggyBank,
             done: savingTypes?.length > 0,
-            onClick: () => setCreateSavingTypeOpen(true),
+            href: "/sacco-admin/setup/saving-types",
             disabled: !mandatorySetupDone,
         },
         {
@@ -158,17 +87,9 @@ export default function SetupPage() {
             description: "Set up loan facilities and terms.",
             icon: HandCoins,
             done: loanProducts?.length > 0,
-            onClick: () => setCreateLoanProductOpen(true),
+            href: "/sacco-admin/setup/loan-products",
             disabled: !mandatorySetupDone,
         },
-        // {
-        //     title: "Venture Types",
-        //     description: "Configure investment venture types.",
-        //     icon: Briefcase,
-        //     done: ventureTypes?.length > 0,
-        //     onClick: () => setCreateVentureTypeOpen(true),
-        //     disabled: !mandatorySetupDone,
-        // },
     ];
 
     return (
@@ -195,7 +116,7 @@ export default function SetupPage() {
                     <div>
                         <h3 className="text-xs font-bold text-amber-900">Initial Setup Required</h3>
                         <p className="text-xs text-amber-700">
-                            Configure GL and Payment Accounts first.
+                            Configure GL and Payment Accounts first to unlock more features.
                         </p>
                     </div>
                 </div>
@@ -203,7 +124,11 @@ export default function SetupPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {setupSteps.map((step, idx) => (
-                    <Card key={idx} className={`${step.disabled ? "opacity-50" : "hover:border-[#ea1315]/30 transition-colors"} shadow-sm py-4 gap-2`}>
+                    <Card 
+                        key={idx} 
+                        className={`${step.disabled ? "opacity-50" : "hover:border-[#ea1315]/30 cursor-pointer transition-colors"} shadow-sm py-4 gap-2`}
+                        onClick={() => !step.disabled && router.push(step.href)}
+                    >
                         <CardHeader className="p-4 py-0 pb-1">
                             <div className="flex justify-between items-center mb-2">
                                 <div className={`p-1.5 rounded-md ${step.done ? "bg-green-50 text-green-600" : "bg-slate-50 text-slate-600"}`}>
@@ -220,12 +145,11 @@ export default function SetupPage() {
                         </CardHeader>
                         <CardContent className="p-4 pt-1">
                             <Button
-                                onClick={step.onClick}
                                 disabled={step.disabled}
                                 className={`w-full h-8 text-xs font-bold ${step.done ? "bg-slate-50 text-slate-700 hover:bg-slate-100" : "bg-[#ea1315] text-white hover:bg-[#c71012]"}`}
                                 variant={step.done ? "ghost" : "default"}
                             >
-                                {step.done ? "Add Another" : "Configure"}
+                                {step.done ? "Manage items" : "Configure"}
                                 {!step.done && <ArrowRight className="ml-1 w-3 h-3" />}
                             </Button>
                         </CardContent>
@@ -233,387 +157,48 @@ export default function SetupPage() {
                 ))}
             </div>
 
-            {/* Item Listing Section */}
-            <div className="mt-8 space-y-4">
-                <div className="flex items-center gap-2">
-                    <Settings2 className="w-5 h-5 text-slate-700" />
-                    <h2 className="text-lg font-bold text-slate-900">Configured Parameters</h2>
+            {/* Quick Actions / Getting Started Info */}
+            <div className="mt-12 bg-white rounded-xl border p-8 text-center max-w-2xl mx-auto space-y-4">
+                <div className="bg-[#174271]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                   <Settings2 className="w-8 h-8 text-[#174271]" />
                 </div>
-
-                <Tabs defaultValue="gl" className="w-full">
-                    <TabsList className="flex flex-wrap h-auto bg-white border p-1 mb-4">
-                        <TabsTrigger value="gl" className="text-xs">GL Accounts</TabsTrigger>
-                        <TabsTrigger value="payment" className="text-xs">Payment Accounts</TabsTrigger>
-                        <TabsTrigger value="fees" className="text-xs">Fee Types</TabsTrigger>
-                        <TabsTrigger value="savings" className="text-xs">Savings Types</TabsTrigger>
-                        <TabsTrigger value="loans" className="text-xs">Loan Products</TabsTrigger>
-                        {/* <TabsTrigger value="ventures" className="text-xs">Venture Types</TabsTrigger> */}
-                    </TabsList>
-
-                    {/* GL Accounts Tab */}
-                    <TabsContent value="gl">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {glaccounts?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Category</TableHead>
-                                                <TableHead className="text-xs font-bold">Code</TableHead>
-                                                <TableHead className="text-xs font-bold">Status</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {glaccounts.map((acc) => (
-                                                <TableRow key={acc.id || acc.reference}>
-                                                    <TableCell className="text-xs font-medium">{acc.name}</TableCell>
-                                                    <TableCell className="text-xs capitalize">{acc.category?.toLowerCase()}</TableCell>
-                                                    <TableCell className="text-xs">{acc.code}</TableCell>
-                                                    <TableCell className="text-xs">
-                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                                                            {acc.is_active ? "Active" : "Inactive"}
-                                                        </span>
-                                                    </TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedGLAccount(acc);
-                                                                setUpdateGLAccountOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No GL accounts configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    {/* Payment Accounts Tab */}
-                    <TabsContent value="payment">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {paymentaccounts?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
-                                                <TableHead className="text-xs font-bold">Status</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {paymentaccounts.map((acc) => (
-                                                <TableRow key={acc.id || acc.reference}>
-                                                    <TableCell className="text-xs font-medium">{acc.name}</TableCell>
-                                                    <TableCell className="text-xs">{acc.gl_account}</TableCell>
-                                                    <TableCell className="text-xs">
-                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${acc.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                                                            {acc.is_active ? "Active" : "Inactive"}
-                                                        </span>
-                                                    </TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedPaymentAccount(acc);
-                                                                setUpdatePaymentAccountOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No payment accounts configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    {/* Fee Types Tab */}
-                    <TabsContent value="fees">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {feetypes?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Amount</TableHead>
-                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
-                                                <TableHead className="text-xs font-bold">Is Everyone?</TableHead>
-                                                <TableHead className="text-xs font-bold">Status</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {feetypes.map((fee) => (
-                                                <TableRow key={fee.id || fee.reference}>
-                                                    <TableCell className="text-xs font-medium">{fee.name}</TableCell>
-                                                    <TableCell className="text-xs font-bold text-slate-700 font-mono">KES {Number(fee.amount).toLocaleString()}</TableCell>
-                                                    <TableCell className="text-xs">{fee.gl_account}</TableCell>
-                                                    <TableCell className="text-xs">{fee.is_everyone ? "Yes" : "No"}</TableCell>
-                                                    <TableCell className="text-xs">
-                                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${fee.is_active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                                                            {fee.is_active ? "Active" : "Inactive"}
-                                                        </span>
-                                                    </TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedFeeType(fee);
-                                                                setUpdateFeeTypeOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No fee types configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    {/* Saving Types Tab */}
-                    <TabsContent value="savings">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {savingTypes?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">Guarantee?</TableHead>
-                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {savingTypes.map((type) => (
-                                                <TableRow key={type.id || type.reference}>
-                                                    <TableCell className="text-xs font-medium">{type.name}</TableCell>
-                                                    <TableCell className="text-xs">{type.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs">{type.can_guarantee ? "Yes" : "No"}</TableCell>
-                                                    <TableCell className="text-xs truncate max-w-[200px]">{type.gl_account || "-"}</TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedSavingType(type);
-                                                                setUpdateSavingTypeOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No saving types configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    {/* Loan Products Tab */}
-                    <TabsContent value="loans">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {loanProducts?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest Method</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">Processing Fee</TableHead>
-                                                <TableHead className="text-xs font-bold">Principal (Asset)</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest (Revenue)</TableHead>
-                                                <TableHead className="text-xs font-bold">Penalty (Revenue)</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {loanProducts.map((loan) => (
-                                                <TableRow key={loan.id || loan.reference}>
-                                                    <TableCell className="text-xs font-medium">{loan.name}</TableCell>
-                                                    <TableCell className="text-xs">{loan.interest_method}</TableCell>
-                                                    <TableCell className="text-xs">{loan.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs">{loan.processing_fee}%</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_principal_asset || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_interest_revenue || "-"}</TableCell>
-                                                    <TableCell className="text-xs">{loan.gl_penalty_revenue || "-"}</TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedLoanProduct(loan);
-                                                                setUpdateLoanProductOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No loan products configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    {/* Venture Types Tab */}
-                    {/* <TabsContent value="ventures">
-                        <Card className="shadow-sm">
-                            <CardContent className="p-0 overflow-x-auto">
-                                {ventureTypes?.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-slate-50">
-                                                <TableHead className="text-xs font-bold">Name</TableHead>
-                                                <TableHead className="text-xs font-bold">Interest Rate</TableHead>
-                                                <TableHead className="text-xs font-bold">GL Account</TableHead>
-                                                <TableHead className="text-xs font-bold text-right">Actions</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {ventureTypes.map((venture) => (
-                                                <TableRow key={venture.id || venture.reference}>
-                                                    <TableCell className="text-xs font-medium">{venture.name}</TableCell>
-                                                    <TableCell className="text-xs">{venture.interest_rate}%</TableCell>
-                                                    <TableCell className="text-xs truncate max-w-[200px]">{venture.gl_account || "-"}</TableCell>
-                                                    <TableCell className="text-right p-2">
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7"
-                                                            onClick={() => {
-                                                                setSelectedVentureType(venture);
-                                                                setUpdateVentureTypeOpen(true);
-                                                            }}
-                                                        >
-                                                            <Pencil className="h-3.5 w-3.5" />
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                ) : (
-                                    <div className="p-8 text-center text-xs text-slate-500">No venture types configured yet.</div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </TabsContent> */}
-                </Tabs>
+                <h2 className="text-xl font-bold text-slate-900">Advanced Configuration</h2>
+                <p className="text-slate-500 text-sm italic">
+                    Configure your SACCO financial foundation above. Click on any card to manage specific accounts, create products, or perform bulk uploads.
+                </p>
+                <div className="pt-4 grid grid-cols-2 gap-4">
+                    <div className="p-4 rounded-lg bg-slate-50 text-left">
+                        <h4 className="font-bold text-sm mb-1 text-slate-800">Support</h4>
+                        <p className="text-[11px] text-slate-500">Need help setting up your chart of accounts? Contact support.</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-slate-50 text-left">
+                        <h4 className="font-bold text-sm mb-1 text-slate-800">Audit Logs</h4>
+                        <p className="text-[11px] text-slate-500">All setup changes are logged in the system audit trail.</p>
+                    </div>
+                </div>
             </div>
-
-            {/* Modals */}
-            <CreateGLAccountModal
-                isOpen={createGLAccountOpen}
-                onClose={() => setCreateGLAccountOpen(false)}
-                refetchGLAccounts={refetchGLAccounts}
-            />
-            <CreatePaymentAccountModal
-                isOpen={createPaymentAccountOpen}
-                onClose={() => setCreatePaymentAccountOpen(false)}
-                refetchPaymentAccounts={refetchPaymentAccounts}
-            />
-            <CreateSavingTypeModal
-                isOpen={createSavingTypeOpen}
-                onClose={() => setCreateSavingTypeOpen(false)}
-                refetchSavingTypes={refetchSavingTypes}
-            />
-            <CreateFeeTypeModal
-                isOpen={createFeeTypeOpen}
-                onClose={() => setCreateFeeTypeOpen(false)}
-                refetchFeeTypes={refetchFeeTypes}
-            />
-            <CreateLoanProduct
-                isOpen={createLoanProductOpen}
-                onClose={() => setCreateLoanProductOpen(false)}
-                refetchLoanTypes={refetchLoanProducts}
-            />
-            {/* <CreateVentureType
-                isOpen={createVentureTypeOpen}
-                onClose={() => setCreateVentureTypeOpen(false)}
-                refetchVentureTypes={refetchVentureTypes}
-            /> */}
-
-            {/* Update Modals */}
-            <UpdateGLAccountModal
-                isOpen={updateGLAccountOpen}
-                onClose={() => setUpdateGLAccountOpen(false)}
-                refetchGLAccounts={refetchGLAccounts}
-                glAccount={selectedGLAccount}
-            />
-            <UpdatePaymentAccountModal
-                isOpen={updatePaymentAccountOpen}
-                onClose={() => setUpdatePaymentAccountOpen(false)}
-                refetchPaymentAccounts={refetchPaymentAccounts}
-                paymentAccount={selectedPaymentAccount}
-            />
-            <UpdateSavingTypeModal
-                isOpen={updateSavingTypeOpen}
-                onClose={() => setUpdateSavingTypeOpen(false)}
-                refetchSavingTypes={refetchSavingTypes}
-                savingType={selectedSavingType}
-            />
-            <UpdateFeeTypeModal
-                isOpen={updateFeeTypeOpen}
-                onClose={() => setUpdateFeeTypeOpen(false)}
-                refetchFeeTypes={refetchFeeTypes}
-                feeType={selectedFeeType}
-            />
-            <UpdateLoanProduct
-                isOpen={updateLoanProductOpen}
-                onClose={() => setUpdateLoanProductOpen(false)}
-                refetchLoanTypes={refetchLoanProducts}
-                loanProduct={selectedLoanProduct}
-            />
-            {/* <UpdateVentureType
-                isOpen={updateVentureTypeOpen}
-                onClose={() => setUpdateVentureTypeOpen(false)}
-                refetchVentureTypes={refetchVentureTypes}
-                ventureType={selectedVentureType}
-            /> */}
         </div>
     );
 }
 
+function Settings2({ className }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+        >
+            <path d="M20 7h-9" />
+            <path d="M14 17H5" />
+            <circle cx="17" cy="17" r="3" />
+            <circle cx="7" cy="7" r="3" />
+        </svg>
+    );
+}

@@ -106,6 +106,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                                         value={values.category}
                                         onValueChange={(value) => setFieldValue("category", value)}
                                         required
+                                        className="w-full"
                                     >
                                         <SelectTrigger className="border-slate-200 w-full h-10">
                                             <SelectValue placeholder="Select a category" />

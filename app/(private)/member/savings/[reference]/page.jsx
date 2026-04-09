@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import MpesaCreateDepositForm from "@/forms/savingsdepostis/MpesaCreateDepositForm";
+import MpesaCreateDepositForm from "@/forms/savingsdeposits/MpesaCreateDepositForm";
 
 function SavingsDetail() {
   const { reference } = useParams();

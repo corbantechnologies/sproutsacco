@@ -94,6 +94,7 @@ const UpdateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts, glAccount })
                                     name="category"
                                     value={values.category}
                                     onValueChange={(value) => setFieldValue("category", value)}
+                                    className="w-full"
                                 >
                                     <SelectTrigger className="border-black">
                                         <SelectValue placeholder="Select category" />

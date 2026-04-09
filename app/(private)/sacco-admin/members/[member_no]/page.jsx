@@ -43,7 +43,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { apiActions } from "@/tools/axios";
-import CreateDepositAdmin from "@/forms/savingsdepostis/CreateDepositAdmin";
+import CreateDepositAdmin from "@/forms/savingsdeposits/CreateDepositAdmin";
 import CreateLoanAccountAdmin from "@/forms/loans/CreateLoanAdmin";
 import CreateVentureDeposits from "@/forms/venturedeposits/CreateVentureDeposits";
 import CreateVenturePayment from "@/forms/venturepayments/CreateVenturePayment";
