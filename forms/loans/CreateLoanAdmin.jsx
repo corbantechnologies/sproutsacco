@@ -67,7 +67,7 @@ function CreateLoanAccountAdmin({
                   placeholder={`${member?.member_no}`}
                   value={`${member?.member_no}`}
                   disabled
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors bg-gray-100"
+                  className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors bg-gray-100"
                 />
               </div>
               <div className="space-y-2">
@@ -77,7 +77,7 @@ function CreateLoanAccountAdmin({
                 <Field
                   as="select"
                   name="product"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="" label="Select loan type" />
                   {loanProducts?.map((type) => (
@@ -87,7 +87,7 @@ function CreateLoanAccountAdmin({
                   ))}
                 </Field>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="principal" className="text-black">
                   Loan Amount
@@ -96,7 +96,7 @@ function CreateLoanAccountAdmin({
                   as={Input}
                   type="number"
                   name="principal"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                  className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
                 />
               </div>
               <DialogFooter>

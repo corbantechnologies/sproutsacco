@@ -359,7 +359,7 @@ const AccountsListTable = ({ accountsList }) => {
       </div>
 
       {/* Table */}
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -538,8 +538,8 @@ const AccountsListTable = ({ accountsList }) => {
                     variant={currentPage === pageNum ? "default" : "outline"}
                     size="sm"
                     className={`${currentPage === pageNum
-                        ? "bg-[#ea1315] text-white"
-                        : "border-[#ea1315] text-[#ea1315] hover:bg-[#ea1315] hover:text-white"
+                      ? "bg-[#ea1315] text-white"
+                      : "border-[#ea1315] text-[#ea1315] hover:bg-[#ea1315] hover:text-white"
                       } h-8 w-8 p-0`}
                   >
                     {pageNum}

@@ -71,7 +71,7 @@ function MemberDashboard() {
             .
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-white px-4 py-2 rounded-full border shadow-sm">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-white px-4 py-2 rounded border shadow-sm">
           <span>Member No:</span>
           <span className="font-mono font-bold text-gray-900">
             {member?.member_no}
@@ -201,15 +201,15 @@ function MemberDashboard() {
                 member.loan_accounts.filter(
                   (l) => l.status === "Active" || l.status === "Funded"
                 ).length === 0) && (
-                <div className="flex flex-col items-center justify-center py-8 text-center h-full">
-                  <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                    <CreditCard className="h-6 w-6 text-gray-400" />
+                  <div className="flex flex-col items-center justify-center py-8 text-center h-full">
+                    <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center mb-3">
+                      <CreditCard className="h-6 w-6 text-gray-400" />
+                    </div>
+                    <p className="text-muted-foreground text-sm">
+                      No active loans
+                    </p>
                   </div>
-                  <p className="text-muted-foreground text-sm">
-                    No active loans
-                  </p>
-                </div>
-              )}
+                )}
             </div>
           </CardContent>
         </Card>
@@ -233,15 +233,15 @@ function MemberDashboard() {
               ))}
               {(!member?.venture_accounts ||
                 member.venture_accounts.length === 0) && (
-                <div className="flex flex-col items-center justify-center py-8 text-center h-full">
-                  <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                    <TrendingUp className="h-6 w-6 text-gray-400" />
+                  <div className="flex flex-col items-center justify-center py-8 text-center h-full">
+                    <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center mb-3">
+                      <TrendingUp className="h-6 w-6 text-gray-400" />
+                    </div>
+                    <p className="text-muted-foreground text-sm">
+                      No active ventures
+                    </p>
                   </div>
-                  <p className="text-muted-foreground text-sm">
-                    No active ventures
-                  </p>
-                </div>
-              )}
+                )}
             </div>
           </CardContent>
         </Card>

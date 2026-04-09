@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import MpesaCreateDepositForm from "@/forms/savingsdepostis/MpesaCreateDepositForm";
+import MpesaCreateDepositForm from "@/forms/savingsdeposits/MpesaCreateDepositForm";
 
 function SavingsDetail() {
   const { reference } = useParams();
@@ -203,18 +203,17 @@ function SavingsDetail() {
         </div>
 
         {/* Tabs */}
-        <div className="flex space-x-1 rounded-xl bg-gray-200 p-1 w-fit">
+        <div className="flex space-x-1 rounded bg-gray-200 p-1 w-fit">
           {["overview", "transactions"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`
-                                w-full rounded-lg py-2.5 px-6 text-sm font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2
-                                ${
-                                  activeTab === tab
-                                    ? "bg-white text-[#045e32] shadow"
-                                    : "text-gray-600 hover:bg-white/[0.12] hover:text-gray-800"
-                                }
+                                w-full rounded py-2.5 px-6 text-sm font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2
+                                ${activeTab === tab
+                  ? "bg-white text-[#045e32] shadow"
+                  : "text-gray-600 hover:bg-white/[0.12] hover:text-gray-800"
+                }
                             `}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -297,7 +296,7 @@ function SavingsDetail() {
                 </div>
                 <div className="flex gap-2">
                   <select
-                    className="h-9 w-[150px] rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    className="h-9 w-[150px] rounded border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                     value={monthFilter}
                     onChange={(e) => setMonthFilter(e.target.value)}
                   >
@@ -331,13 +330,12 @@ function SavingsDetail() {
                           <TableCell>{formatDate(t.date)}</TableCell>
                           <TableCell>
                             <span
-                              className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium 
-                                                        ${
-                                                          t.type ===
-                                                          "Withdrawal"
-                                                            ? "bg-red-100 text-red-800"
-                                                            : "bg-green-100 text-green-800"
-                                                        }`}
+                              className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium 
+                                                        ${t.type ===
+                                  "Withdrawal"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-green-100 text-green-800"
+                                }`}
                             >
                               {t.type}
                             </span>

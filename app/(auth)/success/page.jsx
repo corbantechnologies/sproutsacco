@@ -14,7 +14,7 @@ function SuccessPage() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-primary"></div>
         <CardContent className="p-8 sm:p-10">
           <div className="flex flex-col items-center text-center space-y-6">
-            <div className="w-24 h-24 rounded-full bg-green-50 flex items-center justify-center mb-2 animate-in fade-in zoom-in duration-500">
+            <div className="w-24 h-24 rounded bg-green-50 flex items-center justify-center mb-2 animate-in fade-in zoom-in duration-500">
               <CheckCircle2
                 className="w-16 h-16 text-green-500"
                 aria-hidden="true"
@@ -31,7 +31,7 @@ function SuccessPage() {
               </p>
             </div>
 
-            <div className="bg-green-50/50 rounded-xl p-4 w-full border border-green-100">
+            <div className="bg-green-50/50 rounded p-4 w-full border border-green-100">
               <p className="text-green-800 text-sm font-medium">
                 You will receive an email notification once your account has
                 been approved.

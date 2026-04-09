@@ -141,7 +141,7 @@ function SummaryTabContent({ data, type, emptyMessage }) {
   // If no data, show empty message
   if (!data || data.length === 0) {
     return (
-      <div className="py-8 text-center text-muted-foreground border rounded-lg bg-gray-50/50">
+      <div className="py-8 text-center text-muted-foreground border rounded bg-gray-50/50">
         {emptyMessage}
       </div>
     );
@@ -193,7 +193,7 @@ function SummaryTabContent({ data, type, emptyMessage }) {
       )}
 
       {/* Totals Summary for Selected Account */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-secondary/20 rounded-lg border">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-secondary/20 rounded border">
         {type === "savings" && (
           <>
             <div className="space-y-1">
@@ -257,7 +257,7 @@ function SummaryTabContent({ data, type, emptyMessage }) {
       </div>
 
       {/* Monthly Table */}
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded border overflow-x-auto">
         <Table>
           <TableHeader className="bg-gray-50">
             <TableRow>

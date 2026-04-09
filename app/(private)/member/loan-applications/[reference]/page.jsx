@@ -501,12 +501,12 @@ export default function LoanApplicationDetail({ params }) {
                 </div>
 
                 {application.is_fully_covered ? (
-                  <div className="rounded-lg bg-green-50 p-3 text-sm text-green-700 flex items-start gap-2">
+                  <div className="rounded bg-green-50 p-3 text-sm text-green-700 flex items-start gap-2">
                     <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
                     Loan is fully covered and ready for review.
                   </div>
                 ) : (
-                  <div className="rounded-lg bg-amber-50 p-3 text-sm text-amber-700 flex items-start gap-2">
+                  <div className="rounded bg-amber-50 p-3 text-sm text-amber-700 flex items-start gap-2">
                     <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
                     Remaining coverage needed:{" "}
                     {formatCurrency(application.remaining_to_cover)}
@@ -545,11 +545,11 @@ export default function LoanApplicationDetail({ params }) {
                         <Badge
                           variant="outline"
                           className={`text-xs mt-1 ${g.status === "Accepted"
-                              ? "bg-green-50 text-green-700 border-green-200"
-                              : g.status === "Declined" ||
-                                g.status === "Cancelled"
-                                ? "bg-red-50 text-red-700 border-red-200"
-                                : "bg-gray-100 text-gray-700"
+                            ? "bg-green-50 text-green-700 border-green-200"
+                            : g.status === "Declined" ||
+                              g.status === "Cancelled"
+                              ? "bg-red-50 text-red-700 border-red-200"
+                              : "bg-gray-100 text-gray-700"
                             }`}
                         >
                           {g.status}
@@ -585,7 +585,7 @@ export default function LoanApplicationDetail({ params }) {
         {/* Update Modal */}
         {isUpdateModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div className="bg-white rounded shadow-xl w-full max-w-md">
               <div className="flex items-center justify-between p-6 border-b">
                 <h2 className="text-xl font-bold text-gray-900">
                   Update Application
@@ -594,7 +594,7 @@ export default function LoanApplicationDetail({ params }) {
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsUpdateModalOpen(false)}
-                  className="h-8 w-8 rounded-full"
+                  className="h-8 w-8 rounded"
                 >
                   <X className="h-4 w-4" />
                 </Button>

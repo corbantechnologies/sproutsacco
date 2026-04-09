@@ -65,10 +65,10 @@ export default function LoanAccountDetail({ params }) {
     refetch: refetchPenalties,
   } = useFetchLoanPenaltiesByLoanAccountReference(loan_reference);
 
-  const { 
-    data: payoffQuote, 
+  const {
+    data: payoffQuote,
     isLoading: isPayoffLoading,
-    isRefetching: isPayoffRefetching 
+    isRefetching: isPayoffRefetching
   } = useFetchLoanPayOffAmount(loan_reference);
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -88,8 +88,8 @@ export default function LoanAccountDetail({ params }) {
         <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
         <h2 className="text-xl font-bold">Loan Account Not Found</h2>
         <p className="text-muted-foreground mt-2">The loan account details could not be retrieved.</p>
-        <Button 
-          variant="link" 
+        <Button
+          variant="link"
           onClick={() => window.history.back()}
           className="mt-4"
         >
@@ -468,11 +468,10 @@ export default function LoanAccountDetail({ params }) {
                             <TableCell>
                               <Badge
                                 variant="outline"
-                                className={`text-[10px] py-0 ${
-                                  penalty.status === "Pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                                className={`text-[10px] py-0 ${penalty.status === "Pending" ? "bg-amber-100 text-amber-700 border-amber-200" :
                                   penalty.status === "Paid" ? "bg-green-100 text-green-700 border-green-200" :
-                                  "bg-gray-100 text-gray-700 border-gray-200"
-                                }`}
+                                    "bg-gray-100 text-gray-700 border-gray-200"
+                                  }`}
                               >
                                 {penalty.status}
                               </Badge>
@@ -612,12 +611,12 @@ export default function LoanAccountDetail({ params }) {
                     <Separator className="bg-green-200" />
                     <div className="flex justify-between items-center pt-1">
                       <span className="text-sm font-bold text-green-900">Settlement Only</span>
-                      <span className="text-lg font-black text-green-700">{formatCurrency(payoffQuote.total_payoff_amount)}</span>
+                      <span className="text-lg font-semibold text-green-700">{formatCurrency(payoffQuote.total_payoff_amount)}</span>
                     </div>
                     {parseFloat(loan.total_penalties_owed) > 0 && (
-                      <div className="flex justify-between items-center bg-purple-50 border border-purple-200 rounded-md px-3 py-2 mt-1">
+                      <div className="flex justify-between items-center bg-purple-50 border border-purple-200 rounded px-3 py-2 mt-1">
                         <span className="text-sm font-bold text-purple-900">Full Clearance</span>
-                        <span className="text-lg font-black text-purple-700">
+                        <span className="text-lg font-semibold text-purple-700">
                           {formatCurrency(parseFloat(payoffQuote.total_payoff_amount) + parseFloat(loan.total_penalties_owed))}
                         </span>
                       </div>
@@ -646,12 +645,12 @@ export default function LoanAccountDetail({ params }) {
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-3">
-                  <div className="bg-primary/10 p-2 rounded-full">
+                  <div className="bg-primary/10 p-2 rounded">
                     <User className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-bold text-gray-900">{loan.member}</p>
-                    <Link 
+                    <Link
                       href={`/sacco-admin/members/${member_no}`}
                       className="text-xs text-primary hover:underline"
                     >

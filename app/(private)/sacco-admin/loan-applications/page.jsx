@@ -136,19 +136,18 @@ export default function AdminLoanApplications() {
           </div>
 
           {/* Controls Section */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-between items-end sm:items-center bg-white p-4 rounded-lg border shadow-sm">
+          <div className="flex flex-col sm:flex-row gap-4 justify-between items-end sm:items-center bg-white p-4 rounded border shadow-sm">
             {/* Tabs */}
-            <div className="flex bg-gray-100 p-1 rounded-lg w-full sm:w-auto">
+            <div className="flex bg-gray-100 p-1 rounded w-full sm:w-auto">
               <button
                 onClick={() => {
                   setActiveTab("all");
                   setCurrentPage(1);
                 }}
-                className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                  activeTab === "all"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded transition-all ${activeTab === "all"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 All Applications
               </button>
@@ -157,11 +156,10 @@ export default function AdminLoanApplications() {
                   setActiveTab("mine");
                   setCurrentPage(1);
                 }}
-                className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                  activeTab === "mine"
-                    ? "bg-white text-gray-900 shadow-sm"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded transition-all ${activeTab === "mine"
+                  ? "bg-white text-gray-900 shadow-sm"
+                  : "text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 My Applications
               </button>
@@ -208,7 +206,7 @@ export default function AdminLoanApplications() {
           <CardContent className="p-0">
             {!paginatedApps || paginatedApps.length === 0 ? (
               <div className="text-center py-12 px-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded bg-gray-100 mb-4">
                   <FileText className="h-6 w-6 text-gray-400" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900">
@@ -218,8 +216,8 @@ export default function AdminLoanApplications() {
                   {statusFilter !== "all"
                     ? `No applications found with status "${statusFilter}". Try changing the filter.`
                     : activeTab === "mine"
-                    ? "You haven't created any loan applications yet."
-                    : "No loan applications exist in the system."}
+                      ? "You haven't created any loan applications yet."
+                      : "No loan applications exist in the system."}
                 </p>
                 {statusFilter !== "all" && (
                   <Button

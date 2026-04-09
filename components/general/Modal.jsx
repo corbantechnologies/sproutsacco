@@ -45,14 +45,14 @@ export default function Modal({
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             {/* Backdrop */}
-            <div 
-                className="fixed inset-0 bg-black/60 backdrop-blur-[2px] animate-in fade-in duration-200" 
+            <div
+                className="fixed inset-0 bg-black/60 backdrop-blur-[2px] animate-in fade-in duration-200"
                 onClick={onClose}
             />
 
             {/* Modal Content */}
-            <div 
-                className={`relative bg-white rounded-xl shadow-2xl w-full ${maxWidth} max-h-[95vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200`}
+            <div
+                className={`relative bg-white rounded shadow-2xl w-full ${maxWidth} max-h-[95vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200`}
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
@@ -72,7 +72,7 @@ export default function Modal({
                             variant="ghost"
                             size="icon"
                             onClick={onClose}
-                            className="h-8 w-8 rounded-full hover:bg-slate-100 transition-colors"
+                            className="h-8 w-8 rounded hover:bg-slate-100 transition-colors"
                         >
                             <X className="h-4 w-4 text-slate-500" />
                         </Button>

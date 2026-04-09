@@ -111,7 +111,7 @@ function SavingsTable({ savings, isLoading, route }) {
           </div>
 
           {/* Table */}
-          <div className="bg-white shadow-sm border border-slate-100 rounded-md overflow-hidden">
+          <div className="bg-white shadow-sm border border-slate-100 rounded overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow className="bg-[#236c2e] hover:bg-[#1a5222]">
@@ -149,11 +149,10 @@ function SavingsTable({ savings, isLoading, route }) {
                     </TableCell>
                     <TableCell className="text-sm">
                       <span
-                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md border ${
-                          saving.is_active
+                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded border ${saving.is_active
                             ? "bg-emerald-50 text-emerald-700 border-emerald-100/50"
                             : "bg-slate-50 text-slate-700 border-slate-200"
-                        }`}
+                          }`}
                       >
                         {saving.is_active ? "Active" : "Inactive"}
                       </span>
@@ -194,11 +193,10 @@ function SavingsTable({ savings, isLoading, route }) {
                     key={page}
                     onClick={() => handlePageChange(page)}
                     variant={currentPage === page ? "default" : "outline"}
-                    className={`${
-                      currentPage === page
+                    className={`${currentPage === page
                         ? "bg-primary text-white"
                         : "border-primary text-primary hover:bg-primary hover:text-white"
-                    } text-sm`}
+                      } text-sm`}
                     aria-label={`Go to page ${page}`}
                   >
                     {page}

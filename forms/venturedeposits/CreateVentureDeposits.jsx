@@ -57,7 +57,7 @@ function CreateVentureDeposits({ isOpen, onClose, refetchMember, ventures }) {
                 <Field
                   as="select"
                   name="venture_account"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                  className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
                 >
                   <option value="" label="Select account" />
                   {ventures?.map((venture) => (

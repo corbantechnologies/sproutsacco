@@ -70,8 +70,7 @@ export default function DepositProcessing() {
         ) {
           clearInterval(interval);
           setPaymentMessage(
-            `Payment ${
-              currentStatus ? currentStatus.toLowerCase() : "failed"
+            `Payment ${currentStatus ? currentStatus.toLowerCase() : "failed"
             }. Please try again.`
           );
           toast.error(`Payment ${currentStatus || "failed"}`);
@@ -129,7 +128,7 @@ export default function DepositProcessing() {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Deposit Details Summary */}
-          <div className="bg-gray-50 p-4 rounded-lg space-y-3 border">
+          <div className="bg-gray-50 p-4 rounded space-y-3 border">
             <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground">Amount</span>
               <span className="font-bold text-lg">
@@ -148,13 +147,12 @@ export default function DepositProcessing() {
               <span className="text-muted-foreground">Payment Status</span>
               <span
                 className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium 
-                ${
-                  deposit.payment_status === "COMPLETED"
+                ${deposit.payment_status === "COMPLETED"
                     ? "bg-green-100 text-green-800"
                     : deposit.payment_status === "FAILED"
-                    ? "bg-red-100 text-red-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
+                      ? "bg-red-100 text-red-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
               >
                 {deposit.payment_status || "PENDING"}
               </span>
@@ -163,14 +161,13 @@ export default function DepositProcessing() {
 
           {paymentMessage && (
             <div
-              className={`p-3 rounded-md text-sm text-center ${
-                paymentMessage.includes("Successful")
-                  ? "bg-green-50 text-green-700"
-                  : paymentMessage.includes("failed") ||
-                    paymentMessage.includes("timed out")
+              className={`p-3 rounded text-sm text-center ${paymentMessage.includes("Successful")
+                ? "bg-green-50 text-green-700"
+                : paymentMessage.includes("failed") ||
+                  paymentMessage.includes("timed out")
                   ? "bg-red-50 text-red-700"
                   : "bg-blue-50 text-blue-700 animate-pulse"
-              }`}
+                }`}
             >
               {paymentMessage}
             </div>
@@ -221,11 +218,10 @@ export default function DepositProcessing() {
                         as={Input}
                         id="phone_number"
                         name="phone_number"
-                        className={`pl-9 ${
-                          errors.phone_number && touched.phone_number
-                            ? "border-red-500"
-                            : ""
-                        }`}
+                        className={`pl-9 ${errors.phone_number && touched.phone_number
+                          ? "border-red-500"
+                          : ""
+                          }`}
                         placeholder="2547..."
                       />
                     </div>

@@ -110,7 +110,7 @@ export default function LoanApplications() {
           </CardHeader>
           <CardContent>
             {applications?.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed">
+              <div className="text-center py-12 bg-gray-50 rounded border border-dashed">
                 <p className="text-muted-foreground">
                   No loan applications found.
                 </p>
@@ -123,7 +123,7 @@ export default function LoanApplications() {
                 </Button>
               </div>
             ) : (
-              <div className="rounded-md border">
+              <div className="rounded border">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-gray-50">
@@ -185,7 +185,7 @@ export default function LoanApplications() {
       {/* Custom Modal for Loan Application */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
               <h2 className="text-xl font-bold text-gray-900">
                 New Loan Application
@@ -194,7 +194,7 @@ export default function LoanApplications() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsCreateModalOpen(false)}
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded"
               >
                 <X className="h-4 w-4" />
               </Button>

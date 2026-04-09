@@ -146,7 +146,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -166,7 +166,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -186,7 +186,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -207,7 +207,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setEndDate("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -224,7 +224,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setStatus(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="">All Statuses</option>
                 <option value="Pending">Pending</option>
@@ -247,7 +247,7 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   setPaymentMethod(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="">All Methods</option>
                 <option value="Cash">Cash</option>
@@ -314,15 +314,14 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                   </TableCell>
                   <TableCell className="text-sm">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        withdrawal.transaction_status === "Completed"
-                          ? "bg-green-100 text-green-700"
-                          : withdrawal.transaction_status === "Processing"
+                      className={`px-2 py-1 rounded text-xs ${withdrawal.transaction_status === "Completed"
+                        ? "bg-green-100 text-green-700"
+                        : withdrawal.transaction_status === "Processing"
                           ? "bg-yellow-100 text-yellow-700"
                           : withdrawal.transaction_status === "Pending"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-red-100 text-red-700"
-                      }`}
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
                     >
                       {withdrawal.transaction_status}
                     </span>
@@ -355,11 +354,10 @@ function SavingsWithdrawalsTable({ withdrawals }) {
                 key={page}
                 onClick={() => handlePageChange(page)}
                 variant={currentPage === page ? "default" : "outline"}
-                className={`${
-                  currentPage === page
-                    ? "bg-primary text-white"
-                    : "border-primary text-primary hover:bg-primary hover:text-white"
-                } text-sm`}
+                className={`${currentPage === page
+                  ? "bg-primary text-white"
+                  : "border-primary text-primary hover:bg-primary hover:text-white"
+                  } text-sm`}
               >
                 {page}
               </Button>

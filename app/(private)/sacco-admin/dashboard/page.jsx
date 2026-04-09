@@ -97,7 +97,7 @@ export default function SaccoAdminDashboard() {
             Manage members, products, and configurations.
           </p>
         </div>
-        <div className="bg-white px-4 py-2 rounded-full border shadow-sm">
+        <div className="bg-white px-4 py-2 rounded border shadow-sm">
           <p className="text-sm font-medium text-gray-900">
             {myself?.salutation} {myself?.last_name} (Admin)
           </p>

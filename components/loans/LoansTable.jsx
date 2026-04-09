@@ -107,7 +107,7 @@ function LoansTable({ loans, isLoading, route }) {
                 setFilterType(e.target.value);
                 setCurrentPage(1); // Reset to first page on filter change
               }}
-              className="w-[200px] h-10 px-3 py-2 rounded-md border border-gray-300 bg-white text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:border-transparent"
+              className="w-[200px] h-10 px-3 py-2 rounded border border-gray-300 bg-white text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#045e32] focus:border-transparent"
               aria-label="Filter by loan type"
             >
               {loanTypes.map((type) => (
@@ -119,7 +119,7 @@ function LoansTable({ loans, isLoading, route }) {
           </div>
 
           {/* Table */}
-          <div className="bg-white shadow-sm border border-slate-100 rounded-md overflow-hidden">
+          <div className="bg-white shadow-sm border border-slate-100 rounded overflow-hidden">
             <Table>
               <TableHeader>
                 <TableRow className="bg-[#236c2e] hover:bg-[#1a5222]">
@@ -163,7 +163,7 @@ function LoansTable({ loans, isLoading, route }) {
                     </TableCell>
                     <TableCell className="text-sm">
                       <span
-                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded-md ${getStatusColor(
+                        className={`px-2 py-0.5 font-bold uppercase tracking-wider text-[10px] rounded ${getStatusColor(
                           getStatus(loan),
                         )}`}
                       >
@@ -206,11 +206,10 @@ function LoansTable({ loans, isLoading, route }) {
                     key={page}
                     onClick={() => handlePageChange(page)}
                     variant={currentPage === page ? "default" : "outline"}
-                    className={`${
-                      currentPage === page
+                    className={`${currentPage === page
                         ? "bg-[#045e32] text-white"
                         : "border-[#045e32] text-[#045e32] hover:bg-[#045e32] hover:text-white"
-                    } text-sm`}
+                      } text-sm`}
                     aria-label={`Go to page ${page}`}
                   >
                     {page}

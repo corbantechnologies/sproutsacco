@@ -10,9 +10,9 @@ export default function EmptyState({
 }) {
   return (
     <div
-      className={`flex flex-col items-center justify-center p-8 text-center rounded-lg border border-dashed bg-gray-50/50 ${className}`}
+      className={`flex flex-col items-center justify-center p-8 text-center rounded border border-dashed bg-gray-50/50 ${className}`}
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 mb-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded bg-gray-100 mb-4">
         <Icon className="h-6 w-6 text-muted-foreground" />
       </div>
       <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
