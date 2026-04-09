@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFetchMember } from "@/hooks/members/actions";
 import { useFetchSavingsTypes } from "@/hooks/savingtypes/actions";
@@ -22,6 +22,11 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import {
     CheckCircle2,
     Circle,
     ArrowRight,
@@ -32,17 +37,31 @@ import {
     AlertCircle,
     BadgePercent,
     Settings2,
-    ListFilter
+    ListFilter,
+    Plus
 } from "lucide-react";
+
+import CreateGLAccountModal from "@/forms/glaccounts/CreateGLAccount";
+import CreatePaymentAccountModal from "@/forms/paymentaccounts/CreatePaymentAccount";
+import CreateFeeTypeModal from "@/forms/feetypes/CreateFeeType";
+import CreateSavingTypeModal from "@/forms/savingtypes/CreateSavingType";
+import CreateLoanProductModal from "@/forms/loanproducts/CreateLoanProduct";
 
 export default function SetupPage() {
     const router = useRouter();
     const { data: myself, isLoading: isLoadingMyself } = useFetchMember();
-    const { data: glaccounts, isLoading: isLoadingGLAccounts } = useFetchGLAccounts();
-    const { data: paymentaccounts, isLoading: isLoadingPaymentAccounts } = useFetchPaymentAccounts();
-    const { data: feetypes, isLoading: isLoadingFeeTypes } = useFetchFeeTypes();
-    const { data: savingTypes, isLoading: isLoadingSavingTypes } = useFetchSavingsTypes();
-    const { data: loanProducts, isLoading: isLoadingLoanProducts } = useFetchLoanProducts();
+    const { data: glaccounts, isLoading: isLoadingGLAccounts, refetch: refetchGL } = useFetchGLAccounts();
+    const { data: paymentaccounts, isLoading: isLoadingPaymentAccounts, refetch: refetchPayment } = useFetchPaymentAccounts();
+    const { data: feetypes, isLoading: isLoadingFeeTypes, refetch: refetchFees } = useFetchFeeTypes();
+    const { data: savingTypes, isLoading: isLoadingSavingTypes, refetch: refetchSavings } = useFetchSavingsTypes();
+    const { data: loanProducts, isLoading: isLoadingLoanProducts, refetch: refetchLoans } = useFetchLoanProducts();
+
+    // Modal States
+    const [isCreateGLModalOpen, setIsCreateGLModalOpen] = useState(false);
+    const [isCreatePaymentModalOpen, setIsCreatePaymentModalOpen] = useState(false);
+    const [isCreateFeeModalOpen, setIsCreateFeeModalOpen] = useState(false);
+    const [isCreateSavingModalOpen, setIsCreateSavingModalOpen] = useState(false);
+    const [isCreateLoanModalOpen, setIsCreateLoanModalOpen] = useState(false);
 
     if (
         isLoadingMyself ||
@@ -115,12 +134,33 @@ export default function SetupPage() {
                         Centralize management of your financial foundation and products.
                     </p>
                 </div>
-                <div className="bg-white px-4 py-1.5 rounded border shadow-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded bg-green-500 animate-pulse" />
-                    <p className="text-xs font-bold text-black uppercase tracking-tighter">
-                        {myself?.salutation} {myself?.last_name} (Admin Mode)
-                    </p>
-                </div>
+                
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button className="bg-[#174271] hover:bg-slate-800 text-white gap-2 font-bold shadow-sm rounded">
+                             <Plus className="w-4 h-4" /> Quick Create
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-56 p-1 rounded shadow-xl border-slate-200" align="end">
+                         <div className="grid gap-0.5">
+                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateGLModalOpen(true)}>
+                                 <Building2 className="w-4 h-4 mr-2 opacity-70" /> GL Account
+                             </Button>
+                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreatePaymentModalOpen(true)}>
+                                 <Wallet className="w-4 h-4 mr-2 opacity-70" /> Payment Account
+                             </Button>
+                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateFeeModalOpen(true)} disabled={!mandatorySetupDone}>
+                                 <BadgePercent className="w-4 h-4 mr-2 opacity-70" /> Fee Type
+                             </Button>
+                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateSavingModalOpen(true)} disabled={!mandatorySetupDone}>
+                                 <PiggyBank className="w-4 h-4 mr-2 opacity-70" /> Saving Type
+                             </Button>
+                             <Button variant="ghost" className="justify-start text-xs h-9 font-semibold text-slate-700 hover:text-[#174271] hover:bg-slate-50" onClick={() => setIsCreateLoanModalOpen(true)} disabled={!mandatorySetupDone}>
+                                 <HandCoins className="w-4 h-4 mr-2 opacity-70" /> Loan Product
+                             </Button>
+                         </div>
+                    </PopoverContent>
+                </Popover>
             </div>
 
             {!mandatorySetupDone && (
@@ -397,6 +437,33 @@ export default function SetupPage() {
                     </div>
                 </Card>
             </div>
+
+            {/* Creation Modals */}
+            <CreateGLAccountModal
+                isOpen={isCreateGLModalOpen}
+                onClose={() => setIsCreateGLModalOpen(false)}
+                refetchGLAccounts={refetchGL}
+            />
+            <CreatePaymentAccountModal
+                isOpen={isCreatePaymentModalOpen}
+                onClose={() => setIsCreatePaymentModalOpen(false)}
+                refetchPaymentAccounts={refetchPayment}
+            />
+            <CreateFeeTypeModal
+                isOpen={isCreateFeeModalOpen}
+                onClose={() => setIsCreateFeeModalOpen(false)}
+                refetchFeeTypes={refetchFees}
+            />
+            <CreateSavingTypeModal
+                isOpen={isCreateSavingModalOpen}
+                onClose={() => setIsCreateSavingModalOpen(false)}
+                refetchSavingTypes={refetchSavings}
+            />
+            <CreateLoanProductModal
+                isOpen={isCreateLoanModalOpen}
+                onClose={() => setIsCreateLoanModalOpen(false)}
+                refetchLoanTypes={refetchLoans}
+            />
         </div>
     );
 }
