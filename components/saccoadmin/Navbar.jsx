@@ -57,7 +57,7 @@ function SaccoAdminNavbar() {
             {[
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
               {
-                label: "Setup",
+                label: "Platform Setup",
                 href: "/sacco-admin/setup",
                 children: [
                   { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
