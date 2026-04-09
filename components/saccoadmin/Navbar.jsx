@@ -56,9 +56,6 @@ function SaccoAdminNavbar() {
           <nav className="flex flex-col p-4 overflow-y-auto h-full">
             {[
               { label: "Dashboard", href: "/sacco-admin/dashboard" },
-              { label: "Members", href: "/sacco-admin/members" },
-              { label: "Loans", href: "/sacco-admin/loans" },
-              { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
               {
                 label: "Setup",
                 href: "/sacco-admin/setup",
@@ -70,6 +67,9 @@ function SaccoAdminNavbar() {
                   { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
                 ]
               },
+              { label: "Members", href: "/sacco-admin/members" },
+              { label: "Loans", href: "/sacco-admin/loans" },
+              { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
               { label: "Accounting", href: "/sacco-admin/accounting" },
               { label: "Reports", href: "/sacco-admin/reports" },
               {
