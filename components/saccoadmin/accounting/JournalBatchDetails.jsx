@@ -19,8 +19,8 @@ export default function JournalBatchDetails({ isOpen, onClose, batch }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px] p-4 animate-in fade-in duration-200">
-            <div 
-                className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+            <div
+                className="bg-white rounded shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
@@ -46,7 +46,7 @@ export default function JournalBatchDetails({ isOpen, onClose, batch }) {
                         variant="ghost"
                         size="icon"
                         onClick={onClose}
-                        className="h-10 w-10 rounded-full hover:bg-slate-100 transition-colors"
+                        className="h-10 w-10 rounded hover:bg-slate-100 transition-colors"
                     >
                         <X className="h-5 w-5 text-slate-500" />
                     </Button>
@@ -65,7 +65,7 @@ export default function JournalBatchDetails({ isOpen, onClose, batch }) {
                         </TableHeader>
                         <TableBody>
                             {batch.entries?.map((entry, idx) => (
-                                <TableRow 
+                                <TableRow
                                     key={entry.id || entry.reference}
                                     className={`${idx % 2 === 0 ? "bg-white" : "bg-slate-50/30"} hover:bg-slate-50 transition-colors border-b-slate-100`}
                                 >
@@ -73,7 +73,7 @@ export default function JournalBatchDetails({ isOpen, onClose, batch }) {
                                     <TableCell className="px-6 py-4">
                                         <div className="font-bold text-slate-900 text-sm whitespace-nowrap">{entry.account}</div>
                                         <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
-                                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                                            <span className="w-1 h-1 rounded bg-slate-300"></span>
                                             {entry.account_details?.code || "No account code"}
                                         </div>
                                     </TableCell>
@@ -98,9 +98,9 @@ export default function JournalBatchDetails({ isOpen, onClose, batch }) {
 
                 {/* Footer */}
                 <div className="bg-slate-50/80 p-4 border-t flex justify-end">
-                    <Button 
+                    <Button
                         onClick={onClose}
-                        className="bg-slate-900 hover:bg-slate-800 text-white font-bold h-9 px-6 rounded-lg text-xs"
+                        className="bg-slate-900 hover:bg-slate-800 text-white font-bold h-9 px-6 rounded text-xs"
                     >
                         Close
                     </Button>

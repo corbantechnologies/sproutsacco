@@ -100,7 +100,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     as="select"
                     name="salutation"
                     id="salutation"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   >
                     <option value="">Select Salutation</option>
                     <option value="Mr">Mr</option>
@@ -124,7 +124,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="avatar"
                     id="avatar"
                     onChange={(e) => setFieldValue("avatar", e.target.files[0])}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -141,7 +141,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="first_name"
                     id="first_name"
                     value={values.first_name}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -158,7 +158,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="middle_name"
                     id="middle_name"
                     value={values.middle_name}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -175,7 +175,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="last_name"
                     id="last_name"
                     value={values.last_name}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -192,7 +192,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="email"
                     id="email"
                     value={values.email}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -209,7 +209,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="dob"
                     id="dob"
                     value={values.dob}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -226,7 +226,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="phone"
                     id="phone"
                     value={values.phone}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -241,7 +241,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     as="select"
                     name="gender"
                     id="gender"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -260,7 +260,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     as="select"
                     name="id_type"
                     id="id_type"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   >
                     <option value="">Select ID Type</option>
                     <option value="National ID">National ID</option>
@@ -281,7 +281,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="id_number"
                     id="id_number"
                     value={values.id_number}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -298,7 +298,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="tax_pin"
                     id="tax_pin"
                     value={values.tax_pin}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
 
@@ -313,7 +313,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     as="select"
                     name="county"
                     id="county"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   >
                     <option value="">Select County</option>
                     {counties.map((county) => (
@@ -335,7 +335,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     as="select"
                     name="employment_type"
                     id="employment_type"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   >
                     <option value="">Select Employment Type</option>
                     <option value="Permanent">Permanent</option>
@@ -361,7 +361,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                         name="employer"
                         id="employer"
                         value={values.employer}
-                        className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                        className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                       />
                     </div>
                   )}
@@ -379,7 +379,7 @@ function UpdateAccount({ member, isOpen, onClose, refetchMember }) {
                     name="job_title"
                     id="job_title"
                     value={values.job_title}
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                   />
                 </div>
               </div>

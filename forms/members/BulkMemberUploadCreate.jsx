@@ -83,7 +83,7 @@ function BulkMemberUploadCreate({ closeModal, openModal }) {
                         </p>
 
                         <div
-                            className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center text-center ${file ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-black"
+                            className={`border-2 border-dashed rounded p-8 flex flex-col items-center justify-center text-center ${file ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-black"
                                 } transition-colors cursor-pointer`}
                             onClick={() => !file && fileInputRef.current?.click()}
                         >
@@ -97,7 +97,7 @@ function BulkMemberUploadCreate({ closeModal, openModal }) {
 
                             {file ? (
                                 <div className="flex flex-col items-center space-y-2">
-                                    <div className="p-3 bg-green-100 rounded-full text-green-600">
+                                    <div className="p-3 bg-green-100 rounded text-green-600">
                                         <FileUp className="w-8 h-8" />
                                     </div>
                                     <div>
@@ -120,7 +120,7 @@ function BulkMemberUploadCreate({ closeModal, openModal }) {
                                 </div>
                             ) : (
                                 <div className="flex flex-col items-center space-y-2">
-                                    <div className="p-3 bg-gray-100 rounded-full text-gray-500">
+                                    <div className="p-3 bg-gray-100 rounded text-gray-500">
                                         <FileUp className="w-8 h-8" />
                                     </div>
                                     <p className="font-semibold text-gray-700">

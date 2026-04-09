@@ -69,7 +69,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
     return (
         <div className="max-w-3xl mx-auto space-y-8 py-4">
             <div className="text-center space-y-2">
-                <h2 className="text-2xl font-black text-[#174271] uppercase tracking-tighter">Loan Product Ingestion</h2>
+                <h2 className="text-2xl font-semibold text-[#174271] uppercase tracking-tighter">Loan Product Ingestion</h2>
                 <p className="text-slate-500 text-sm max-w-lg mx-auto font-medium">
                     Automate the creation of complex loan schemes using our standardized CSV matrix.
                 </p>
@@ -77,19 +77,19 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
             <div className="bg-slate-50 rounded-[2rem] p-8 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div className="flex items-center gap-5">
-                    <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-50">
+                    <div className="bg-white p-4 rounded shadow-sm border border-slate-50">
                         <Download className="w-7 h-7 text-[#174271]" />
                     </div>
                     <div>
-                        <p className="text-base font-black text-slate-800 tracking-tight">Loan Scheme Template</p>
+                        <p className="text-base font-semibold text-slate-800 tracking-tight">Loan Scheme Template</p>
                         <p className="text-[12px] text-slate-500 font-bold uppercase tracking-widest italic opacity-60">Structure v1.0 • Required for Batch</p>
                     </div>
                 </div>
-                <Button 
-                    variant="outline" 
-                    size="lg" 
+                <Button
+                    variant="outline"
+                    size="lg"
                     onClick={handleDownloadTemplate}
-                    className="border-2 border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white font-black px-8 rounded-xl transition-all shadow-md group h-12"
+                    className="border-2 border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white font-semibold px-8 rounded transition-all shadow-md group h-12"
                 >
                     Download Matrix
                 </Button>
@@ -97,11 +97,10 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-[3rem] p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                        file 
-                        ? "border-[#174271] bg-[#174271]/5 shadow-inner" 
+                    className={`border-2 border-dashed rounded-[3rem] p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-[#174271] bg-[#174271]/5 shadow-inner"
                         : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50 shadow-sm"
-                    }`}
+                        }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
                     <Input
@@ -114,13 +113,13 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-6 animate-in zoom-in-95 duration-500">
-                            <div className="p-6 bg-[#174271] rounded-3xl text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
+                            <div className="p-6 bg-[#174271] rounded text-white shadow-2xl shadow-slate-200 ring-8 ring-white">
                                 <FileCheck className="w-12 h-12" />
                             </div>
                             <div className="space-y-1">
-                                <p className="font-black text-2xl text-slate-900 tracking-tighter">{file.name}</p>
-                                <p className="text-[12px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                <p className="font-semibold text-2xl text-slate-900 tracking-tighter">{file.name}</p>
+                                <p className="text-[12px] text-slate-400 font-semibold uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+                                    <span className="w-2 h-2 rounded bg-emerald-500 animate-pulse" />
                                     {(file.size / 1024).toFixed(2)} KB • READY TO SYNC
                                 </p>
                             </div>
@@ -131,7 +130,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-rose-500 hover:text-rose-700 hover:bg-rose-50 font-black h-10 mt-6 px-8 rounded-full border-2 border-transparent hover:border-rose-100"
+                                className="text-rose-500 hover:text-rose-700 hover:bg-rose-50 font-semibold h-10 mt-6 px-8 rounded border-2 border-transparent hover:border-rose-100"
                             >
                                 <X className="w-4 h-4 mr-2" /> DISCARD
                             </Button>
@@ -142,7 +141,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                                 <FileUp className="w-16 h-16" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-black text-2xl text-slate-800 tracking-tight">
+                                <p className="font-semibold text-2xl text-slate-800 tracking-tight">
                                     Drop Your Loan Matrix
                                 </p>
                                 <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">
@@ -156,7 +155,7 @@ function BulkLoanProductUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-slate-800 text-white px-24 h-16 rounded-[2rem] font-black text-xl shadow-2xl shadow-slate-200 transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4 uppercase tracking-tighter"
+                        className="bg-[#174271] hover:bg-slate-800 text-white px-24 h-16 rounded-[2rem] font-semibold text-xl shadow-2xl shadow-slate-200 transition-all active:scale-95 disabled:opacity-20 flex items-center gap-4 uppercase tracking-tighter"
                         disabled={loading || !file}
                     >
                         {loading ? "Synchronizing Data..." : "Engage Bulk Upload"}

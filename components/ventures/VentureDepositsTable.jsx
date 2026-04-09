@@ -133,7 +133,7 @@ function VentureDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -153,7 +153,7 @@ function VentureDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -173,7 +173,7 @@ function VentureDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -194,7 +194,7 @@ function VentureDepositsTable({ deposits }) {
                   setEndDate("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
 
@@ -272,11 +272,10 @@ function VentureDepositsTable({ deposits }) {
                 key={page}
                 onClick={() => handlePageChange(page)}
                 variant={currentPage === page ? "default" : "outline"}
-                className={`${
-                  currentPage === page
+                className={`${currentPage === page
                     ? "bg-primary text-white"
                     : "border-primary text-primary hover:bg-primary hover:text-white"
-                } text-sm`}
+                  } text-sm`}
               >
                 {page}
               </Button>

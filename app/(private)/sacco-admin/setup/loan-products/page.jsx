@@ -51,17 +51,17 @@ export default function LoanProductsSetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => router.push("/sacco-admin/setup")}
-                        className="rounded-full hover:bg-white text-slate-400 hover:text-[#174271] transition-colors"
+                        className="rounded hover:bg-white text-slate-400 hover:text-[#174271] transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
                         <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                           <HandCoins className="w-6 h-6 text-[#174271]" /> Loan Product Configuration
+                            <HandCoins className="w-6 h-6 text-[#174271]" /> Loan Product Configuration
                         </h1>
                         <p className="text-slate-500 text-sm italic">
                             Establish loan types, interest computation methods, and risk fees.
@@ -71,7 +71,7 @@ export default function LoanProductsSetupPage() {
                 <div className="flex gap-2">
                     <Button
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold shadow-sm rounded-lg h-10 px-5"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white text-xs font-bold shadow-sm rounded h-10 px-5"
                     >
                         <Plus className="w-4 h-4 mr-1.5" /> New Loan Scheme
                     </Button>
@@ -80,7 +80,7 @@ export default function LoanProductsSetupPage() {
 
             {/* Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6 rounded-lg">
+                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6 rounded">
                     <TabsTrigger value="list" className="px-8 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-widest transition-all">
                         <ListFilter className="w-4 h-4 mr-2" /> Schemes
                     </TabsTrigger>
@@ -94,7 +94,7 @@ export default function LoanProductsSetupPage() {
 
                 {/* List Tab */}
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none overflow-hidden rounded-xl">
+                    <Card className="shadow-sm border-none overflow-hidden rounded">
                         <CardHeader className="bg-white border-b px-6 py-4">
                             <CardTitle className="text-lg font-bold text-slate-800">Available Loan Facilities</CardTitle>
                             <CardDescription className="text-xs">System Registered Schemes: {loanProducts?.length || 0}</CardDescription>
@@ -127,13 +127,13 @@ export default function LoanProductsSetupPage() {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell className="text-[11px] font-medium text-slate-500 italic max-w-[200px] truncate">
-                                                       {p.gl_principal_asset || "NO LEDGER"}
+                                                        {p.gl_principal_asset || "NO LEDGER"}
                                                     </TableCell>
                                                     <TableCell className="text-right pr-6 py-5">
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-white border-transparent hover:border-slate-200 border rounded-lg transition-all"
+                                                            className="h-8 w-8 text-slate-400 hover:text-[#174271] hover:bg-white border-transparent hover:border-slate-200 border rounded transition-all"
                                                             onClick={() => {
                                                                 setSelectedProduct(p);
                                                                 setIsUpdateModalOpen(true);
@@ -147,7 +147,7 @@ export default function LoanProductsSetupPage() {
                                         ) : (
                                             <TableRow>
                                                 <TableCell colSpan={5} className="text-center h-48 text-slate-400 text-sm italic py-12">
-                                                   No loan products found.
+                                                    No loan products found.
                                                 </TableCell>
                                             </TableRow>
                                         )}
@@ -165,7 +165,7 @@ export default function LoanProductsSetupPage() {
 
                 {/* Bulk Upload Tab */}
                 <TabsContent value="bulk-upload" className="animate-in fade-in zoom-in-95 duration-200">
-                    <Card className="shadow-sm border-none bg-white rounded-xl p-8">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent className="p-0">
                             <BulkLoanProductUploadCreate onBatchSuccess={refetch} />
                         </CardContent>

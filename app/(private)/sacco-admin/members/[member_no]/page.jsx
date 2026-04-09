@@ -189,13 +189,12 @@ function MemberDetail() {
   };
 
   const getInitials = (firstName, lastName) => {
-    return `${firstName?.charAt(0) || ""}${
-      lastName?.charAt(0) || ""
-    }`.toUpperCase();
+    return `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""
+      }`.toUpperCase();
   };
 
   const InfoField = ({ icon: Icon, label, value }) => (
-    <div className="flex items-start gap-3 p-4 rounded-lg bg-secondary/50 hover:bg-secondary/80 transition-colors">
+    <div className="flex items-start gap-3 p-4 rounded bg-secondary/50 hover:bg-secondary/80 transition-colors">
       <Icon className="h-5 w-5 text-primary mt-0.5" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
@@ -273,7 +272,7 @@ function MemberDetail() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="flex flex-wrap justify-center lg:justify-start gap-3">
                   <Badge
                     variant={member?.is_approved ? "default" : "secondary"}
@@ -673,7 +672,7 @@ function MemberDetail() {
                       <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3 ml-1">
                         Active Guarantees
                       </h4>
-                      <div className="overflow-x-auto rounded-lg border border-secondary">
+                      <div className="overflow-x-auto rounded border border-secondary">
                         <table className="w-full text-sm text-left">
                           <thead className="bg-secondary/50 text-muted-foreground font-medium">
                             <tr>
@@ -692,11 +691,11 @@ function MemberDetail() {
                                   {formatBalance(guarantee.guaranteed_amount)} KES
                                 </td>
                                 <td className="p-3 text-right">
-                                  <Badge 
+                                  <Badge
                                     variant="outline"
                                     className={
-                                      guarantee.status === "Accepted" 
-                                        ? "text-green-600 border-green-200" 
+                                      guarantee.status === "Accepted"
+                                        ? "text-green-600 border-green-200"
                                         : "text-amber-600 border-amber-200"
                                     }
                                   >
@@ -755,7 +754,7 @@ function MemberDetail() {
                     {activeRoles.map((role) => (
                       <div
                         key={role}
-                        className="flex items-center justify-between p-3 rounded-lg bg-primary/5"
+                        className="flex items-center justify-between p-3 rounded bg-primary/5"
                       >
                         <span className="font-medium">{role}</span>
                         <Badge
@@ -788,8 +787,8 @@ function MemberDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
-                  <div className="h-3 w-3 rounded-full bg-green-600"></div>
+                <div className="flex items-center gap-3 p-3 rounded bg-secondary/50">
+                  <div className="h-3 w-3 rounded bg-green-600"></div>
                   <div>
                     <p className="text-sm font-medium">Account Created</p>
                     <p className="text-xs text-muted-foreground">
@@ -797,8 +796,8 @@ function MemberDetail() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
-                  <div className="h-3 w-3 rounded-full bg-primary"></div>
+                <div className="flex items-center gap-3 p-3 rounded bg-secondary/50">
+                  <div className="h-3 w-3 rounded bg-primary"></div>
                   <div>
                     <p className="text-sm font-medium">Last Updated</p>
                     <p className="text-xs text-muted-foreground">

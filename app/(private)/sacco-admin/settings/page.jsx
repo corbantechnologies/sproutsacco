@@ -56,7 +56,7 @@ function AccountSettings() {
   };
 
   const InfoField = ({ icon: Icon, label, value }) => (
-    <div className="flex items-start gap-3 p-4 rounded-lg bg-secondary/50 hover:bg-secondary/80 transition-colors">
+    <div className="flex items-start gap-3 p-4 rounded bg-secondary/50 hover:bg-secondary/80 transition-colors">
       <Icon className="h-5 w-5 text-primary mt-0.5" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-muted-foreground">{label}</p>
@@ -274,15 +274,15 @@ function AccountSettings() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
-                  <div className="h-3 w-3 rounded-full bg-primary"></div>
+                <div className="flex items-center gap-3 p-3 rounded bg-secondary/50">
+                  <div className="h-3 w-3 rounded bg-primary"></div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Account Created</p>
                     <p className="text-xs text-muted-foreground">{formatDate(member?.created_at)}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
-                  <div className="h-3 w-3 rounded-full bg-primary"></div>
+                <div className="flex items-center gap-3 p-3 rounded bg-secondary/50">
+                  <div className="h-3 w-3 rounded bg-primary"></div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Last Updated</p>
                     <p className="text-xs text-muted-foreground">{formatDate(member?.updated_at)}</p>

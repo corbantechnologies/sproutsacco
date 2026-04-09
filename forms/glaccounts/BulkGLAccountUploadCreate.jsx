@@ -75,10 +75,10 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                 </p>
             </div>
 
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 space-y-4">
+            <div className="bg-slate-50 rounded p-6 border border-slate-100 space-y-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="bg-white p-2 rounded-lg shadow-sm">
+                        <div className="bg-white p-2 rounded shadow-sm">
                             <Download className="w-5 h-5 text-[#174271]" />
                         </div>
                         <div>
@@ -86,9 +86,9 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                             <p className="text-xs text-slate-500">Download the required structure before uploading.</p>
                         </div>
                     </div>
-                    <Button 
-                        variant="outline" 
-                        size="sm" 
+                    <Button
+                        variant="outline"
+                        size="sm"
                         onClick={handleDownloadTemplate}
                         className="border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white"
                     >
@@ -99,11 +99,10 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                        file 
-                        ? "border-green-500 bg-green-50/50" 
+                    className={`border-2 border-dashed rounded p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-green-500 bg-green-50/50"
                         : "border-slate-200 bg-slate-50/30 hover:border-[#174271] hover:bg-slate-50"
-                    }`}
+                        }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
                     <Input
@@ -116,7 +115,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-green-100 rounded-2xl text-green-600 shadow-sm animate-in zoom-in">
+                            <div className="p-4 bg-green-100 rounded text-green-600 shadow-sm animate-in zoom-in">
                                 <FileCheck className="w-10 h-10" />
                             </div>
                             <div>
@@ -139,7 +138,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-white rounded-2xl text-slate-400 shadow-sm border border-slate-100">
+                            <div className="p-4 bg-white rounded text-slate-400 shadow-sm border border-slate-100">
                                 <FileUp className="w-10 h-10" />
                             </div>
                             <div className="space-y-1">
@@ -155,7 +154,7 @@ function BulkGLAccountUpload({ onBatchSuccess }) {
                 <div className="flex justify-center">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-12 h-12 rounded-xl font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white px-12 h-12 rounded font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
                         disabled={loading || !file}
                     >
                         {loading ? "Uploading Data..." : "Start Import"}

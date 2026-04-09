@@ -282,13 +282,13 @@ function LoanDetail() {
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex space-x-1 rounded-xl bg-gray-200 p-1 w-fit">
+                <div className="flex space-x-1 rounded bg-gray-200 p-1 w-fit">
                     {['overview', 'schedule', 'transactions'].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`
-                                w-full rounded-lg py-2.5 px-6 text-sm font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2
+                                w-full rounded py-2.5 px-6 text-sm font-medium leading-5 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2
                                 ${activeTab === tab
                                     ? 'bg-white text-[#045e32] shadow'
                                     : 'text-gray-600 hover:bg-white/[0.12] hover:text-gray-800'}
@@ -397,7 +397,7 @@ function LoanDetail() {
                                                     <span className="text-sm font-bold text-green-900">
                                                         Total Payoff
                                                     </span>
-                                                    <span className="text-xl font-black text-green-700">
+                                                    <span className="text-xl font-semibold text-green-700">
                                                         {formatCurrency(payoffQuote.total_payoff_amount)}
                                                     </span>
                                                 </div>
@@ -474,7 +474,7 @@ function LoanDetail() {
                                 </div>
                                 <div className="flex gap-2">
                                     <select
-                                        className="h-9 w-[150px] rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                                        className="h-9 w-[150px] rounded border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                         value={monthFilter}
                                         onChange={(e) => setMonthFilter(e.target.value)}
                                     >
@@ -500,7 +500,7 @@ function LoanDetail() {
                                             <TableRow key={i}>
                                                 <TableCell>{formatDate(t.date)}</TableCell>
                                                 <TableCell>
-                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium 
+                                                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium 
                                                         ${t.type === 'Disbursement' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
                                                         {t.type}
                                                     </span>

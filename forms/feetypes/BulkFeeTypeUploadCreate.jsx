@@ -71,24 +71,24 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
             <div className="text-center space-y-2">
                 <h2 className="text-2xl font-bold text-[#174271]">Bulk Import Fee Types</h2>
                 <p className="text-slate-500 text-sm max-w-lg mx-auto">
-                    Quickly onboard multiple fee definitions using our CSV template. 
+                    Quickly onboard multiple fee definitions using our CSV template.
                     Ensure your GL account names match exactly.
                 </p>
             </div>
 
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="bg-slate-50 rounded p-6 border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-50">
+                    <div className="bg-white p-3 rounded shadow-sm border border-slate-50">
                         <Download className="w-6 h-6 text-[#ea1315]" />
                     </div>
                     <div>
-                        <p className="text-sm font-black text-slate-800 uppercase tracking-tighter">Download Fee Template</p>
+                        <p className="text-sm font-semibold text-slate-800 uppercase tracking-tighter">Download Fee Template</p>
                         <p className="text-[11px] text-slate-500 font-medium italic">Get the structure required for successful import.</p>
                     </div>
                 </div>
-                <Button 
-                    variant="default" 
-                    size="sm" 
+                <Button
+                    variant="default"
+                    size="sm"
                     onClick={handleDownloadTemplate}
                     className="bg-[#174271] hover:bg-slate-800 text-white font-bold px-6 h-10 shadow-md shadow-slate-200"
                 >
@@ -98,11 +98,10 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                        file 
-                        ? "border-green-500 bg-green-50/30" 
+                    className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-green-500 bg-green-50/30"
                         : "border-slate-200 bg-white hover:border-[#ea1315] hover:bg-slate-50 shadow-sm"
-                    }`}
+                        }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
                     <Input
@@ -115,7 +114,7 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-4 animate-in zoom-in-95 duration-300">
-                            <div className="p-5 bg-green-500 rounded-full text-white shadow-lg shadow-green-100">
+                            <div className="p-5 bg-green-500 rounded text-white shadow-lg shadow-green-100">
                                 <FileCheck className="w-10 h-10" />
                             </div>
                             <div className="space-y-1">
@@ -131,18 +130,18 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-rose-600 border-rose-100 hover:bg-rose-50 hover:text-rose-700 font-bold h-9 mt-4 px-6 rounded-full"
+                                className="text-rose-600 border-rose-100 hover:bg-rose-50 hover:text-rose-700 font-bold h-9 mt-4 px-6 rounded"
                             >
                                 <X className="w-4 h-4 mr-1" /> Remove
                             </Button>
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-5">
-                            <div className="p-6 bg-slate-50 rounded-full text-[#ea1315]/40 border-4 border-white shadow-inner">
+                            <div className="p-6 bg-slate-50 rounded text-[#ea1315]/40 border-4 border-white shadow-inner">
                                 <FileUp className="w-12 h-12" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-black text-xl text-slate-800 tracking-tight">
+                                <p className="font-semibold text-xl text-slate-800 tracking-tight">
                                     Drop your CSV here
                                 </p>
                                 <p className="text-sm text-slate-400 font-medium">
@@ -156,7 +155,7 @@ function BulkFeeTypeUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-2">
                     <Button
                         type="submit"
-                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-20 h-14 rounded-2xl font-black text-lg shadow-xl shadow-rose-200 transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3 uppercase tracking-tighter"
+                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-20 h-14 rounded font-semibold text-lg shadow-xl shadow-rose-200 transition-all active:scale-95 disabled:opacity-30 flex items-center gap-3 uppercase tracking-tighter"
                         disabled={loading || !file}
                     >
                         {loading ? "Processing Upload..." : "Import Fees"}

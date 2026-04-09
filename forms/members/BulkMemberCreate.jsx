@@ -67,14 +67,14 @@ function BulkMemberCreate({ closeModal, openModal }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:p-6 backdrop-blur-sm transition-opacity">
-            <div className="w-full max-w-7xl h-full max-h-[90vh] bg-white rounded-lg shadow-xl flex flex-col overflow-hidden relative isolate">
+            <div className="w-full max-w-7xl h-full max-h-[90vh] bg-white rounded shadow-xl flex flex-col overflow-hidden relative isolate">
                 <div className="flex items-center justify-between px-6 py-4 border-b">
                     <h2 className="text-2xl font-bold text-gray-900">
                         Bulk Create Members (Max 15)
                     </h2>
                     <button
                         onClick={closeModal}
-                        className="text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded-full p-2 transition-colors"
+                        className="text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded p-2 transition-colors"
                     >
                         <X className="w-5 h-5" />
                         <span className="sr-only">Close</span>
@@ -87,7 +87,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                             {members.map((member, index) => (
                                 <div
                                     key={index}
-                                    className="p-4 border border-gray-200 rounded-lg bg-gray-50 relative"
+                                    className="p-4 border border-gray-200 rounded bg-gray-50 relative"
                                 >
                                     <div className="flex justify-between items-center mb-4">
                                         <h4 className="font-semibold text-lg text-gray-700">
@@ -119,7 +119,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 placeholder="e.g. MBR-001"
                                                 value={member.member_no}
                                                 onChange={(e) => handleInputChange(index, "member_no", e.target.value)}
-                                                className="border-black rounded-md text-base py-2"
+                                                className="border-black rounded text-base py-2"
                                             />
                                         </div>
 
@@ -136,7 +136,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 placeholder="John"
                                                 value={member.first_name}
                                                 onChange={(e) => handleInputChange(index, "first_name", e.target.value)}
-                                                className="border-black rounded-md text-base py-2"
+                                                className="border-black rounded text-base py-2"
                                             />
                                         </div>
 
@@ -153,7 +153,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 placeholder="Doe"
                                                 value={member.last_name}
                                                 onChange={(e) => handleInputChange(index, "last_name", e.target.value)}
-                                                className="border-black rounded-md text-base py-2"
+                                                className="border-black rounded text-base py-2"
                                             />
                                         </div>
 
@@ -168,7 +168,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 id={`members-${index}-gender`}
                                                 value={member.gender}
                                                 onChange={(e) => handleInputChange(index, "gender", e.target.value)}
-                                                className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 transition-colors bg-white h-10"
+                                                className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 transition-colors bg-white h-10"
                                             >
                                                 <option value="">Select Gender</option>
                                                 <option value="Male">Male</option>
@@ -187,7 +187,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 id={`members-${index}-employer`}
                                                 value={member.employer}
                                                 onChange={(e) => handleInputChange(index, "employer", e.target.value)}
-                                                className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2 transition-colors bg-white h-10"
+                                                className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2 transition-colors bg-white h-10"
                                             >
                                                 <option value="">Select Employer</option>
                                                 <option value="Tamarind Management Limited">
@@ -211,7 +211,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                     placeholder="e.g. 12345"
                                                     value={member.payroll_no}
                                                     onChange={(e) => handleInputChange(index, "payroll_no", e.target.value)}
-                                                    className="border-black rounded-md text-base py-2"
+                                                    className="border-black rounded text-base py-2"
                                                 />
                                             </div>
                                         )}
@@ -229,7 +229,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 placeholder="254700000000"
                                                 value={member.phone}
                                                 onChange={(e) => handleInputChange(index, "phone", e.target.value)}
-                                                className="border-black rounded-md text-base py-2"
+                                                className="border-black rounded text-base py-2"
                                             />
                                         </div>
 
@@ -246,7 +246,7 @@ function BulkMemberCreate({ closeModal, openModal }) {
                                                 placeholder="jdoe@example.com"
                                                 value={member.email}
                                                 onChange={(e) => handleInputChange(index, "email", e.target.value)}
-                                                className="border-black rounded-md text-base py-2"
+                                                className="border-black rounded text-base py-2"
                                             />
                                         </div>
                                     </div>

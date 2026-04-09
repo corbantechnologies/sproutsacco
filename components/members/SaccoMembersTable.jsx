@@ -76,7 +76,7 @@ function SaccoMembersTable({ members }) {
                   setSearchTerm(e.target.value);
                   setCurrentPage(1); // Reset to first page on search
                 }}
-                className="pl-10 border-black   rounded-md text-base"
+                className="pl-10 border-black   rounded text-base"
               />
             </div>
           </div>
@@ -94,7 +94,7 @@ function SaccoMembersTable({ members }) {
                 setStatusFilter(e.target.value);
                 setCurrentPage(1); // Reset to first page on filter change
               }}
-              className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+              className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
             >
               <option value="all">All Statuses</option>
               <option value="approved">Approved</option>

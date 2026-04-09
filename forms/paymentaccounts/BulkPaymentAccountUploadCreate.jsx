@@ -75,9 +75,9 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
                 </p>
             </div>
 
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 flex items-center justify-between">
+            <div className="bg-slate-50 rounded p-6 border border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-100">
+                    <div className="bg-white p-2 rounded shadow-sm border border-slate-100">
                         <Download className="w-5 h-5 text-[#174271]" />
                     </div>
                     <div>
@@ -85,9 +85,9 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
                         <p className="text-xs text-slate-500 font-medium">Download the structure before filling your data.</p>
                     </div>
                 </div>
-                <Button 
-                    variant="outline" 
-                    size="sm" 
+                <Button
+                    variant="outline"
+                    size="sm"
                     onClick={handleDownloadTemplate}
                     className="border-[#174271] text-[#174271] hover:bg-[#174271] hover:text-white transition-all font-bold"
                 >
@@ -97,11 +97,10 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                        file 
-                        ? "border-green-500 bg-green-50/50" 
+                    className={`border-2 border-dashed rounded p-12 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-green-500 bg-green-50/50"
                         : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50 shadow-sm"
-                    }`}
+                        }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
                     <Input
@@ -114,7 +113,7 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-green-100 rounded-2xl text-green-600 shadow-sm">
+                            <div className="p-4 bg-green-100 rounded text-green-600 shadow-sm">
                                 <FileCheck className="w-10 h-10" />
                             </div>
                             <div>
@@ -137,7 +136,7 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-4">
-                            <div className="p-4 bg-slate-100 rounded-2xl text-slate-400">
+                            <div className="p-4 bg-slate-100 rounded text-slate-400">
                                 <FileUp className="w-10 h-10" />
                             </div>
                             <div className="space-y-1">
@@ -153,7 +152,7 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
                 <div className="flex justify-center">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-[#12345a] text-white px-16 h-12 rounded-xl font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
+                        className="bg-[#174271] hover:bg-[#12345a] text-white px-16 h-12 rounded font-bold shadow-lg shadow-[#174271]/20 transition-all active:scale-95 disabled:opacity-50"
                         disabled={loading || !file}
                     >
                         {loading ? "Importing Accounts..." : "Process Upload"}

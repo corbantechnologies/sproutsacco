@@ -47,7 +47,7 @@ function SaccoAdminNavbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-slate-100 rounded-full"
+              className="hover:bg-slate-100 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
               <XIcon className="h-5 w-5" />
@@ -64,11 +64,11 @@ function SaccoAdminNavbar() {
                 label: "Setup",
                 href: "/sacco-admin/setup",
                 children: [
-                   { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
-                   { label: "Payment Accounts", href: "/sacco-admin/setup/payment-accounts" },
-                   { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
-                   { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
-                   { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
+                  { label: "GL Accounts", href: "/sacco-admin/setup/gl-accounts" },
+                  { label: "Payment Accounts", href: "/sacco-admin/setup/payment-accounts" },
+                  { label: "Fee Types", href: "/sacco-admin/setup/feetypes" },
+                  { label: "Savings Types", href: "/sacco-admin/setup/saving-types" },
+                  { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
                 ]
               },
               { label: "Accounting", href: "/sacco-admin/accounting" },
@@ -89,7 +89,7 @@ function SaccoAdminNavbar() {
               <React.Fragment key={link.href}>
                 <Link
                   href={link.href}
-                  className="px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-slate-50 hover:text-[#174271] rounded-md"
+                  className="px-4 py-2.5 text-[14px] font-medium transition-colors hover:bg-slate-50 hover:text-[#174271] rounded"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
@@ -100,7 +100,7 @@ function SaccoAdminNavbar() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="px-4 py-1.5 text-[12px] font-medium text-slate-500 transition-colors hover:text-[#174271] rounded-md"
+                        className="px-4 py-1.5 text-[12px] font-medium text-slate-500 transition-colors hover:text-[#174271] rounded"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {child.label}

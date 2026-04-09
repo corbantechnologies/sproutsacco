@@ -75,21 +75,21 @@ function BulkSavingDepositUpload({ onBatchSuccess }) {
                 </p>
             </div>
 
-            <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="bg-emerald-50 rounded p-6 border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <div className="bg-white p-3 rounded-xl shadow-sm border border-emerald-50">
+                    <div className="bg-white p-3 rounded shadow-sm border border-emerald-50">
                         <Download className="w-6 h-6 text-emerald-600" />
                     </div>
                     <div>
-                        <p className="text-sm font-black text-slate-800 uppercase tracking-tighter">Deposit Template</p>
+                        <p className="text-sm font-semibold text-slate-800 uppercase tracking-tighter">Deposit Template</p>
                         <p className="text-[11px] text-slate-500 font-medium italic">Pre-filled template with member account details.</p>
                     </div>
                 </div>
-                <Button 
-                    variant="outline" 
-                    size="sm" 
+                <Button
+                    variant="outline"
+                    size="sm"
                     onClick={handleDownloadTemplate}
-                    className="border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-6 h-10 transition-all rounded-xl"
+                    className="border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold px-6 h-10 transition-all rounded"
                 >
                     Get Template
                 </Button>
@@ -97,11 +97,10 @@ function BulkSavingDepositUpload({ onBatchSuccess }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div
-                    className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
-                        file 
-                        ? "border-emerald-500 bg-emerald-50/20" 
+                    className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-emerald-500 bg-emerald-50/20"
                         : "border-slate-200 bg-white hover:border-emerald-500 hover:bg-emerald-50/5"
-                    }`}
+                        }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
                     <Input
@@ -114,13 +113,13 @@ function BulkSavingDepositUpload({ onBatchSuccess }) {
 
                     {file ? (
                         <div className="flex flex-col items-center space-y-4 animate-in fade-in zoom-in-95">
-                            <div className="p-5 bg-emerald-600 rounded-full text-white shadow-lg ring-4 ring-emerald-50">
+                            <div className="p-5 bg-emerald-600 rounded text-white shadow-lg ring-4 ring-emerald-50">
                                 <FileCheck className="w-10 h-10" />
                             </div>
                             <div className="space-y-1">
                                 <p className="font-extrabold text-xl text-slate-900 tracking-tight">{file.name}</p>
-                                <p className="text-[12px] text-emerald-600 font-black uppercase tracking-[0.2em]">
-                                    { (file.size / 1024).toFixed(2) } KB • BATCH READY
+                                <p className="text-[12px] text-emerald-600 font-semibold uppercase tracking-[0.2em]">
+                                    {(file.size / 1024).toFixed(2)} KB • BATCH READY
                                 </p>
                             </div>
                             <Button
@@ -130,18 +129,18 @@ function BulkSavingDepositUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 font-bold h-9 mt-4 px-6 rounded-full"
+                                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 font-bold h-9 mt-4 px-6 rounded"
                             >
                                 <X className="w-4 h-4 mr-1" /> Reset
                             </Button>
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-5">
-                            <div className="p-6 bg-slate-50 rounded-full text-emerald-300 border-2 border-white shadow-md">
+                            <div className="p-6 bg-slate-50 rounded text-emerald-300 border-2 border-white shadow-md">
                                 <FileUp className="w-12 h-12" />
                             </div>
                             <div className="space-y-2">
-                                <p className="font-black text-xl text-slate-800 tracking-tight">
+                                <p className="font-semibold text-xl text-slate-800 tracking-tight">
                                     Drop Deposit Manifest
                                 </p>
                                 <p className="text-sm text-slate-400 font-medium">
@@ -155,7 +154,7 @@ function BulkSavingDepositUpload({ onBatchSuccess }) {
                 <div className="flex justify-center pt-2">
                     <Button
                         type="submit"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-20 h-14 rounded-2xl font-black text-lg shadow-xl shadow-emerald-100 transition-all active:scale-95 disabled:opacity-30 uppercase tracking-tight"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-20 h-14 rounded font-semibold text-lg shadow-xl shadow-emerald-100 transition-all active:scale-95 disabled:opacity-30 uppercase tracking-tight"
                         disabled={loading || !file}
                     >
                         {loading ? "Processing Batch..." : "Execute Bulk Deposit"}

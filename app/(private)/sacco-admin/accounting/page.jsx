@@ -27,13 +27,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { 
-    Search, 
-    Filter, 
-    Plus, 
-    Eye, 
-    BookOpen, 
-    List, 
+import {
+    Search,
+    Filter,
+    Plus,
+    Eye,
+    BookOpen,
+    List,
     Receipt,
     ChevronLeft,
     ChevronRight,
@@ -45,7 +45,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function AccountingPage() {
     const [activeTab, setActiveTab] = useState("gl-accounts");
-    
+
     // States for GL Accounts
     const [createGLOpen, setCreateGLOpen] = useState(false);
     const { data: glAccounts, isLoading: isLoadingGL, refetch: refetchGL } = useFetchGLAccounts();
@@ -60,7 +60,7 @@ export default function AccountingPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedGL, setSelectedGL] = useState("all");
     const [selectedBatchFilter, setSelectedBatchFilter] = useState("all");
-    
+
     const params = useMemo(() => ({
         page,
         search: searchQuery || undefined,
@@ -92,7 +92,7 @@ export default function AccountingPage() {
                 </div>
                 <div className="flex gap-2">
                     {activeTab === "gl-accounts" && (
-                        <Button 
+                        <Button
                             onClick={() => setCreateGLOpen(true)}
                             className="bg-[#ea1315] hover:bg-[#c71012] text-white flex items-center gap-2"
                         >
@@ -206,9 +206,9 @@ export default function AccountingPage() {
                                                 </TableCell>
                                                 <TableCell className="text-sm text-right font-medium">{batch.entries?.length || 0}</TableCell>
                                                 <TableCell className="text-right">
-                                                    <Button 
-                                                        variant="ghost" 
-                                                        size="icon" 
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
                                                         className="h-8 w-8 text-[#ea1315]"
                                                         onClick={() => {
                                                             setSelectedBatch(batch);
@@ -308,16 +308,16 @@ export default function AccountingPage() {
                                             ))}
                                         </TableBody>
                                     </Table>
-                                    
+
                                     {/* Pagination */}
                                     <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t bg-slate-50/30 gap-4">
                                         <p className="text-xs text-slate-500 font-medium order-2 sm:order-1">
                                             Showing <span className="text-slate-900">{entries.length}</span> of <span className="text-slate-900">{totalEntries}</span> entries
                                         </p>
                                         <div className="flex items-center gap-2 order-1 sm:order-2">
-                                            <Button 
-                                                variant="outline" 
-                                                size="sm" 
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
                                                 disabled={page === 1}
                                                 onClick={() => setPage(p => Math.max(1, p - 1))}
                                                 className="h-8 px-2"
@@ -325,12 +325,12 @@ export default function AccountingPage() {
                                                 <ChevronLeft className="w-4 h-4 mr-1" />
                                                 Prev
                                             </Button>
-                                            <div className="flex items-center px-4 text-xs font-bold text-slate-700 bg-white border rounded-md h-8">
+                                            <div className="flex items-center px-4 text-xs font-bold text-slate-700 bg-white border rounded h-8">
                                                 Page {page} of {totalPages || 1}
                                             </div>
-                                            <Button 
-                                                variant="outline" 
-                                                size="sm" 
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
                                                 disabled={page >= totalPages}
                                                 onClick={() => setPage(p => p + 1)}
                                                 className="h-8 px-2"
@@ -350,16 +350,16 @@ export default function AccountingPage() {
             </Tabs>
 
             {/* MODALS */}
-            <CreateGLAccountModal 
-                isOpen={createGLOpen} 
-                onClose={() => setCreateGLOpen(false)} 
-                refetchGLAccounts={refetchGL} 
+            <CreateGLAccountModal
+                isOpen={createGLOpen}
+                onClose={() => setCreateGLOpen(false)}
+                refetchGLAccounts={refetchGL}
             />
 
-            <JournalBatchDetails 
-                isOpen={batchDetailsOpen} 
-                onClose={() => setBatchDetailsOpen(false)} 
-                batch={selectedBatch} 
+            <JournalBatchDetails
+                isOpen={batchDetailsOpen}
+                onClose={() => setBatchDetailsOpen(false)}
+                batch={selectedBatch}
             />
         </div>
     );

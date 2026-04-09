@@ -46,7 +46,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate names, amounts, and GL selections
             const invalidRow = fees.find(fee => !fee.name || !fee.amount || !fee.gl_account);
             if (invalidRow) {
@@ -57,10 +57,10 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
 
             await bulkCreateFeeTypes({ fee_types: fees }, token);
             toast.success("Fee Types created successfully!");
-            
+
             // Persistence: Reset state but stay on page
             setFees([{ ...emptyFee }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk creation error: ", error.response?.data || error.message);
@@ -92,10 +92,10 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                     {fees.map((fee, index) => (
                         <div
                             key={index}
-                            className="p-5 border border-slate-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-[#174271]"
+                            className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-[#174271]"
                         >
                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black px-2 py-0.5 bg-slate-100 rounded text-slate-400 uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 rounded text-slate-400 uppercase tracking-widest">
                                     Entry #{index + 1}
                                 </span>
                                 {fees.length > 1 && (
@@ -137,7 +137,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                     <select
                                         value={fee.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -150,7 +150,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                 </div>
 
                                 <div className="md:col-span-4 grid grid-cols-2 gap-2 pt-6">
-                                    <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                    <div className="flex items-center gap-2 bg-slate-50 p-2 rounded border border-slate-100">
                                         <input
                                             type="checkbox"
                                             id={`everyone-${index}`}
@@ -160,7 +160,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                                         />
                                         <Label htmlFor={`everyone-${index}`} className="text-[11px] cursor-pointer font-bold text-slate-600">Global Fee</Label>
                                     </div>
-                                    <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                                    <div className="flex items-center gap-2 bg-slate-50 p-2 rounded border border-slate-100">
                                         <input
                                             type="checkbox"
                                             id={`exceed-${index}`}
@@ -180,7 +180,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addFee}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded-2xl"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded"
                         >
                             <Plus className="w-4 h-4" /> Add Another Fee Definition
                         </Button>
@@ -190,7 +190,7 @@ function BulkFeeTypeCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-rose-100 rounded-xl"
+                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-rose-100 rounded"
                         disabled={loading || isLoadingGL}
                     >
                         {loading ? "Saving Batch..." : <><Save className="w-4 h-4" /> Commit Batch</>}

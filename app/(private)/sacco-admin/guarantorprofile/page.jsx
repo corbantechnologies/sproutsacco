@@ -179,7 +179,7 @@ export default function GuarantorProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border">
+          <div className="rounded border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -371,57 +371,57 @@ export default function GuarantorProfilePage() {
                 {/* Repayment Schedule */}
                 {selectedRequest.loan_application_details?.projection_snapshot
                   ?.schedule?.length > 0 && (
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">
-                        Projected Repayment Schedule
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <div className="max-h-[300px] overflow-y-auto">
-                        <Table>
-                          <TableHeader>
-                            <TableRow className="bg-gray-50/50">
-                              <TableHead className="w-[100px]">Date</TableHead>
-                              <TableHead>Principal</TableHead>
-                              <TableHead>Interest</TableHead>
-                              <TableHead>Total</TableHead>
-                              <TableHead className="text-right">
-                                Balance
-                              </TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {selectedRequest.loan_application_details.projection_snapshot.schedule.map(
-                              (row, index) => (
-                                <TableRow key={index}>
-                                  <TableCell className="text-xs">
-                                    {format(
-                                      new Date(row.due_date),
-                                      "MMM dd, yyyy"
-                                    )}
-                                  </TableCell>
-                                  <TableCell className="text-xs">
-                                    {formatCurrency(row.principal_due)}
-                                  </TableCell>
-                                  <TableCell className="text-xs">
-                                    {formatCurrency(row.interest_due)}
-                                  </TableCell>
-                                  <TableCell className="text-xs font-semibold text-[#045e32]">
-                                    {formatCurrency(row.total_due)}
-                                  </TableCell>
-                                  <TableCell className="text-xs text-right text-muted-foreground">
-                                    {formatCurrency(row.balance_after)}
-                                  </TableCell>
-                                </TableRow>
-                              )
-                            )}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-base">
+                          Projected Repayment Schedule
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                        <div className="max-h-[300px] overflow-y-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow className="bg-gray-50/50">
+                                <TableHead className="w-[100px]">Date</TableHead>
+                                <TableHead>Principal</TableHead>
+                                <TableHead>Interest</TableHead>
+                                <TableHead>Total</TableHead>
+                                <TableHead className="text-right">
+                                  Balance
+                                </TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {selectedRequest.loan_application_details.projection_snapshot.schedule.map(
+                                (row, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell className="text-xs">
+                                      {format(
+                                        new Date(row.due_date),
+                                        "MMM dd, yyyy"
+                                      )}
+                                    </TableCell>
+                                    <TableCell className="text-xs">
+                                      {formatCurrency(row.principal_due)}
+                                    </TableCell>
+                                    <TableCell className="text-xs">
+                                      {formatCurrency(row.interest_due)}
+                                    </TableCell>
+                                    <TableCell className="text-xs font-semibold text-[#045e32]">
+                                      {formatCurrency(row.total_due)}
+                                    </TableCell>
+                                    <TableCell className="text-xs text-right text-muted-foreground">
+                                      {formatCurrency(row.balance_after)}
+                                    </TableCell>
+                                  </TableRow>
+                                )
+                              )}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
               </div>
 
               {!actionType ? (
@@ -448,7 +448,7 @@ export default function GuarantorProfilePage() {
                 /* Action Form */
                 <div className="space-y-4 animate-in fade-in zoom-in-95 duration-200">
                   {actionType === "decline" && (
-                    <div className="rounded-md bg-red-50 p-4 flex gap-3 text-red-800">
+                    <div className="rounded bg-red-50 p-4 flex gap-3 text-red-800">
                       <AlertCircle className="h-5 w-5 shrink-0" />
                       <div className="text-sm">
                         <p className="font-semibold">Decline this request?</p>
@@ -513,8 +513,8 @@ export default function GuarantorProfilePage() {
                       {isSubmitting
                         ? "Processing..."
                         : actionType === "accept"
-                        ? "Confirm Guarantee"
-                        : "Confirm Decline"}
+                          ? "Confirm Guarantee"
+                          : "Confirm Decline"}
                     </Button>
                   </DialogFooter>
                 </div>

@@ -45,7 +45,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate names and codes are present
             const invalidRow = accounts.find(acc => !acc.name || !acc.code);
             if (invalidRow) {
@@ -56,10 +56,10 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
 
             await bulkCreateGLAccounts({ accounts }, token);
             toast.success("GL Accounts created successfully!");
-            
+
             // Reset to empty but stay on page (allow more entries)
             setAccounts([{ ...emptyAccount }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk creation error: ", error.response?.data || error.message);
@@ -94,7 +94,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                     {accounts.map((account, index) => (
                         <div
                             key={index}
-                            className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow relative group"
+                            className="p-4 border border-gray-100 rounded bg-white shadow-sm hover:shadow-md transition-shadow relative group"
                         >
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-xs font-bold px-2 py-0.5 bg-slate-100 rounded text-slate-500 uppercase tracking-wider">
@@ -138,7 +138,7 @@ function BulkGLAccountCreate({ onBatchSuccess }) {
                                     <select
                                         value={account.category}
                                         onChange={(e) => handleInputChange(index, "category", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                     >
                                         {categories.map(cat => (
                                             <option key={cat} value={cat}>{cat}</option>

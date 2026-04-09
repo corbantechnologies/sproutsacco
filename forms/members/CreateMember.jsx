@@ -73,7 +73,7 @@ function CreateMember({ closeModal, openModal }) {
                     name="member_no"
                     id="member_no"
                     placeholder="e.g. SCS-001"
-                    className="border-black   rounded-md text-base py-2"
+                    className="border-black   rounded text-base py-2"
                   />
                 </div>
 
@@ -90,7 +90,7 @@ function CreateMember({ closeModal, openModal }) {
                     name="first_name"
                     id="first_name"
                     placeholder="John"
-                    className="border-black   rounded-md text-base py-2"
+                    className="border-black   rounded text-base py-2"
                   />
                 </div>
 
@@ -107,7 +107,7 @@ function CreateMember({ closeModal, openModal }) {
                     name="last_name"
                     id="last_name"
                     placeholder="Doe"
-                    className="border-black   rounded-md text-base py-2"
+                    className="border-black   rounded text-base py-2"
                   />
                 </div>
 
@@ -122,7 +122,7 @@ function CreateMember({ closeModal, openModal }) {
                     as="select"
                     name="gender"
                     id="gender"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -141,7 +141,7 @@ function CreateMember({ closeModal, openModal }) {
                     as="select"
                     name="employer"
                     id="employer"
-                    className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                    className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
                   >
                     <option value="">Select Employer</option>
                     <option value="Tamarind Management Limited">Tamarind Management Limited</option>
@@ -163,7 +163,7 @@ function CreateMember({ closeModal, openModal }) {
                       name="payroll_no"
                       id="payroll_no"
                       placeholder="e.g. 12345"
-                      className="border-black   rounded-md text-base py-2"
+                      className="border-black   rounded text-base py-2"
                     />
                   </div>
                 )}
@@ -181,7 +181,7 @@ function CreateMember({ closeModal, openModal }) {
                     name="phone"
                     id="phone"
                     placeholder="254700000000"
-                    className="border-black   rounded-md text-base py-2"
+                    className="border-black   rounded text-base py-2"
                   />
                 </div>
 
@@ -198,7 +198,7 @@ function CreateMember({ closeModal, openModal }) {
                     name="email"
                     id="email"
                     placeholder="jdoe@example.com"
-                    className="border-black   rounded-md text-base py-2"
+                    className="border-black   rounded text-base py-2"
                   />
                 </div>
               </div>

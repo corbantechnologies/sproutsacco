@@ -51,17 +51,17 @@ export default function FeeTypesSetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => router.push("/sacco-admin/setup")}
-                        className="rounded-full hover:bg-white text-slate-400 hover:text-[#174271] transition-colors"
+                        className="rounded hover:bg-white text-slate-400 hover:text-[#174271] transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
                         <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                           <BadgePercent className="w-6 h-6 text-[#174271]" /> Fee Management Setup
+                            <BadgePercent className="w-6 h-6 text-[#174271]" /> Fee Management Setup
                         </h1>
                         <p className="text-slate-500 text-sm">
                             Define registration, insurance, and other SACCO service fees.
@@ -80,7 +80,7 @@ export default function FeeTypesSetupPage() {
 
             {/* Content Tabs */}
             <Tabs defaultValue="list" className="w-full">
-                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6 rounded-lg">
+                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6 rounded">
                     <TabsTrigger value="list" className="px-8 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-widest transition-all">
                         <ListFilter className="w-4 h-4 mr-2" /> Current Fees
                     </TabsTrigger>
@@ -94,7 +94,7 @@ export default function FeeTypesSetupPage() {
 
                 {/* List Tab */}
                 <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none overflow-hidden rounded-xl">
+                    <Card className="shadow-sm border-none overflow-hidden rounded">
                         <CardHeader className="bg-white border-b px-6 py-4">
                             <CardTitle className="text-lg font-bold text-slate-800">Fee Inventory</CardTitle>
                             <CardDescription className="text-xs">Total defined fees: {feetypes?.length || 0}</CardDescription>
@@ -131,9 +131,8 @@ export default function FeeTypesSetupPage() {
                                                     </TableCell>
                                                     <TableCell className="text-[11px] font-medium text-slate-500 italic max-w-[150px] truncate">{fee.gl_account}</TableCell>
                                                     <TableCell className="text-center">
-                                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-tighter shadow-sm ${
-                                                            fee.is_active ? "bg-green-100 text-green-700 border border-green-200" : "bg-slate-100 text-slate-500 border border-slate-200"
-                                                        }`}>
+                                                        <span className={`px-2.5 py-1 rounded text-[10px] font-bold tracking-tighter shadow-sm ${fee.is_active ? "bg-green-100 text-green-700 border border-green-200" : "bg-slate-100 text-slate-500 border border-slate-200"
+                                                            }`}>
                                                             {fee.is_active ? "ACTIVE" : "INACTIVE"}
                                                         </span>
                                                     </TableCell>
@@ -141,7 +140,7 @@ export default function FeeTypesSetupPage() {
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            className="h-8 w-8 text-slate-300 hover:text-[#174271] hover:bg-white rounded-lg transition-all border border-transparent hover:border-slate-200 shadow-none"
+                                                            className="h-8 w-8 text-slate-300 hover:text-[#174271] hover:bg-white rounded transition-all border border-transparent hover:border-slate-200 shadow-none"
                                                             onClick={() => {
                                                                 setSelectedFee(fee);
                                                                 setIsUpdateModalOpen(true);
@@ -173,7 +172,7 @@ export default function FeeTypesSetupPage() {
 
                 {/* Bulk Upload Tab */}
                 <TabsContent value="bulk-upload" className="animate-in fade-in zoom-in-95 duration-200">
-                    <Card className="shadow-sm border-none bg-white rounded-xl p-8">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent className="p-0">
                             <BulkFeeTypeUploadCreate onBatchSuccess={refetch} />
                         </CardContent>

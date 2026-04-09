@@ -47,7 +47,7 @@ function MemberNavbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-slate-100 rounded-full"
+              className="hover:bg-slate-100 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
               <XIcon className="h-5 w-5" />
@@ -64,7 +64,7 @@ function MemberNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-3 text-[15px] font-medium transition-colors hover:bg-slate-50 hover:text-[#236c2e] rounded-md"
+                className="px-4 py-3 text-[15px] font-medium transition-colors hover:bg-slate-50 hover:text-[#236c2e] rounded"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}

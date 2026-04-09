@@ -48,7 +48,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate names and method
             const invalidRow = products.find(p => !p.name || !p.interest_method || !p.gl_principal_asset);
             if (invalidRow) {
@@ -59,10 +59,10 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
 
             await bulkCreateLoanProducts({ loan_products: products }, token);
             toast.success("Loan Products created successfully!");
-            
+
             // Persistence: Reset state but stay on page
             setProducts([{ ...emptyProduct }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk creation error: ", error.response?.data || error.message);
@@ -97,7 +97,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                             className="p-6 border border-slate-200 rounded-[1.5rem] bg-white shadow-sm hover:shadow-md transition-all relative group border-t-8 border-t-[#174271]"
                         >
                             <div className="flex justify-between items-center mb-6 border-b border-slate-50 pb-4">
-                                <span className="text-[11px] font-black px-3 py-1 bg-slate-100 rounded-full text-slate-500 uppercase tracking-widest border border-slate-200">
+                                <span className="text-[11px] font-semibold px-3 py-1 bg-slate-100 rounded text-slate-500 uppercase tracking-widest border border-slate-200">
                                     Loan Scheme #{index + 1}
                                 </span>
                                 {products.length > 1 && (
@@ -105,7 +105,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                         type="button"
                                         onClick={() => removeProduct(index)}
                                         variant="ghost"
-                                        className="text-rose-400 hover:text-rose-600 p-2 h-auto opacity-0 group-hover:opacity-100 transition-opacity bg-rose-50/50 rounded-full"
+                                        className="text-rose-400 hover:text-rose-600 p-2 h-auto opacity-0 group-hover:opacity-100 transition-opacity bg-rose-50/50 rounded"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </Button>
@@ -115,7 +115,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                             <div className="grid grid-cols-1 md:grid-cols-12 gap-x-6 gap-y-4">
                                 {/* Basic Info */}
                                 <div className="md:col-span-4 space-y-1.5">
-                                    <Label className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Product Name</Label>
+                                    <Label className="text-[10px] font-semibold uppercase text-slate-400 tracking-tighter">Product Name</Label>
                                     <Input
                                         placeholder="e.g. Emergency Loan"
                                         value={product.name}
@@ -125,11 +125,11 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                 </div>
 
                                 <div className="md:col-span-3 space-y-1.5">
-                                    <Label className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Interest Method</Label>
+                                    <Label className="text-[10px] font-semibold uppercase text-slate-400 tracking-tighter">Interest Method</Label>
                                     <select
                                         value={product.interest_method}
                                         onChange={(e) => handleInputChange(index, "interest_method", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271] font-medium"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271] font-medium"
                                     >
                                         <option value="Flat">Flat-rate</option>
                                         <option value="Reducing">Reducing Balance</option>
@@ -137,29 +137,29 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                 </div>
 
                                 <div className="md:col-span-2 space-y-1.5">
-                                    <Label className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Interest (%)</Label>
+                                    <Label className="text-[10px] font-semibold uppercase text-slate-400 tracking-tighter">Interest (%)</Label>
                                     <Input
                                         type="number"
                                         value={product.interest_rate}
                                         onChange={(e) => handleInputChange(index, "interest_rate", e.target.value)}
-                                        className="h-10 text-sm font-black border-slate-200 focus:border-[#174271] text-emerald-600"
+                                        className="h-10 text-sm font-semibold border-slate-200 focus:border-[#174271] text-emerald-600"
                                     />
                                 </div>
 
                                 <div className="md:col-span-3 space-y-1.5">
-                                    <Label className="text-[10px] font-black uppercase text-slate-400 tracking-tighter">Processing Fee (%)</Label>
+                                    <Label className="text-[10px] font-semibold uppercase text-slate-400 tracking-tighter">Processing Fee (%)</Label>
                                     <Input
                                         type="number"
                                         value={product.processing_fee}
                                         onChange={(e) => handleInputChange(index, "processing_fee", e.target.value)}
-                                        className="h-10 text-sm font-black border-slate-200 focus:border-[#174271] text-amber-600"
+                                        className="h-10 text-sm font-semibold border-slate-200 focus:border-[#174271] text-amber-600"
                                     />
                                 </div>
 
                                 {/* Accounting Links */}
                                 <div className="md:col-span-12 pt-2">
                                     <div className="h-px bg-slate-100 mb-4" />
-                                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Accounting Configuration (GL Links)</h4>
+                                    <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-4">Accounting Configuration (GL Links)</h4>
                                 </div>
 
                                 <div className="md:col-span-3 space-y-1.5">
@@ -167,7 +167,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                     <select
                                         value={product.gl_principal_asset}
                                         onChange={(e) => handleInputChange(index, "gl_principal_asset", e.target.value)}
-                                        className="w-full border border-slate-100 rounded-lg px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-100 rounded px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -182,7 +182,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                     <select
                                         value={product.gl_interest_revenue}
                                         onChange={(e) => handleInputChange(index, "gl_interest_revenue", e.target.value)}
-                                        className="w-full border border-slate-100 rounded-lg px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-100 rounded px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -197,7 +197,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                     <select
                                         value={product.gl_penalty_revenue}
                                         onChange={(e) => handleInputChange(index, "gl_penalty_revenue", e.target.value)}
-                                        className="w-full border border-slate-100 rounded-lg px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-100 rounded px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -212,7 +212,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                                     <select
                                         value={product.gl_processing_fee_revenue}
                                         onChange={(e) => handleInputChange(index, "gl_processing_fee_revenue", e.target.value)}
-                                        className="w-full border border-slate-100 rounded-lg px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-100 rounded px-3 py-1.5 text-[11px] transition-colors bg-slate-50 h-9 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL --</option>
@@ -230,7 +230,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addProduct}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-black transition-all rounded-[1.5rem]"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-[#174271] hover:border-[#174271] hover:bg-slate-50 flex items-center justify-center gap-2 py-6 text-sm font-semibold transition-all rounded-[1.5rem]"
                         >
                             <Plus className="w-5 h-5" /> Add Another Loan Scheme
                         </Button>
@@ -240,7 +240,7 @@ function BulkLoanProductCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-[#174271] hover:bg-slate-800 text-white px-16 h-14 flex items-center gap-2 font-black rounded-2xl shadow-xl shadow-slate-200 text-lg uppercase tracking-tight"
+                        className="bg-[#174271] hover:bg-slate-800 text-white px-16 h-14 flex items-center gap-2 font-semibold rounded shadow-xl shadow-slate-200 text-lg uppercase tracking-tight"
                         disabled={loading || isLoadingGL}
                     >
                         {loading ? "Registering Batch..." : <><Save className="w-5 h-5 mr-1" /> Commit Schemes</>}

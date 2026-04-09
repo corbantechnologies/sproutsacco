@@ -69,7 +69,7 @@ function BulkTamarindLoanInterestUpload({
                       setFieldValue("file", event.currentTarget.files[0]);
                     }}
                     disabled={loading}
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <p className="text-sm text-gray-500 mt-2">
                     CSV should include columns for each loan type with manual

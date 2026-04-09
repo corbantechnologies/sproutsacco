@@ -35,8 +35,8 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[2px] p-4 animate-in fade-in duration-200">
-            <div 
-                className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
+            <div
+                className="bg-white rounded shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
@@ -48,7 +48,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                         variant="ghost"
                         size="icon"
                         onClick={onClose}
-                        className="h-8 w-8 rounded-full hover:bg-slate-100 transition-colors"
+                        className="h-8 w-8 rounded hover:bg-slate-100 transition-colors"
                     >
                         <X className="h-4 w-4 text-slate-500" />
                     </Button>
@@ -133,7 +133,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                                         required
                                     />
                                 </div>
-                                <div className="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <div className="flex items-center space-x-3 bg-slate-50 p-3 rounded border border-slate-100">
                                     <Checkbox
                                         id="is_active"
                                         checked={values.is_active}
@@ -144,7 +144,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                                         Is this account active?
                                     </Label>
                                 </div>
-                                <div className="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <div className="flex items-center space-x-3 bg-slate-50 p-3 rounded border border-slate-100">
                                     <Checkbox
                                         id="is_current_account"
                                         checked={values.is_current_account}
@@ -167,7 +167,7 @@ const CreateGLAccountModal = ({ isOpen, onClose, refetchGLAccounts }) => {
                                     </Button>
                                     <Button
                                         type="submit"
-                                        className="bg-[#ea1315] hover:bg-[#c71012] text-white font-bold h-10 px-8 rounded-lg shadow-lg shadow-[#ea1315]/20 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                                        className="bg-[#ea1315] hover:bg-[#c71012] text-white font-bold h-10 px-8 rounded shadow-lg shadow-[#ea1315]/20 animate-in fade-in slide-in-from-bottom-2 duration-300"
                                         disabled={loading}
                                     >
                                         {loading ? "Creating..." : "Create Account"}

@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 function BulkLoanDisbursementCreate({ onBatchSuccess }) {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
-    
+
     const { data: loans, isLoading: isLoadingLoans } = useFetchLoans();
     const { data: paymentAccounts, isLoading: isLoadingPayments } = useFetchPaymentAccounts();
 
@@ -34,7 +34,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
     const handleInputChange = (index, field, value) => {
         const newDisbursements = [...disbursements];
         newDisbursements[index][field] = value;
-        
+
         // If loan_account changes, pre-fill amount with loan principal
         if (field === "loan_account") {
             const selectedLoan = approvedLoans.find(l => l.account_number === value);
@@ -42,7 +42,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                 newDisbursements[index].amount = selectedLoan.principal;
             }
         }
-        
+
         setDisbursements(newDisbursements);
     };
 
@@ -60,7 +60,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate all fields present
             const invalidRow = disbursements.find(d => !d.loan_account || !d.amount || !d.payment_method);
             if (invalidRow) {
@@ -79,10 +79,10 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
 
             await bulkCreateLoanDisbursements({ disbursements }, token);
             toast.success("Disbursements processed successfully!");
-            
+
             // Persistence: Reset state
             setDisbursements([{ ...emptyDisbursement }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk disbursement error: ", error.response?.data || error.message);
@@ -114,10 +114,10 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                     {disbursements.map((disb, index) => (
                         <div
                             key={index}
-                            className="p-5 border border-slate-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-blue-600"
+                            className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-blue-600"
                         >
                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black px-2 py-0.5 bg-blue-50 rounded text-blue-600 uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-blue-50 rounded text-blue-600 uppercase tracking-widest">
                                     Disbursement #{index + 1}
                                 </span>
                                 {disbursements.length > 1 && (
@@ -139,7 +139,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                                     <select
                                         value={disb.loan_account}
                                         onChange={(e) => handleInputChange(index, "loan_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-blue-600"
                                         disabled={isLoadingLoans}
                                     >
                                         <option value="">-- Select Approved Loan --</option>
@@ -172,7 +172,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                                     <select
                                         value={disb.payment_method}
                                         onChange={(e) => handleInputChange(index, "payment_method", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-blue-600"
                                         disabled={isLoadingPayments}
                                     >
                                         <option value="">-- Select Source Account --</option>
@@ -192,7 +192,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addDisbursement}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded-2xl"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded"
                         >
                             <Plus className="w-4 h-4" /> Add Another Disbursement
                         </Button>
@@ -202,7 +202,7 @@ function BulkLoanDisbursementCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-blue-100 rounded-xl"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-blue-100 rounded"
                         disabled={loading || isLoadingLoans || isLoadingPayments}
                     >
                         {loading ? "Processing..." : <><Save className="w-4 h-4" /> Execute Batch</>}

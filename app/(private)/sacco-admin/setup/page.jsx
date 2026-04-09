@@ -115,8 +115,8 @@ export default function SetupPage() {
                         Centralize management of your financial foundation and products.
                     </p>
                 </div>
-                <div className="bg-white px-4 py-1.5 rounded-full border shadow-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="bg-white px-4 py-1.5 rounded border shadow-sm flex items-center gap-2">
+                    <div className="w-2 h-2 rounded bg-green-500 animate-pulse" />
                     <p className="text-xs font-bold text-black uppercase tracking-tighter">
                         {myself?.salutation} {myself?.last_name} (Admin Mode)
                     </p>
@@ -124,7 +124,7 @@ export default function SetupPage() {
             </div>
 
             {!mandatorySetupDone && (
-                <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="bg-amber-50 border border-amber-200 p-4 rounded flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
                     <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
                     <div>
                         <h3 className="text-sm font-bold text-amber-900 uppercase tracking-tight">Initial Setup Required</h3>
@@ -138,14 +138,14 @@ export default function SetupPage() {
             {/* Quick Navigation Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
                 {setupSteps.map((step, idx) => (
-                    <Card 
-                        key={idx} 
+                    <Card
+                        key={idx}
                         className={`${step.disabled ? "opacity-40 cursor-not-allowed" : "hover:border-[#174271] cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5"} shadow-sm bg-white overflow-hidden group`}
                         onClick={() => !step.disabled && router.push(step.href)}
                     >
                         <CardHeader className="p-4 space-y-3">
                             <div className="flex justify-between items-center">
-                                <div className={`p-2 rounded-lg ${step.done ? "bg-green-50 text-green-600" : "bg-slate-50 text-black"}`}>
+                                <div className={`p-2 rounded ${step.done ? "bg-green-50 text-green-600" : "bg-slate-50 text-black"}`}>
                                     <step.icon className="w-5 h-5" />
                                 </div>
                                 {step.done ? (
@@ -171,7 +171,7 @@ export default function SetupPage() {
                 </div>
 
                 <Tabs defaultValue="gl" className="w-full">
-                    <TabsList className="bg-white border p-1 h-12 shadow-sm rounded-lg mb-6 flex overflow-x-auto no-scrollbar">
+                    <TabsList className="bg-white border p-1 h-12 shadow-sm rounded mb-6 flex overflow-x-auto no-scrollbar">
                         <TabsTrigger value="gl" className="flex-1 px-4 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] text-sm ">
                             GL Summary
                         </TabsTrigger>
@@ -191,8 +191,8 @@ export default function SetupPage() {
 
                     {/* GL Accounts Summary */}
                     <TabsContent value="gl" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <Card className="shadow-sm border-none overflow-hidden rounded-xl">
-                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
+                        <Card className="shadow-sm border-none overflow-hidden rounded">
+                            <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
                                     <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Active Chart of Accounts</CardTitle>
                                     <CardDescription className="text-xs">Summary of your general ledger categories.</CardDescription>
@@ -228,7 +228,7 @@ export default function SetupPage() {
 
                     {/* Payment Accounts Tab */}
                     <TabsContent value="payment" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <Card className="shadow-sm border-none overflow-hidden rounded-xl">
+                        <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
                                     <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Payment Wallets</CardTitle>
@@ -267,8 +267,8 @@ export default function SetupPage() {
 
                     {/* Fee Types Tab */}
                     <TabsContent value="fees" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                         <Card className="shadow-sm border-none overflow-hidden rounded-xl">
-                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
+                        <Card className="shadow-sm border-none overflow-hidden rounded">
+                            <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
                                     <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Active Charges & Fees</CardTitle>
                                     <CardDescription className="text-xs">Registration, Service, and Insurance fees.</CardDescription>
@@ -304,7 +304,7 @@ export default function SetupPage() {
 
                     {/* Savings Products Tab */}
                     <TabsContent value="savings" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                         <Card className="shadow-sm border-none overflow-hidden rounded-xl">
+                        <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
                                     <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Deposit Schemes</CardTitle>
@@ -341,7 +341,7 @@ export default function SetupPage() {
 
                     {/* Loan Products Tab */}
                     <TabsContent value="loans" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                         <Card className="shadow-sm border-none overflow-hidden rounded-xl">
+                        <Card className="shadow-sm border-none overflow-hidden rounded">
                             <CardHeader className="bg-white border-b px-6 pt-5 pb-3 flex flex-row items-center justify-between">
                                 <div>
                                     <CardTitle className="text-sm font-bold text-black uppercase tracking-tight">Loan Facilities</CardTitle>
@@ -379,7 +379,7 @@ export default function SetupPage() {
             {/* Support Grid */}
             <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="bg-white border-dashed border-2 p-6 flex flex-col items-center justify-center text-center space-y-2">
-                    <div className="bg-slate-50 p-3 rounded-full">
+                    <div className="bg-slate-50 p-3 rounded">
                         <Settings2 className="w-6 h-6 text-black" />
                     </div>
                     <div>
@@ -388,7 +388,7 @@ export default function SetupPage() {
                     </div>
                 </Card>
                 <Card className="bg-white border-dashed border-2 p-6 flex flex-col items-center justify-center text-center space-y-2">
-                    <div className="bg-slate-50 p-3 rounded-full">
+                    <div className="bg-slate-50 p-3 rounded">
                         <AlertCircle className="w-6 h-6 text-black" />
                     </div>
                     <div>

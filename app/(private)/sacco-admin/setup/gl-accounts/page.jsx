@@ -50,17 +50,17 @@ export default function GLAccountsSetupPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
+                    <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => router.push("/sacco-admin/setup")}
-                        className="rounded-full hover:bg-white"
+                        className="rounded hover:bg-white"
                     >
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
                     <div>
                         <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                           <Building2 className="w-6 h-6 text-[#174271]" /> GL Accounts Setup
+                            <Building2 className="w-6 h-6 text-[#174271]" /> GL Accounts Setup
                         </h1>
                         <p className="text-slate-500 text-sm">
                             Manage your General Ledger chart of accounts and batch operations.
@@ -118,19 +118,18 @@ export default function GLAccountsSetupPage() {
                                                     <TableCell className="text-sm font-medium pl-6 py-4">{acc.name}</TableCell>
                                                     <TableCell className="text-sm font-mono text-slate-600">{acc.code}</TableCell>
                                                     <TableCell className="text-sm">
-                                                        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-                                                            acc.category === "ASSET" ? "bg-blue-50 text-blue-700" :
+                                                        <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${acc.category === "ASSET" ? "bg-blue-50 text-blue-700" :
                                                             acc.category === "LIABILITY" ? "bg-amber-50 text-amber-700" :
-                                                            acc.category === "EQUITY" ? "bg-purple-50 text-purple-700" :
-                                                            acc.category === "REVENUE" ? "bg-green-50 text-green-700" :
-                                                            "bg-rose-50 text-rose-700"
-                                                        }`}>
+                                                                acc.category === "EQUITY" ? "bg-purple-50 text-purple-700" :
+                                                                    acc.category === "REVENUE" ? "bg-green-50 text-green-700" :
+                                                                        "bg-rose-50 text-rose-700"
+                                                            }`}>
                                                             {acc.category}
                                                         </span>
                                                     </TableCell>
                                                     <TableCell>
                                                         <div className="flex items-center gap-1.5">
-                                                            <div className={`w-1.5 h-1.5 rounded-full ${acc.is_active ? "bg-green-500" : "bg-slate-300"}`} />
+                                                            <div className={`w-1.5 h-1.5 rounded ${acc.is_active ? "bg-green-500" : "bg-slate-300"}`} />
                                                             <span className={`text-[11px] font-bold ${acc.is_active ? "text-green-700" : "text-slate-500"}`}>
                                                                 {acc.is_active ? "ACTIVE" : "INACTIVE"}
                                                             </span>
@@ -179,7 +178,7 @@ export default function GLAccountsSetupPage() {
 
                 {/* Bulk Upload Tab */}
                 <TabsContent value="bulk-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                    <Card className="shadow-sm border-none bg-white rounded-xl p-8">
+                    <Card className="shadow-sm border-none bg-white rounded p-8">
                         <CardContent className="p-0">
                             <BulkGLAccountUploadCreate onBatchSuccess={refetch} />
                         </CardContent>

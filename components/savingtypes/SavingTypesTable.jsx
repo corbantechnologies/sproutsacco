@@ -74,13 +74,13 @@ function SavingTypesTable({ savingTypes }) {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1); // Reset to first page on search
               }}
-              className="pl-10 border-gray-300   rounded-md text-base"
+              className="pl-10 border-gray-300   rounded text-base"
             />
           </div>
         </div>
 
         {/* Table */}
-        <div className=" rounded-lg shadow-md overflow-hidden">
+        <div className=" rounded shadow-md overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow className="bg-[#ea1315] hover:bg-[#ea1315]">
@@ -140,8 +140,8 @@ function SavingTypesTable({ savingTypes }) {
                     onClick={() => handlePageChange(page)}
                     variant={currentPage === page ? "default" : "outline"}
                     className={`${currentPage === page
-                        ? "bg-[#ea1315] text-white"
-                        : "border-[#ea1315]  hover:bg-[#ea1315] hover:text-white"
+                      ? "bg-[#ea1315] text-white"
+                      : "border-[#ea1315]  hover:bg-[#ea1315] hover:text-white"
                       } text-sm`}
                     aria-label={`Go to page ${page}`}
                   >

@@ -37,17 +37,17 @@ function CreateSavingsAccount({
             account_type: "",
           }}
           onSubmit={async (values) => {
-                        try {
-                            setLoading(true);
-                            await createSavingAccount(values, token);
-                            toast?.success("Savings account created successfully!");
-                            onClose();
-                            refetchSavings();
-                        } catch (error) {
-                            toast?.error("Failed to create savings account!");
-                        } finally {
-                            setLoading(false);
-                        }
+            try {
+              setLoading(true);
+              await createSavingAccount(values, token);
+              toast?.success("Savings account created successfully!");
+              onClose();
+              refetchSavings();
+            } catch (error) {
+              toast?.error("Failed to create savings account!");
+            } finally {
+              setLoading(false);
+            }
           }}
         >
           {({ values }) => (
@@ -59,7 +59,7 @@ function CreateSavingsAccount({
                 <Field
                   as="select"
                   name="account_type"
-                  className="w-full border border-black rounded-md px-3 py-2 text-base focus:ring-2   transition-colors"
+                  className="w-full border border-black rounded px-3 py-2 text-base focus:ring-2   transition-colors"
                 >
                   <option value="">Select Saving Type</option>
                   {savingTypes?.map((savingType) => (

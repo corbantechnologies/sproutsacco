@@ -39,7 +39,7 @@ function SavingsPage() {
                 </div>
 
                 {savingsList.length === 0 ? (
-                    <div className="text-center py-12 bg-white rounded-xl border border-dashed">
+                    <div className="text-center py-12 bg-white rounded border border-dashed">
                         <p className="text-muted-foreground">You have no savings accounts.</p>
                     </div>
                 ) : (

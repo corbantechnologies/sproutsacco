@@ -43,7 +43,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate names and GL selections
             const invalidRow = accounts.find(acc => !acc.name || !acc.gl_account);
             if (invalidRow) {
@@ -54,10 +54,10 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
 
             await bulkCreatePaymentAccounts({ accounts }, token);
             toast.success("Payment Accounts created successfully!");
-            
+
             // Persistence: Reset state but stay on page
             setAccounts([{ ...emptyAccount }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk creation error: ", error.response?.data || error.message);
@@ -89,7 +89,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                     {accounts.map((account, index) => (
                         <div
                             key={index}
-                            className="p-4 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow relative group"
+                            className="p-4 border border-gray-100 rounded bg-white shadow-sm hover:shadow-md transition-shadow relative group"
                         >
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-xs font-bold px-2 py-0.5 bg-slate-100 rounded text-slate-500 uppercase tracking-wider">
@@ -123,7 +123,7 @@ function BulkPaymentAccountCreate({ onBatchSuccess }) {
                                     <select
                                         value={account.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-[#174271]"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Select GL Account --</option>

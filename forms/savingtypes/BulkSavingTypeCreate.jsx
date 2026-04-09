@@ -44,7 +44,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             // Validate names and GL selections
             const invalidRow = types.find(t => !t.name || !t.gl_account);
             if (invalidRow) {
@@ -55,10 +55,10 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
 
             await bulkCreateSavingTypes({ saving_types: types }, token);
             toast.success("Saving Types created successfully!");
-            
+
             // Persistence: Reset state but stay on page
             setTypes([{ ...emptyType }]);
-            
+
             if (onBatchSuccess) onBatchSuccess();
         } catch (error) {
             console.error("Bulk creation error: ", error.response?.data || error.message);
@@ -90,10 +90,10 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
                     {types.map((type, index) => (
                         <div
                             key={index}
-                            className="p-5 border border-slate-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-emerald-500"
+                            className="p-5 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-emerald-500"
                         >
                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black px-2 py-0.5 bg-emerald-50 rounded text-emerald-600 uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-emerald-50 rounded text-emerald-600 uppercase tracking-widest">
                                     Product Definition #{index + 1}
                                 </span>
                                 {types.length > 1 && (
@@ -136,7 +136,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
                                     <select
                                         value={type.gl_account}
                                         onChange={(e) => handleInputChange(index, "gl_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                                        className="w-full border border-slate-200 rounded px-3 py-1.5 text-sm transition-colors bg-white h-10 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                                         disabled={isLoadingGL}
                                     >
                                         <option value="">-- Link to GL Ledger --</option>
@@ -149,7 +149,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
                                 </div>
 
                                 <div className="flex items-center gap-2 pt-6">
-                                    <div className="flex items-center gap-2 bg-emerald-50/50 p-2.5 rounded-lg border border-emerald-100 w-full">
+                                    <div className="flex items-center gap-2 bg-emerald-50/50 p-2.5 rounded border border-emerald-100 w-full">
                                         <input
                                             type="checkbox"
                                             id={`guarantee-${index}`}
@@ -169,7 +169,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
                             type="button"
                             variant="outline"
                             onClick={addType}
-                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-emerald-600 hover:border-emerald-600 hover:bg-emerald-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded-2xl"
+                            className="w-full border-dashed border-2 border-slate-200 text-slate-400 hover:text-emerald-600 hover:border-emerald-600 hover:bg-emerald-50 flex items-center justify-center gap-2 py-5 text-xs font-bold transition-all rounded"
                         >
                             <Plus className="w-4 h-4" /> Define Another Savings Account Type
                         </Button>
@@ -179,7 +179,7 @@ function BulkSavingTypeCreate({ onBatchSuccess }) {
                 <div className="flex justify-end pt-4">
                     <Button
                         type="submit"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-emerald-100 rounded-xl"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-12 h-12 flex items-center gap-2 font-bold shadow-lg shadow-emerald-100 rounded"
                         disabled={loading || isLoadingGL}
                     >
                         {loading ? "Registering..." : <><Save className="w-4 h-4" /> Save Batch</>}

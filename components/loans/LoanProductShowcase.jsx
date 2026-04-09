@@ -14,7 +14,7 @@ export function LoanProductShowcase({ showTitle = true }) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-48 bg-slate-100 animate-pulse rounded-xl border border-slate-200" />
+          <div key={i} className="h-48 bg-slate-100 animate-pulse rounded border border-slate-200" />
         ))}
       </div>
     );
@@ -41,16 +41,16 @@ export function LoanProductShowcase({ showTitle = true }) {
           <h2 className="text-lg font-bold text-slate-900 tracking-tight">Available Loan Products</h2>
         </div>
       )}
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {loanProducts.map((product) => (
-          <Card 
-            key={product.reference} 
+          <Card
+            key={product.reference}
             className="border-slate-200 hover:border-[#236c2e]/30 hover:shadow-md transition-all duration-300 flex flex-col"
           >
             <CardHeader className="p-4 pb-2">
               <div className="flex justify-between items-start">
-                <div className="p-2 rounded-lg bg-emerald-50 text-[#236c2e]">
+                <div className="p-2 rounded bg-emerald-50 text-[#236c2e]">
                   <Wallet className="w-5 h-5" />
                 </div>
                 <Badge variant="outline" className="text-[10px] font-bold text-[#236c2e] border-emerald-100 bg-emerald-50/30">
@@ -81,7 +81,7 @@ export function LoanProductShowcase({ showTitle = true }) {
                   </div>
                 </div>
 
-                <div className="mt-4 p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                <div className="mt-4 p-2.5 rounded bg-slate-50 border border-slate-100">
                   <div className="flex items-start gap-2">
                     <Info className="w-3.5 h-3.5 text-[#236c2e] mt-0.5 shrink-0" />
                     <p className="text-base leading-relaxed text-slate-500 font-medium">

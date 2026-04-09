@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 function BulkFeePaymentCreate({ onBatchSuccess }) {
     const [loading, setLoading] = useState(false);
     const token = useAxiosAuth();
-    
+
     const { data: feeAccounts, isLoading: isLoadingFees } = useFetchFeeAccounts();
     const { data: paymentAccounts, isLoading: isLoadingPayments } = useFetchPaymentAccounts();
 
@@ -34,7 +34,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
     const handleInputChange = (index, field, value) => {
         const newPayments = [...payments];
         newPayments[index][field] = value;
-        
+
         // Auto-fill outstanding balance if needed (optional UX)
         if (field === "fee_account") {
             const selected = outstandingFees.find(acc => acc.account_number === value);
@@ -42,7 +42,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                 newPayments[index].amount = selected.outstanding_balance;
             }
         }
-        
+
         setPayments(newPayments);
     };
 
@@ -60,7 +60,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
         e.preventDefault();
         try {
             setLoading(true);
-            
+
             const invalidRow = payments.find(p => !p.fee_account || !p.amount || !p.payment_method);
             if (invalidRow) {
                 toast.error("Please fill all fields in each row.");
@@ -93,9 +93,9 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
                     {payments.map((pay, index) => (
-                        <div key={index} className="p-4 border border-slate-100 rounded-xl bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-amber-500">
-                             <div className="flex justify-between items-center mb-4">
-                                <span className="text-[10px] font-black px-2 py-0.5 bg-amber-50 rounded text-amber-600 uppercase tracking-widest">Payment Entry #{index + 1}</span>
+                        <div key={index} className="p-4 border border-slate-100 rounded bg-white shadow-sm hover:shadow-md transition-all relative group border-l-4 border-l-amber-500">
+                            <div className="flex justify-between items-center mb-4">
+                                <span className="text-[10px] font-semibold px-2 py-0.5 bg-amber-50 rounded text-amber-600 uppercase tracking-widest">Payment Entry #{index + 1}</span>
                                 {payments.length > 1 && (
                                     <Button type="button" onClick={() => removePayment(index)} variant="ghost" className="text-rose-400 hover:text-rose-600 p-1 h-auto opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Trash2 className="w-4 h-4" />
@@ -109,7 +109,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                     <select
                                         value={pay.fee_account}
                                         onChange={(e) => handleInputChange(index, "fee_account", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 h-10 text-sm focus:ring-1 focus:ring-amber-500 outline-none"
+                                        className="w-full border border-slate-200 rounded px-3 h-10 text-sm focus:ring-1 focus:ring-amber-500 outline-none"
                                         disabled={isLoadingFees}
                                     >
                                         <option value="">-- Select Member Fee Account --</option>
@@ -122,10 +122,10 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                 </div>
                                 <div className="md:col-span-3 space-y-1">
                                     <Label className="text-[10px] uppercase font-bold text-slate-400">Payment Amount</Label>
-                                    <Input 
-                                        type="number" 
-                                        placeholder="0.00" 
-                                        value={pay.amount} 
+                                    <Input
+                                        type="number"
+                                        placeholder="0.00"
+                                        value={pay.amount}
                                         onChange={(e) => handleInputChange(index, "amount", e.target.value)}
                                         className="h-10 text-sm font-bold border-slate-200 focus:border-amber-500"
                                     />
@@ -135,7 +135,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                                     <select
                                         value={pay.payment_method}
                                         onChange={(e) => handleInputChange(index, "payment_method", e.target.value)}
-                                        className="w-full border border-slate-200 rounded-md px-3 h-10 text-sm focus:ring-1 focus:ring-amber-500 outline-none"
+                                        className="w-full border border-slate-200 rounded px-3 h-10 text-sm focus:ring-1 focus:ring-amber-500 outline-none"
                                         disabled={isLoadingPayments}
                                     >
                                         <option value="Cash">Cash</option>
@@ -158,7 +158,7 @@ function BulkFeePaymentCreate({ onBatchSuccess }) {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                    <Button type="submit" className="bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 px-12 rounded-xl shadow-lg shadow-amber-50" disabled={loading}>
+                    <Button type="submit" className="bg-amber-600 hover:bg-amber-700 text-white font-bold h-12 px-12 rounded shadow-lg shadow-amber-50" disabled={loading}>
                         {loading ? "Processing..." : "Commit Payments"}
                     </Button>
                 </div>

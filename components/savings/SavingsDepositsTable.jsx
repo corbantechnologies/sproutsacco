@@ -146,7 +146,7 @@ function SavingsDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -166,7 +166,7 @@ function SavingsDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -186,7 +186,7 @@ function SavingsDepositsTable({ deposits }) {
                   setMonth("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -207,7 +207,7 @@ function SavingsDepositsTable({ deposits }) {
                   setEndDate("");
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               />
             </div>
             <div className="space-y-2">
@@ -224,7 +224,7 @@ function SavingsDepositsTable({ deposits }) {
                   setDepositType(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="">All Types</option>
                 <option value="Opening Balance">Opening Balance</option>
@@ -249,7 +249,7 @@ function SavingsDepositsTable({ deposits }) {
                   setPaymentMethod(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
               >
                 <option value="">All Methods</option>
                 <option value="Cash">Cash</option>
@@ -317,11 +317,10 @@ function SavingsDepositsTable({ deposits }) {
                   </TableCell>
                   <TableCell className="text-sm">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        deposit.transaction_status === "Completed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
+                      className={`px-2 py-1 rounded text-xs ${deposit.transaction_status === "Completed"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-yellow-100 text-yellow-700"
+                        }`}
                     >
                       {deposit.transaction_status}
                     </span>
@@ -354,11 +353,10 @@ function SavingsDepositsTable({ deposits }) {
                 key={page}
                 onClick={() => handlePageChange(page)}
                 variant={currentPage === page ? "default" : "outline"}
-                className={`${
-                  currentPage === page
-                    ? "bg-primary text-white"
-                    : "border-primary text-primary hover:bg-primary hover:text-white"
-                } text-sm`}
+                className={`${currentPage === page
+                  ? "bg-primary text-white"
+                  : "border-primary text-primary hover:bg-primary hover:text-white"
+                  } text-sm`}
               >
                 {page}
               </Button>
