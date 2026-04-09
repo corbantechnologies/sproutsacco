@@ -82,7 +82,6 @@ function SaccoAdminNavbar() {
                 label: "Guarantor Profile",
                 href: "/sacco-admin/personal/guarantorprofile",
               },
-              { label: "Transact", href: "/sacco-admin/transact" },
               { label: "Withdrawals", href: "/sacco-admin/withdrawals" },
               { label: "Settings", href: "/sacco-admin/settings" },
             ].map((link) => (
