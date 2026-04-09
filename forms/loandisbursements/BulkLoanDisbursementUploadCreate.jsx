@@ -67,39 +67,38 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
     };
 
     return (
-        <div className="max-w-3xl mx-auto space-y-8 py-4">
-            <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-blue-800">Bulk Disburse Approved Loans</h2>
-                <p className="text-slate-500 text-sm max-w-lg mx-auto">
+        <div className="max-w-4xl mx-auto space-y-10 py-4">
+            <div className="text-center space-y-3">
+                <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Bulk Disburse Approved Loans</h2>
+                <p className="text-slate-500 text-base max-w-2xl mx-auto">
                     Export pending disbursements to CSV, complete the payment methods, and upload here to fund multiple members at once.
                 </p>
             </div>
 
-            <div className="bg-blue-50/50 rounded p-6 border border-blue-100 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
-                <div className="flex items-center gap-4">
-                    <div className="bg-white p-3 rounded shadow-sm border border-blue-50">
-                        <Download className="w-6 h-6 text-blue-600" />
+            <div className="bg-slate-50 rounded-xl p-8 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+                <div className="flex items-center gap-6">
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                        <Download className="w-8 h-8 text-[#174271]" />
                     </div>
                     <div>
-                        <p className="text-sm font-semibold text-slate-800 uppercase tracking-tighter">Disbursement Template</p>
-                        <p className="text-[11px] text-slate-500 font-medium italic">Pre-filled with all currently approved but unfunded loans.</p>
+                        <p className="text-lg font-bold text-slate-800 tracking-tight">Disbursement Template</p>
+                        <p className="text-sm text-slate-500 font-medium">Pre-filled with all currently approved but unfunded loans.</p>
                     </div>
                 </div>
                 <Button
-                    variant="default"
-                    size="sm"
+                    variant="outline"
                     onClick={handleDownloadTemplate}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 h-10 shadow-md shadow-blue-100 transition-all rounded"
+                    className="border-black text-black hover:bg-slate-100 font-bold px-8 h-12 transition-all rounded"
                 >
                     Get Pre-filled Template
                 </Button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
                 <div
-                    className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
-                        ? "border-blue-500 bg-blue-50/20"
-                        : "border-slate-200 bg-white hover:border-blue-500 hover:bg-blue-50/5"
+                    className={`border-4 border-dashed rounded-[2rem] p-20 flex flex-col items-center justify-center text-center transition-all cursor-pointer ${file
+                        ? "border-green-500 bg-green-50/30"
+                        : "border-slate-200 bg-white hover:border-[#174271] hover:bg-slate-50/50"
                         }`}
                     onClick={() => !file && fileInputRef.current?.click()}
                 >
@@ -112,14 +111,14 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
                     />
 
                     {file ? (
-                        <div className="flex flex-col items-center space-y-4 animate-in fade-in zoom-in-95">
-                            <div className="p-5 bg-blue-600 rounded text-white shadow-lg ring-4 ring-blue-50">
-                                <FileCheck className="w-10 h-10" />
+                        <div className="flex flex-col items-center space-y-6 animate-in fade-in zoom-in-95">
+                            <div className="p-6 bg-green-600 rounded-full text-white shadow-xl ring-8 ring-green-50">
+                                <FileCheck className="w-12 h-12" />
                             </div>
-                            <div className="space-y-1">
-                                <p className="font-extrabold text-xl text-slate-900 tracking-tight">{file.name}</p>
-                                <p className="text-[12px] text-blue-600 font-semibold uppercase tracking-[0.2em]">
-                                    {(file.size / 1024).toFixed(2)} KB • DISBURSEMENT DATA READY
+                            <div className="space-y-2">
+                                <p className="font-bold text-2xl text-slate-900 tracking-tight">{file.name}</p>
+                                <p className="text-sm text-green-600 font-bold uppercase tracking-widest">
+                                    {(file.size / 1024).toFixed(2)} KB • DATA READY FOR FUNDING
                                 </p>
                             </div>
                             <Button
@@ -129,35 +128,34 @@ function BulkLoanDisbursementUpload({ onBatchSuccess }) {
                                     e.stopPropagation();
                                     clearFile();
                                 }}
-                                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 font-bold h-9 mt-4 px-6 rounded"
+                                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 font-bold h-10 px-8 rounded mt-2"
                             >
-                                <X className="w-4 h-4 mr-1" /> Reset File
+                                <X className="w-5 h-5 mr-2" /> Reset Selection
                             </Button>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center space-y-5">
-                            <div className="p-6 bg-slate-50 rounded text-blue-300 border-2 border-white shadow-md">
-                                <FileUp className="w-12 h-12" />
+                        <div className="flex flex-col items-center space-y-6">
+                            <div className="p-8 bg-slate-50 rounded-full text-[#174271]/20 border-4 border-white shadow-inner">
+                                <FileUp className="w-16 h-16" />
                             </div>
-                            <div className="space-y-2">
-                                <p className="font-semibold text-xl text-slate-800 tracking-tight">
-                                    Upload Disbursement CSV
+                            <div className="space-y-3">
+                                <p className="font-bold text-2xl text-slate-800 tracking-tight">
+                                    Upload Completed CSV
                                 </p>
-                                <p className="text-sm text-slate-400 font-medium">
-                                    Click to select or drag and drop your file
+                                <p className="text-base text-slate-400 font-medium">
+                                    Click to select or drag and drop your disbursement file
                                 </p>
                             </div>
                         </div>
                     )}
                 </div>
-
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-4">
                     <Button
                         type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-20 h-14 rounded font-semibold text-lg shadow-xl shadow-blue-100 transition-all active:scale-95 disabled:opacity-30 uppercase tracking-tight"
+                        className="bg-[#ea1315] hover:bg-[#c71012] text-white px-24 h-16 rounded font-bold text-xl shadow-2xl shadow-rose-100 transition-all active:scale-95 disabled:opacity-30 tracking-tight"
                         disabled={loading || !file}
                     >
-                        {loading ? "Funding Loans..." : "Start Disbursement"}
+                        {loading ? "Processing Upload..." : "Start Batch Disbursement"}
                     </Button>
                 </div>
             </form>

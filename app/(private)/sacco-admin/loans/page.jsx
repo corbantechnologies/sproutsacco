@@ -15,25 +15,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     Search,
-    Filter,
     HandCoins,
     Eye,
-    ChevronRight,
     ArrowUpRight,
     FileUp,
     Plus,
     CheckCircle2,
     Clock,
-    AlertCircle
+    AlertCircle,
+    ArrowLeft,
+    ListFilter
 } from "lucide-react";
 import Link from "next/link";
 
@@ -46,7 +40,6 @@ export default function LoansManagementPage() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    const [isBulkDisburseOpen, setIsBulkDisburseOpen] = useState(false);
 
     const filteredLoans = useMemo(() => {
         if (!loans) return [];
@@ -64,187 +57,196 @@ export default function LoansManagementPage() {
     if (isLoading) return <LoadingSpinner />;
 
     return (
-        <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 space-y-8">
+        <div className="min-h-screen bg-gray-50/50 p-4 md:p-6 space-y-6">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                    <h1 className="text-3xl font-semibold text-slate-900 tracking-tighter flex items-center gap-3">
-                        <div className="bg-[#174271] p-2 rounded text-white shadow-lg">
-                            <HandCoins className="w-8 h-8" />
-                        </div>
-                        Loans Portfolio
-                    </h1>
-                    <p className="text-slate-500 font-medium mt-1">Manage all SACCO loan accounts and disbursements.</p>
-                </div>
-
-                <div className="flex gap-3">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="flex items-center gap-4">
                     <Button
-                        onClick={() => setIsBulkDisburseOpen(true)}
-                        className="bg-[#ea1315] hover:bg-[#c71012] text-white font-semibold px-6 h-12 rounded shadow-xl shadow-rose-100 flex items-center gap-2 transition-all active:scale-95"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => router.back()}
+                        className="rounded hover:bg-white border shadow-sm"
                     >
-                        <ArrowUpRight className="w-5 h-5" /> Bulk Disbursement
+                        <ArrowLeft className="w-5 h-5" />
                     </Button>
+                    <div>
+                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+                            <HandCoins className="w-6 h-6 text-[#174271]" /> Loans Portfolio
+                        </h1>
+                        <p className="text-slate-500 text-sm font-medium">
+                            Manage all SACCO loan accounts and disbursements.
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            {/* Stats Overview (Optional Placeholder) */}
+            {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="border-none shadow-sm bg-[#174271] text-white rounded-[2rem] p-6">
-                    <CardHeader className="p-0 pb-2">
+                <Card className="border shadow-sm bg-[#174271] text-white rounded-xl">
+                    <CardHeader className="p-6">
                         <CardDescription className="text-white/60 font-bold uppercase tracking-widest text-[10px]">Active Accounts</CardDescription>
-                        <CardTitle className="text-3xl font-semibold">{loans?.length || 0}</CardTitle>
+                        <CardTitle className="text-3xl font-bold tracking-tight">{loans?.length || 0}</CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-6">
-                    <CardHeader className="p-0 pb-2">
+                <Card className="border shadow-sm bg-white rounded-xl">
+                    <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Pending Approval</CardDescription>
-                        <CardTitle className="text-3xl font-semibold text-slate-800">
+                        <CardTitle className="text-3xl font-bold tracking-tight text-slate-800">
                             {loans?.filter(l => l.application?.status === 'Pending')?.length || 0}
                         </CardTitle>
                     </CardHeader>
                 </Card>
-                <Card className="border-none shadow-sm bg-white rounded-[2rem] p-6">
-                    <CardHeader className="p-0 pb-2">
+                <Card className="border shadow-sm bg-white rounded-xl">
+                    <CardHeader className="p-6">
                         <CardDescription className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Approved (Awaiting Funding)</CardDescription>
-                        <CardTitle className="text-3xl font-semibold text-emerald-600">
+                        <CardTitle className="text-3xl font-bold tracking-tight text-emerald-600">
                             {loans?.filter(l => l.application?.status === 'Approved')?.length || 0}
                         </CardTitle>
                     </CardHeader>
                 </Card>
             </div>
 
-            {/* Filter Bar */}
-            <div className="bg-white rounded-[2rem] p-4 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4">
-                <div className="flex-1 relative group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#174271] transition-colors" />
-                    <Input
-                        placeholder="Search by member name or account number..."
-                        className="pl-12 h-12 rounded border-slate-100 focus:border-[#174271] bg-slate-50 shadow-none border-0"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div className="flex gap-2">
-                    <div className="inline-flex bg-slate-100 rounded p-1 gap-1">
-                        {['all', 'Approved', 'Disbursed', 'Pending'].map((status) => (
-                            <button
-                                key={status}
-                                onClick={() => setStatusFilter(status)}
-                                className={`px-4 h-10 rounded text-[10px] font-semibold uppercase tracking-widest transition-all ${statusFilter === status
-                                    ? "bg-white text-[#174271] shadow-md"
-                                    : "text-slate-400 hover:text-slate-600"
-                                    }`}
-                            >
-                                {status}
-                            </button>
-                        ))}
+            {/* Main Content Tabs */}
+            <Tabs defaultValue="list" className="w-full">
+                <TabsList className="bg-white border p-1 h-12 shadow-sm mb-6">
+                    <TabsTrigger value="list" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-wider transition-all">
+                        <ListFilter className="w-4 h-4 mr-2" /> List View
+                    </TabsTrigger>
+                    <TabsTrigger value="bulk-create" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-wider transition-all">
+                        <Plus className="w-4 h-4 mr-2" /> Manual Batch
+                    </TabsTrigger>
+                    <TabsTrigger value="bulk-upload" className="px-6 data-[state=active]:bg-slate-50 data-[state=active]:text-[#174271] font-bold text-xs uppercase tracking-wider transition-all">
+                        <FileUp className="w-4 h-4 mr-2" /> CSV Upload
+                    </TabsTrigger>
+                </TabsList>
+
+                {/* List Tab */}
+                <TabsContent value="list" className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-6">
+                    {/* Filter Bar */}
+                    <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-center">
+                        <div className="flex-1 relative group w-full">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#174271] transition-colors" />
+                            <Input
+                                placeholder="Search by member name or account number..."
+                                className="pl-12 h-12 rounded-lg border-slate-100 focus:border-[#174271] bg-slate-50/50 shadow-none border-0 ring-offset-transparent focus-visible:ring-1 focus-visible:ring-slate-200"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                            <div className="inline-flex bg-slate-100/50 rounded-lg p-1 gap-1 border border-slate-200/50">
+                                {['all', 'Approved', 'Disbursed', 'Pending'].map((status) => (
+                                    <button
+                                        key={status}
+                                        onClick={() => setStatusFilter(status)}
+                                        className={`px-4 h-9 rounded-md text-[10px] font-bold uppercase tracking-widest transition-all whitespace-nowrap ${statusFilter === status
+                                            ? "bg-white text-[#174271] shadow-sm ring-1 ring-slate-200"
+                                            : "text-slate-400 hover:text-slate-600"
+                                            }`}
+                                    >
+                                        {status}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Loans Table */}
-            <Card className="border-none shadow-2xl shadow-slate-200/50 rounded-[2.5rem] overflow-hidden">
-                <CardContent className="p-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="bg-slate-50/50 border-b border-slate-100">
-                                <TableHead className="pl-10 py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Account Owner</TableHead>
-                                <TableHead className="py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Loan Product</TableHead>
-                                <TableHead className="py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400 text-center">Principal</TableHead>
-                                <TableHead className="py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400 text-center">Balance</TableHead>
-                                <TableHead className="py-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400 text-center">Status</TableHead>
-                                <TableHead className="pr-10 py-6 text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Quick View</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredLoans.length > 0 ? (
-                                filteredLoans.map((loan) => (
-                                    <TableRow key={loan.reference} className="hover:bg-slate-50/50 transition-all border-b border-slate-50 last:border-0 group h-24">
-                                        <TableCell className="pl-10">
-                                            <div className="flex flex-col">
-                                                <span className="font-semibold text-slate-800 text-base tracking-tight">{loan.member?.first_name} {loan.member?.last_name}</span>
-                                                <span className="text-[11px] font-bold text-slate-400 font-mono italic">{loan.account_number}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="inline-flex items-center gap-2 bg-[#174271]/5 px-3 py-1 rounded border border-[#174271]/10">
-                                                <span className="text-[11px] font-semibold text-[#174271] uppercase">{loan.product?.name || "Product"}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="text-center font-semibold text-slate-800 font-mono">
-                                            {Number(loan.principal).toLocaleString()}
-                                        </TableCell>
-                                        <TableCell className="text-center font-semibold text-[#ea1315] font-mono">
-                                            {Number(loan.balance).toLocaleString()}
-                                        </TableCell>
-                                        <TableCell className="text-center">
-                                            <span className={`px-3 py-1.5 rounded text-[10px] font-semibold tracking-widest border-2 flex items-center justify-center gap-1.5 w-fit mx-auto ${loan.application?.status === 'Disbursed'
-                                                ? "bg-green-50 text-green-700 border-green-100"
-                                                : loan.application?.status === 'Approved'
-                                                    ? "bg-blue-50 text-blue-700 border-blue-100 animate-pulse"
-                                                    : "bg-slate-50 text-slate-400 border-slate-100"
-                                                }`}>
-                                                {loan.application?.status === 'Disbursed' ? <CheckCircle2 className="w-3 h-3" /> : loan.application?.status === 'Approved' ? <Clock className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                                                {loan.application?.status?.toUpperCase() || "PENDING"}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell className="pr-10 text-right">
-                                            <Link href={`/sacco-admin/members/${loan.member?.id}/${loan.reference}`}>
-                                                <Button size="icon" variant="ghost" className="rounded hover:bg-white border-2 border-transparent hover:border-slate-100 shadow-none h-11 w-11 transition-all group-hover:text-[#174271]">
-                                                    <Eye className="w-5 h-5 text-slate-300 group-hover:text-[#174271]" />
-                                                </Button>
-                                            </Link>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell colSpan={6} className="text-center py-20 text-slate-300 font-semibold uppercase tracking-[0.5em] italic">
-                                        No loan accounts matching your criteria
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+                    {/* Loans Table */}
+                    <Card className="border shadow-sm rounded-xl overflow-hidden bg-white">
+                        <CardHeader className="bg-white border-b px-8 py-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle className="text-xl font-bold text-slate-900 tracking-tight">Active Portfolio</CardTitle>
+                                    <CardDescription className="text-xs font-medium text-slate-500 mt-1">A detailed view of all member loan accounts.</CardDescription>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-slate-50/50 border-b">
+                                            <TableHead className="pl-8 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Account Owner</TableHead>
+                                            <TableHead className="py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Loan Product</TableHead>
+                                            <TableHead className="py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Principal</TableHead>
+                                            <TableHead className="py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Balance</TableHead>
+                                            <TableHead className="py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-center">Status</TableHead>
+                                            <TableHead className="pr-8 py-4 text-right text-xs font-bold uppercase tracking-wider text-slate-500">Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {filteredLoans.length > 0 ? (
+                                            filteredLoans.map((loan) => (
+                                                <TableRow key={loan.reference} className="hover:bg-slate-50/50 transition-all border-b last:border-0 group h-20">
+                                                    <TableCell className="pl-8">
+                                                        <div className="flex flex-col">
+                                                            <span className="font-bold text-slate-800 text-sm tracking-tight">{loan.member?.first_name} {loan.member?.last_name}</span>
+                                                            <span className="text-[11px] font-semibold text-slate-400 font-mono tracking-tight">{loan.account_number}</span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <span className="text-xs font-bold text-[#174271] uppercase tracking-wider bg-slate-100 px-2 py-1 rounded">
+                                                            {loan.product?.name || "Product"}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-center font-bold text-slate-700 font-mono text-sm leading-none">
+                                                        {Number(loan.principal).toLocaleString()}
+                                                    </TableCell>
+                                                    <TableCell className="text-center font-bold text-[#ea1315] font-mono text-sm leading-none">
+                                                        {Number(loan.balance).toLocaleString()}
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider flex items-center justify-center gap-1.5 w-fit mx-auto ring-1 ${loan.application?.status === 'Disbursed'
+                                                            ? "bg-green-50 text-green-700 ring-green-200"
+                                                            : loan.application?.status === 'Approved'
+                                                                ? "bg-blue-50 text-blue-700 ring-blue-200 animate-pulse"
+                                                                : "bg-slate-50 text-slate-500 ring-slate-200"
+                                                            }`}>
+                                                            {loan.application?.status === 'Disbursed' ? <CheckCircle2 className="w-3 h-3" /> : loan.application?.status === 'Approved' ? <Clock className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
+                                                            {loan.application?.status?.toUpperCase() || "PENDING"}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell className="pr-8 text-right">
+                                                        <Link href={`/sacco-admin/members/${loan.member?.id}/${loan.reference}`}>
+                                                            <Button size="icon" variant="ghost" className="rounded-lg hover:bg-white border-transparent hover:border-slate-200 border shadow-none h-9 w-9 transition-all text-slate-400 hover:text-[#174271]">
+                                                                <Eye className="w-4 h-4" />
+                                                            </Button>
+                                                        </Link>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        ) : (
+                                            <TableRow>
+                                                <TableCell colSpan={6} className="text-center py-24 text-slate-300 font-bold uppercase tracking-[0.2em] text-sm">
+                                                    No loan accounts found
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-            {/* Bulk Disbursement Modal */}
-            <Dialog open={isBulkDisburseOpen} onOpenChange={setIsBulkDisburseOpen}>
-                <DialogContent className="max-w-[1200px] bg-slate-50 border-none rounded-[3rem] p-0 overflow-hidden shadow-2xl">
-                    <DialogHeader className="bg-white px-10 py-8 border-b border-slate-100">
-                        <DialogTitle className="text-2xl font-semibold text-[#174271] tracking-tighter flex items-center gap-2">
-                            <ArrowUpRight className="w-6 h-6" /> Bulk Loan Funding
-                        </DialogTitle>
-                    </DialogHeader>
+                {/* Bulk Form Tab */}
+                <TabsContent value="bulk-create" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <Card className="shadow-sm border-none bg-transparent pt-4">
+                        <CardContent className="p-0">
+                            <BulkLoanDisbursementCreate onBatchSuccess={refetch} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
 
-                    <div className="p-8">
-                        <Tabs defaultValue="form" className="w-full">
-                            <TabsList className="bg-white border p-1 rounded h-14 mb-8 max-w-md shadow-sm">
-                                <TabsTrigger value="form" className="flex-1 rounded data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 font-semibold text-[10px] uppercase tracking-widest">
-                                    <Plus className="w-4 h-4 mr-2" /> Manual Batch
-                                </TabsTrigger>
-                                <TabsTrigger value="upload" className="flex-1 rounded data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 font-semibold text-[10px] uppercase tracking-widest">
-                                    <FileUp className="w-4 h-4 mr-2" /> CSV Upload
-                                </TabsTrigger>
-                            </TabsList>
-
-                            <TabsContent value="form">
-                                <BulkLoanDisbursementCreate onBatchSuccess={() => {
-                                    refetch();
-                                    // Optionally stay open or close? I'll let the nested component handle stay/go
-                                }} />
-                            </TabsContent>
-
-                            <TabsContent value="upload">
-                                <BulkLoanDisbursementUploadCreate onBatchSuccess={() => {
-                                    refetch();
-                                }} />
-                            </TabsContent>
-                        </Tabs>
-                    </div>
-                </DialogContent>
-            </Dialog>
+                {/* Bulk Upload Tab */}
+                <TabsContent value="bulk-upload" className="animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <Card className="shadow-sm border-none bg-white rounded-xl p-8 mt-4">
+                        <CardContent className="p-0">
+                            <BulkLoanDisbursementUploadCreate onBatchSuccess={refetch} />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </div>
     );
 }

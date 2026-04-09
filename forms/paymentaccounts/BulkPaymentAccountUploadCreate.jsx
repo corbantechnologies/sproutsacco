@@ -71,7 +71,7 @@ function BulkPaymentAccountUpload({ onBatchSuccess }) {
             <div className="text-center space-y-2">
                 <h2 className="text-2xl font-bold text-[#174271]">Bulk Upload Payment Accounts</h2>
                 <p className="text-slate-500 text-sm">
-                    Import multiple ব্যাংক/Cash accounts linking them to GL categories via CSV.
+                    Import multiple Bank/Cash accounts linking them to GL categories via CSV.
                 </p>
             </div>
 
