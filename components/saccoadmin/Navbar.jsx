@@ -67,6 +67,13 @@ function SaccoAdminNavbar() {
                   { label: "Loan Products", href: "/sacco-admin/setup/loan-products" },
                 ]
               },
+              {
+                label: "Onboarding",
+                href: "/sacco-admin/onboarding/existing-loans",
+                children: [
+                  { label: "Existing Loan Payments", href: "/sacco-admin/onboarding/existing-loan-payments" },
+                ]
+              },
               { label: "Members", href: "/sacco-admin/members" },
               { label: "Loans", href: "/sacco-admin/loans" },
               { label: "Fee Payments", href: "/sacco-admin/fee-payments" },
