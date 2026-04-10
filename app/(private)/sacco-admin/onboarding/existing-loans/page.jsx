@@ -217,10 +217,7 @@ export default function ExistingLoansOnboardingPage() {
                                         {filteredLoans?.map((loan) => (
                                             <TableRow key={loan.reference} className="hover:bg-blue-50/30 transition-all border-b border-slate-50 group">
                                                 <TableCell className="font-semibold text-slate-900 pl-8 py-5 flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-[#174271] text-[10px] font-semibold border border-blue-100">
-                                                        {loan.member_no?.slice(-2) || "EX"}
-                                                    </div>
-                                                    {loan.member_name}
+                                                    {loan.member}
                                                 </TableCell>
                                                 <TableCell className="font-mono text-xs text-slate-500">{loan.account_number}</TableCell>
                                                 <TableCell className="text-right font-medium text-slate-600 font-mono">KES {Number(loan.principal).toLocaleString()}</TableCell>

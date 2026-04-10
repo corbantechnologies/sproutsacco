@@ -9,7 +9,7 @@ import { useBulkCreateExistingLoan } from "@/hooks/existingloans/actions";
 import { useFetchMembers } from "@/hooks/members/actions";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
-import { Plus, Trash2, Save, X } from "lucide-react";
+import { Plus, Trash2, Save, X, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = false }) {
@@ -204,7 +204,17 @@ export default function BulkCreateExistingLoan({ isOpen, onClose, isInline = fal
                     disabled={isCreating}
                     className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-12 h-12 flex items-center gap-2 shadow-sm rounded transition-all"
                 >
-                    {isCreating ? "Saving Batch..." : <><Save className="w-5 h-5" /> Register Batch</>}
+                    {isCreating ? (
+                        <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            Registering Batch...
+                        </>
+                    ) : (
+                        <>
+                            <Save className="w-5 h-5" />
+                            Register Batch
+                        </>
+                    )}
                 </Button>
             </div>
         </form>
