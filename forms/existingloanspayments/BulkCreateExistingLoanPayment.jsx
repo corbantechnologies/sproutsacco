@@ -44,7 +44,7 @@ export default function BulkCreateExistingLoanPayment({ isOpen, onClose }) {
     };
 
     const handleSubmit = (values, { setSubmitting }) => {
-        bulkCreate(values.payments, {
+        bulkCreate({ payments: values.payments }, {
             onSuccess: () => {
                 onClose();
                 setSubmitting(false);
