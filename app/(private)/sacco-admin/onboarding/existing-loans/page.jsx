@@ -33,6 +33,9 @@ import {
 } from "@/components/ui/table";
 import { useFetchExistingLoans } from "@/hooks/existingloans/actions";
 import { useFetchExistingLoanPayments } from "@/hooks/existingloanpayments/actions";
+import { useFetchMembers } from "@/hooks/members/actions";
+import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
+import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -46,11 +49,19 @@ import BulkUploadCreateExistingLoanPayment from "@/forms/existingloanspayments/B
 
 export default function ExistingLoansOnboardingPage() {
     const router = useRouter();
+    
+    // Core Data Fetching
     const { data: loans, isLoading: isLoadingLoans, refetch: refetchLoans } = useFetchExistingLoans();
     const { data: payments, isLoading: isLoadingPayments, refetch: refetchPayments } = useFetchExistingLoanPayments();
+    
+    // Dependency Pre-fetching (to ensure forms have data ready)
+    useFetchMembers();
+    useFetchGLAccounts();
+    useFetchPaymentAccounts();
 
     const [searchTerm, setSearchTerm] = useState("");
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+    const [isIndividualModalOpen, setIsIndividualModalOpen] = useState(false);
     const [selectedLoanAcc, setSelectedLoanAcc] = useState("");
 
     const filteredLoans = useMemo(() => {
@@ -91,6 +102,13 @@ export default function ExistingLoansOnboardingPage() {
                         </p>
                     </div>
                 </div>
+
+                <Button 
+                    onClick={() => setIsIndividualModalOpen(true)}
+                    className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-6 h-12 flex items-center gap-2 rounded shadow-sm"
+                >
+                    <Plus className="w-5 h-5" /> New Individual Loan
+                </Button>
             </div>
 
             {/* Metrics */}
@@ -299,7 +317,7 @@ export default function ExistingLoansOnboardingPage() {
                                                 <TableCell className="text-right font-semibold text-emerald-600 font-mono">KES {Number(payment.amount).toLocaleString()}</TableCell>
                                                 <TableCell className="text-xs font-semibold text-slate-600 uppercase tracking-tighter">{payment.payment_method_name}</TableCell>
                                                 <TableCell className="text-center">
-                                                    <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded text-[10px] font-semibold uppercase">
+                                                    <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded text-[10px] font-semibold uppercase tracking-wider">
                                                         {payment.transaction_status}
                                                     </span>
                                                 </TableCell>
@@ -324,6 +342,11 @@ export default function ExistingLoansOnboardingPage() {
             </Tabs>
 
             {/* Modals */}
+            <CreateExistingLoan 
+                isOpen={isIndividualModalOpen} 
+                onClose={() => { setIsIndividualModalOpen(false); refetchLoans(); }} 
+            />
+            
             <CreateExistingLoanPayment 
                 isOpen={isPaymentModalOpen} 
                 onClose={() => { setIsPaymentModalOpen(false); refetchPayments(); refetchLoans(); }} 

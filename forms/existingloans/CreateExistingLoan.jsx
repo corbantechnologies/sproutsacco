@@ -6,20 +6,11 @@ import Modal from "@/components/general/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { useCreateExistingLoan } from "@/hooks/existingloans/actions";
 import { useFetchMembers } from "@/hooks/members/actions";
 import { useFetchGLAccounts } from "@/hooks/glaccounts/actions";
 import { useFetchPaymentAccounts } from "@/hooks/paymentaccounts/actions";
 import toast from "react-hot-toast";
-
-
 
 export default function CreateExistingLoan({ isOpen, onClose }) {
     const { mutate: createLoan, isLoading: isCreating } = useCreateExistingLoan();
@@ -39,13 +30,15 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
         });
     };
 
+    const selectClass = "w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-[#174271] focus:border-[#174271] transition-all appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:20px] bg-[right_10px_center] bg-no-repeat";
+
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
             title="Onboard Existing Loan"
-            description="Manually add a loan from a legacy system. Ensure all balances are accurate."
-            maxWidth="max-w-6xl" // Full width as requested
+            description="Manually add a single loan from a legacy system."
+            maxWidth="max-w-lg" 
         >
             <Formik
                 initialValues={{
@@ -60,147 +53,122 @@ export default function CreateExistingLoan({ isOpen, onClose }) {
             >
                 {({ values, setFieldValue, errors, touched, isSubmitting }) => {
                     return (
-                        <Form className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* Member Selection */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">Member (Member No)</Label>
-                                    <Select
-                                        onValueChange={(val) => setFieldValue("member", val)}
-                                        value={values.member}
-                                    >
-                                        <SelectTrigger className="border-slate-300 focus:ring-[#174271]">
-                                            <SelectValue placeholder={isLoadingMembers ? "Loading..." : "Select Member"} />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {members?.map((m) => (
-                                                <SelectItem key={m.member_no} value={m.member_no}>
-                                                    {m.first_name} {m.last_name} ({m.member_no})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-
-
+                        <Form className="space-y-4">
+                            {/* Member Selection */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">Member (Member No)</Label>
+                                <select
+                                    className={selectClass}
+                                    value={values.member}
+                                    onChange={(e) => setFieldValue("member", e.target.value)}
+                                >
+                                    <option value="">{isLoadingMembers ? "Loading..." : "Select Member"}</option>
+                                    {members?.map((m) => (
+                                        <option key={m.member_no} value={m.member_no}>
+                                            {m.first_name} {m.last_name} ({m.member_no})
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
-                            <hr className="border-slate-100" />
-
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                {/* Principal */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">Principal Amount</Label>
-                                    <Field
-                                        as={Input}
-                                        type="number"
-                                        name="principal"
-                                        className="border-slate-300"
-                                    />
-                                </div>
-
-                                {/* Payment Method */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">Initial Payment Method</Label>
-                                    <Select
-                                        onValueChange={(val) => setFieldValue("payment_method", val)}
-                                        value={values.payment_method}
-                                    >
-                                        <SelectTrigger className="border-slate-300">
-                                            <SelectValue placeholder={isLoadingPayments ? "Loading..." : "Select Method"} />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {paymentAccounts?.map((pa) => (
-                                                <SelectItem key={pa.reference} value={pa.name}>
-                                                    {pa.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                            {/* Principal */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">Principal Amount</Label>
+                                <Field
+                                    as={Input}
+                                    type="number"
+                                    name="principal"
+                                    className="border-slate-300 h-10 rounded shadow-none focus-visible:ring-1 focus-visible:ring-[#174271]"
+                                    placeholder="Enter principal amount"
+                                />
                             </div>
 
-                            <hr className="border-slate-100" />
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider">GL Account Mapping</h3>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                {/* GL Principal Asset */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">GL Principal Asset</Label>
-                                    <Select
-                                        onValueChange={(val) => setFieldValue("gl_principal_asset", val)}
-                                        value={values.gl_principal_asset}
-                                    >
-                                        <SelectTrigger className="border-slate-300">
-                                            <SelectValue placeholder="Select GL" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {glAccounts?.map((acc) => (
-                                                <SelectItem key={acc.reference} value={acc.name}>
-                                                    {acc.name} ({acc.code})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                {/* GL Interest Revenue */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">GL Interest Revenue</Label>
-                                    <Select
-                                        onValueChange={(val) => setFieldValue("gl_interest_revenue", val)}
-                                        value={values.gl_interest_revenue}
-                                    >
-                                        <SelectTrigger className="border-slate-300">
-                                            <SelectValue placeholder="Select GL" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {glAccounts?.map((acc) => (
-                                                <SelectItem key={acc.reference} value={acc.name}>
-                                                    {acc.name} ({acc.code})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                {/* GL Penalty Revenue */}
-                                <div className="space-y-2">
-                                    <Label className="text-[#174271] font-bold">GL Penalty Revenue</Label>
-                                    <Select
-                                        onValueChange={(val) => setFieldValue("gl_penalty_revenue", val)}
-                                        value={values.gl_penalty_revenue}
-                                    >
-                                        <SelectTrigger className="border-slate-300">
-                                            <SelectValue placeholder="Select GL" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {glAccounts?.map((acc) => (
-                                                <SelectItem key={acc.reference} value={acc.name}>
-                                                    {acc.name} ({acc.code})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                            {/* Payment Method */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">Initial Payment Method</Label>
+                                <select
+                                    className={selectClass}
+                                    value={values.payment_method}
+                                    onChange={(e) => setFieldValue("payment_method", e.target.value)}
+                                >
+                                    <option value="">{isLoadingPayments ? "Loading..." : "Select Method"}</option>
+                                    {paymentAccounts?.map((pa) => (
+                                        <option key={pa.reference} value={pa.name}>
+                                            {pa.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
-                            <div className="flex justify-end gap-3 pt-4">
+                            <hr className="border-slate-100 my-2" />
+                            <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">GL Account Mapping</h3>
+
+                            {/* GL Principal Asset */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">GL Principal Asset</Label>
+                                <select
+                                    className={selectClass}
+                                    value={values.gl_principal_asset}
+                                    onChange={(e) => setFieldValue("gl_principal_asset", e.target.value)}
+                                >
+                                    <option value="">Select GL</option>
+                                    {glAccounts?.map((acc) => (
+                                        <option key={acc.reference} value={acc.name}>
+                                            {acc.name} ({acc.code})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* GL Interest Revenue */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">GL Interest Revenue</Label>
+                                <select
+                                    className={selectClass}
+                                    value={values.gl_interest_revenue}
+                                    onChange={(e) => setFieldValue("gl_interest_revenue", e.target.value)}
+                                >
+                                    <option value="">Select GL</option>
+                                    {glAccounts?.map((acc) => (
+                                        <option key={acc.reference} value={acc.name}>
+                                            {acc.name} ({acc.code})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* GL Penalty Revenue */}
+                            <div className="space-y-2">
+                                <Label className="text-[#174271] font-semibold">GL Penalty Revenue</Label>
+                                <select
+                                    className={selectClass}
+                                    value={values.gl_penalty_revenue}
+                                    onChange={(e) => setFieldValue("gl_penalty_revenue", e.target.value)}
+                                >
+                                    <option value="">Select GL</option>
+                                    {glAccounts?.map((acc) => (
+                                        <option key={acc.reference} value={acc.name}>
+                                            {acc.name} ({acc.code})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="flex justify-end gap-3 pt-6 border-t">
                                 <Button
                                     type="button"
                                     variant="outline"
                                     onClick={onClose}
-                                    className="border-slate-200 text-slate-600 font-bold px-8 h-12"
+                                    className="border-slate-200 text-slate-600 font-semibold px-6 h-10 rounded hover:bg-slate-50"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     type="submit"
                                     disabled={isSubmitting || isCreating}
-                                    className="bg-[#174271] hover:bg-[#12355a] text-white font-bold px-12 h-12 shadow-lg shadow-blue-100"
+                                    className="bg-[#174271] hover:bg-[#12355a] text-white font-semibold px-8 h-10 shadow-sm rounded"
                                 >
-                                    {isSubmitting || isCreating ? "Onboarding..." : "Onboard Loan"}
+                                    {isSubmitting || isCreating ? "Saving..." : "Onboard Loan"}
                                 </Button>
                             </div>
                         </Form>
