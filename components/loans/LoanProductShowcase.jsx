@@ -12,7 +12,7 @@ export function LoanProductShowcase({ showTitle = true }) {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-col gap-2">
         {[1, 2, 3].map((i) => (
           <div key={i} className="h-48 bg-slate-100 animate-pulse rounded border border-slate-200" />
         ))}
@@ -42,13 +42,13 @@ export function LoanProductShowcase({ showTitle = true }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-col gap-2">
         {loanProducts.map((product) => (
           <Card
             key={product.reference}
             className="border-slate-200 hover:border-[#236c2e]/30 hover:shadow-md transition-all duration-300 flex flex-col"
           >
-            <CardHeader className="p-4 pb-2">
+            <CardHeader className="p-2 pb-2">
               <div className="flex justify-between items-start">
                 <div className="p-2 rounded bg-emerald-50 text-[#236c2e]">
                   <Wallet className="w-5 h-5" />
@@ -62,7 +62,7 @@ export function LoanProductShowcase({ showTitle = true }) {
                 {product.interest_method} Repayment Basis
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-4 pt-2 flex-grow flex flex-col justify-between">
+            <CardContent className="p-2 pt-2 flex-grow flex flex-col justify-between">
               <div>
                 <div className="grid grid-cols-2 gap-3 mt-2">
                   <div className="space-y-1">

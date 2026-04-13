@@ -94,3 +94,14 @@ export const rejectLoanApplication = async (reference, token) => {
         status: "Declined"
     }, token)
 }
+
+export const adminCreateLoanApplication = async (values, token) => {
+    // Done by admin.
+    // Application process is approved and awaiting disbursement.
+    const response = await apiActions?.post(
+        "/api/v1/loanapplications/admin/create/",
+        values,
+        token
+    )
+    return response?.data || {}
+}
