@@ -336,12 +336,19 @@ export default function AdminLoanApplications() {
                                   <div className="font-medium text-gray-900">
                                     {app.product}
                                   </div>
-                                  {app.admin_created && (
+                                  {app.admin_created ? (
                                     <Badge
                                       className="font-normal scale-90 origin-right"
                                       variant="secondary"
                                     >
-                                      Admin Created
+                                      Admin
+                                    </Badge>
+                                  ) : (
+                                    <Badge
+                                      className="font-normal scale-90 origin-right"
+                                      variant="secondary"
+                                    >
+                                      Member
                                     </Badge>
                                   )}
                                   <div className="text-xs text-muted-foreground flex items-center gap-1">
@@ -389,7 +396,7 @@ export default function AdminLoanApplications() {
                             <TableCell className="hidden sm:table-cell font-medium">
                               {app.product}
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell text-center">
+                            <TableCell className="hidden sm:table-cell">
                               {app.admin_created ? (
                                 <Badge className="bg-blue-50 text-blue-700 border-blue-200 font-normal">
                                   Admin
@@ -398,7 +405,7 @@ export default function AdminLoanApplications() {
                                 <span className="text-gray-400 text-sm">Member</span>
                               )}
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell text-right font-medium">
+                            <TableCell className="hidden sm:table-cell font-medium">
                               {formatCurrency(app.requested_amount)}
                             </TableCell>
                             <TableCell className="hidden sm:table-cell text-muted-foreground">
@@ -414,7 +421,7 @@ export default function AdminLoanApplications() {
                                 {app.status}
                               </Badge>
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell text-right">
+                            <TableCell className="hidden sm:table-cell">
                               <Button
                                 asChild
                                 variant="ghost"
