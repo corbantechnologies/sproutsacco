@@ -34,7 +34,7 @@ export const addMember = async (values, token) => {
 // View all members
 export const getMembers = async (token) => {
   const response = await apiActions?.get("/api/v1/auth/", token);
-  return response?.data?.results;
+  return response?.data?.results || [];
 };
 
 // View member details

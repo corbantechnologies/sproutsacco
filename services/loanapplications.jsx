@@ -16,8 +16,7 @@
 //      2. Admin approving or declining loan application.
 
 "use client"
-
-import { apiActions } from "@/tools/axios"
+import { apiActions, apiMultipartActions } from "@/tools/axios"
 
 export const createLoanApplication = async (values, token) => {
     const response = await apiActions?.post("/api/v1/loanapplications/", values, token)
@@ -94,3 +93,40 @@ export const rejectLoanApplication = async (reference, token) => {
         status: "Declined"
     }, token)
 }
+
+// Admin Functions
+export const adminCreateLoanApplication = async (values, token) => {
+    // Done by admin.
+    // Application process is approved and awaiting disbursement.
+    const response = await apiActions?.post(
+        "/api/v1/loanapplications/admin/create/",
+        values,
+        token
+    )
+    return response?.data || {}
+}
+
+// Bulk Functions
+export const bulkCreateLoanApplications = async (values, token) => {
+    await apiActions?.post("/api/v1/loanapplications/bulk/create/", values, token);
+};
+
+export const bulkUploadLoanApplications = async (values, token) => {
+    await apiMultipartActions?.post("/api/v1/loanapplications/bulk/upload/", values, token);
+};
+
+export const downloadLoanApplicationsTemplate = async (token) => {
+    const config = { ...token, responseType: "blob" };
+    const response = await apiActions?.get("/api/v1/loanapplications/bulk/template/", config);
+
+    // Create blob link to download
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "loan_applications_bulk_template.csv");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return response?.data;
+};
