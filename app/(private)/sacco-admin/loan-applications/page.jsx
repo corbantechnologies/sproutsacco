@@ -50,15 +50,19 @@ import {
 import { CreateLoanApplication } from "@/forms/loanapplications/CreateLoanApplication";
 import { AdminCreatesLoanApplicationForm } from "@/forms/loanapplications/AdminCreatesLoanApplication";
 import { useFetchMembers } from "@/hooks/members/actions";
+import BulkLoanApplicationUpload from "@/forms/loanapplications/BulkLoanApplicationUploadCreate";
+import { downloadLoanApplicationsTemplate } from "@/services/loanapplications";
+import useAxiosAuth from "@/hooks/authentication/useAxiosAuth";
+import toast from "react-hot-toast";
 
 export default function AdminLoanApplications() {
   const { data: loanApplications, isLoading } = useFetchLoanApplications();
   const userMemberNo = useUserMemberNo();
   const {
-      isLoading: isLoadingMembers,
-      data: members,
-      refetch: refetchMembers,
-    } = useFetchMembers();
+    isLoading: isLoadingMembers,
+    data: members,
+    refetch: refetchMembers,
+  } = useFetchMembers();
 
   const [activeTab, setActiveTab] = useState("all"); // 'all' | 'mine'
   const [statusFilter, setStatusFilter] = useState("all");
@@ -68,6 +72,8 @@ export default function AdminLoanApplications() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isCreateForMeModalOpen, setIsCreateForMeModalOpen] = useState(false);
   const [isAdminCreateModalOpen, setIsAdminCreateModalOpen] = useState(false);
+  const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
+  const token = useAxiosAuth();
 
   if (isLoading) return <MemberLoadingSpinner />;
 
@@ -178,6 +184,32 @@ export default function AdminLoanApplications() {
                   }}
                 >
                   Apply for a Member
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="justify-start font-normal"
+                  onClick={async () => {
+                    setIsPopoverOpen(false);
+                    try {
+                        const loadingToast = toast.loading("Downloading template...");
+                        await downloadLoanApplicationsTemplate(token);
+                        toast.success("Template downloaded!", { id: loadingToast });
+                    } catch (error) {
+                        toast.error("Failed to download template.");
+                    }
+                  }}
+                >
+                  Download Template
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="justify-start font-normal"
+                  onClick={() => {
+                    setIsPopoverOpen(false);
+                    setIsBulkUploadModalOpen(true);
+                  }}
+                >
+                  Bulk Upload
                 </Button>
               </div>
             </PopoverContent>
@@ -534,6 +566,33 @@ export default function AdminLoanApplications() {
             <div className="p-6">
               <AdminCreatesLoanApplicationForm
                 onSuccess={() => setIsAdminCreateModalOpen(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isBulkUploadModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-bold text-gray-900">
+                Bulk Upload Process
+              </h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsBulkUploadModalOpen(false)}
+                className="h-8 w-8 rounded"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <BulkLoanApplicationUpload
+                onBatchSuccess={() => {
+                  window.location.reload();
+                }}
               />
             </div>
           </div>

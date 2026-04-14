@@ -16,8 +16,7 @@
 //      2. Admin approving or declining loan application.
 
 "use client"
-
-import { apiActions } from "@/tools/axios"
+import { apiActions, apiMultipartActions } from "@/tools/axios"
 
 export const createLoanApplication = async (values, token) => {
     const response = await apiActions?.post("/api/v1/loanapplications/", values, token)
