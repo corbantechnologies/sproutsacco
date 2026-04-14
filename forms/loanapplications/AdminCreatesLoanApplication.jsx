@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, Send } from "lucide-react";
 import { useFetchMembers } from "@/hooks/members/actions";
 
-export const AdminCreatesLoanApplicationForm = () => {
+export const AdminCreatesLoanApplicationForm = ({ onSuccess }) => {
     const { data: loanProducts, isLoading: productsLoading } = useFetchLoanProducts();
     const { data: members, isLoading: membersLoading } = useFetchMembers();
     const token = useAxiosAuth();
@@ -26,8 +26,8 @@ export const AdminCreatesLoanApplicationForm = () => {
         );
     }
 
-    const availableProducts = loanProducts || [];
-    const availableMembers = members || [];
+    const availableProducts = Array.isArray(loanProducts) ? loanProducts : [];
+    const availableMembers = Array.isArray(members) ? members : [];
 
     return (
         <Formik
@@ -54,6 +54,8 @@ export const AdminCreatesLoanApplicationForm = () => {
                     toast.success("Loan application submitted successfully! 🎊");
 
                     if (onSuccess) onSuccess();
+
+                    router.push(`/sacco-admin/loan-applications/${response?.reference}`);
 
                 } catch (error) {
                     console.log("Loan Application Error:", error);
@@ -179,7 +181,7 @@ export const AdminCreatesLoanApplicationForm = () => {
                                     name="term_months"
                                     type="number"
                                     placeholder="e.g. 12"
-                                    className="h-11"
+                                    className="h-11 w-full"
                                 />
                             </div>
                         )}
@@ -199,7 +201,7 @@ export const AdminCreatesLoanApplicationForm = () => {
                                     name="monthly_payment"
                                     type="number"
                                     placeholder="e.g. 5000"
-                                    className="h-11"
+                                    className="h-11 w-full"
                                 />
                             </div>
                         )}
@@ -219,8 +221,8 @@ export const AdminCreatesLoanApplicationForm = () => {
                                     Select a member
                                 </option>
                                 {availableMembers.map((member) => (
-                                    <option key={member?.reference} value={member?.reference}>
-                                        {member?.first_name} {member?.last_name} - {member?.member_number}
+                                    <option key={member?.reference} value={member?.member_no}>
+                                        {member?.first_name} {member?.last_name} - {member?.member_no}
                                     </option>
                                 ))}
                             </Field>

@@ -355,6 +355,17 @@ export default function AdminLoanApplicationDetail({ params }) {
               {application.status}
             </Badge>
 
+            <Badge
+              className={
+                application.admin_created
+                  ? "bg-blue-50 text-blue-700 border-blue-200 font-normal"
+                  : "bg-gray-50 text-gray-700 border-gray-200 font-normal"
+              }
+              variant="outline"
+            >
+              {application.admin_created ? "Admin" : "Member"}
+            </Badge>
+
             {/* Logic for Own Application (Member Actions) */}
             {isOwnApplication && (
               <>

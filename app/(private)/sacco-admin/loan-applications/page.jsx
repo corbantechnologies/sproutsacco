@@ -40,17 +40,34 @@ import {
 } from "@/components/ui/select";
 import { formatCurrency } from "@/lib/utils";
 import useUserMemberNo from "@/hooks/authentication/useUserMemberNo";
-import { ChevronLeft, ChevronRight, FileText, User } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, User, Plus, X } from "lucide-react";
 import { LoanProductShowcase } from "@/components/loans/LoanProductShowcase";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CreateLoanApplication } from "@/forms/loanapplications/CreateLoanApplication";
+import { AdminCreatesLoanApplicationForm } from "@/forms/loanapplications/AdminCreatesLoanApplication";
+import { useFetchMembers } from "@/hooks/members/actions";
 
 export default function AdminLoanApplications() {
   const { data: loanApplications, isLoading } = useFetchLoanApplications();
   const userMemberNo = useUserMemberNo();
+  const {
+      isLoading: isLoadingMembers,
+      data: members,
+      refetch: refetchMembers,
+    } = useFetchMembers();
 
   const [activeTab, setActiveTab] = useState("all"); // 'all' | 'mine'
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isCreateForMeModalOpen, setIsCreateForMeModalOpen] = useState(false);
+  const [isAdminCreateModalOpen, setIsAdminCreateModalOpen] = useState(false);
 
   if (isLoading) return <MemberLoadingSpinner />;
 
@@ -132,10 +149,43 @@ export default function AdminLoanApplications() {
               Review and manage member loan applications
             </p>
           </div>
+
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button className="bg-[#045e32] hover:bg-[#034625] shadow-sm">
+                <Plus className="mr-2 h-4 w-4" />
+                New Application
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-56 p-2" align="end">
+              <div className="flex flex-col gap-1">
+                <Button
+                  variant="ghost"
+                  className="justify-start font-normal"
+                  onClick={() => {
+                    setIsPopoverOpen(false);
+                    setIsCreateForMeModalOpen(true);
+                  }}
+                >
+                  Apply for Myself
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="justify-start font-normal"
+                  onClick={() => {
+                    setIsPopoverOpen(false);
+                    setIsAdminCreateModalOpen(true);
+                  }}
+                >
+                  Apply for a Member
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 flex flex-col gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-4">
 
 
             {/* Controls Section */}
@@ -243,6 +293,9 @@ export default function AdminLoanApplications() {
                           <TableHead className="hidden sm:table-cell">
                             Product
                           </TableHead>
+                          <TableHead className="hidden sm:table-cell">
+                            Admin Created
+                          </TableHead>
                           <TableHead className="hidden sm:table-cell text-right">
                             Amount
                           </TableHead>
@@ -283,6 +336,14 @@ export default function AdminLoanApplications() {
                                   <div className="font-medium text-gray-900">
                                     {app.product}
                                   </div>
+                                  {app.admin_created && (
+                                    <Badge
+                                      className="font-normal scale-90 origin-right"
+                                      variant="secondary"
+                                    >
+                                      Admin Created
+                                    </Badge>
+                                  )}
                                   <div className="text-xs text-muted-foreground flex items-center gap-1">
                                     <User className="h-3 w-3" />
                                     {app.member_name || app.member}
@@ -327,6 +388,15 @@ export default function AdminLoanApplications() {
                             </TableCell>
                             <TableCell className="hidden sm:table-cell font-medium">
                               {app.product}
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell text-center">
+                              {app.admin_created ? (
+                                <Badge className="bg-blue-50 text-blue-700 border-blue-200 font-normal">
+                                  Admin
+                                </Badge>
+                              ) : (
+                                <span className="text-gray-400 text-sm">Member</span>
+                              )}
                             </TableCell>
                             <TableCell className="hidden sm:table-cell text-right font-medium">
                               {formatCurrency(app.requested_amount)}
@@ -411,6 +481,57 @@ export default function AdminLoanApplications() {
           </div>
         </div>
       </div>
+
+      {isCreateForMeModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-bold text-gray-900">
+                New Loan Application (For Myself)
+              </h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsCreateForMeModalOpen(false)}
+                className="h-8 w-8 rounded"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <CreateLoanApplication
+                onSuccess={() => setIsCreateForMeModalOpen(false)}
+                memberPath="sacco-admin"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isAdminCreateModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white z-10">
+              <h2 className="text-xl font-bold text-gray-900">
+                New Loan Application (For Member)
+              </h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsAdminCreateModalOpen(false)}
+                className="h-8 w-8 rounded"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <AdminCreatesLoanApplicationForm
+                onSuccess={() => setIsAdminCreateModalOpen(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

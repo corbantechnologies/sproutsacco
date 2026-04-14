@@ -95,6 +95,7 @@ export const rejectLoanApplication = async (reference, token) => {
     }, token)
 }
 
+// Admin Functions
 export const adminCreateLoanApplication = async (values, token) => {
     // Done by admin.
     // Application process is approved and awaiting disbursement.
@@ -105,3 +106,28 @@ export const adminCreateLoanApplication = async (values, token) => {
     )
     return response?.data || {}
 }
+
+// Bulk Functions
+export const bulkCreateLoanApplications = async (values, token) => {
+    await apiActions?.post("/api/v1/loanapplications/bulk/create/", values, token);
+};
+
+export const bulkUploadLoanApplications = async (values, token) => {
+    await apiMultipartActions?.post("/api/v1/loanapplications/bulk/upload/", values, token);
+};
+
+export const downloadLoanApplicationsTemplate = async (token) => {
+    const config = { ...token, responseType: "blob" };
+    const response = await apiActions?.get("/api/v1/loanapplications/bulk/template/", config);
+
+    // Create blob link to download
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "loan_applications_bulk_template.csv");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    return response?.data;
+};
